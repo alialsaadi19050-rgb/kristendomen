@@ -1,0 +1,644 @@
+<!doctype html><html lang="sv"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Alla begrepp</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: study atlas – sticky chapter rail on the left (chips on phone), one column of chapters, practice zone at the end */
+:root{
+  --bg:#F3F6F2; --paper:#FFFFFF; --ink:#18241B; --muted:#5B6B5F; --line:#D5DFD6;
+  --membrane:#D9A42B; --membrane-soft:#F6E7C1;
+  --protein:#3C6BD0; --protein-soft:#DCE6FA;
+  --mito:#C4473D; --mito-soft:#F6DCD8;
+  --good:#2E8A57; --good-soft:#DAF0E2; --bad:#B83A3A; --bad-soft:#F7DEDE;
+  --f-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body:"Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, Consolas, monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#10170F; --paper:#182219; --ink:#E5EEE6; --muted:#9AAE9E; --line:#2C3B2E;
+  --membrane:#E8B947; --membrane-soft:#3A3120;
+  --protein:#7FA3F0; --protein-soft:#1F2D48;
+  --mito:#EA7A6F; --mito-soft:#3F2522;
+  --good:#5CC28A; --good-soft:#1D3528; --bad:#EC7C7C; --bad-soft:#3F2323; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#10170F; --paper:#182219; --ink:#E5EEE6; --muted:#9AAE9E; --line:#2C3B2E;
+  --membrane:#E8B947; --membrane-soft:#3A3120;
+  --protein:#7FA3F0; --protein-soft:#1F2D48;
+  --mito:#EA7A6F; --mito-soft:#3F2522;
+  --good:#5CC28A; --good-soft:#1D3528; --bad:#EC7C7C; --bad-soft:#3F2323; color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6;padding-inline:16px}
+h1,h2,h3{font-family:var(--f-display);line-height:1.15;text-wrap:balance;margin:0}
+h2{font-size:clamp(1.6rem,3.5vw,2.2rem);font-weight:800;letter-spacing:-.01em}
+h3{font-size:1.2rem;font-weight:700;margin-top:1.6rem}
+p{margin:.6rem 0}
+.mono{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+b,strong{font-weight:700}
+.wrap{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:220px minmax(0,1fr);gap:40px;padding-block:28px 80px}
+@media (max-width:900px){.wrap{grid-template-columns:minmax(0,1fr);gap:16px}}
+
+/* rail */
+nav.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 20px);align-self:start;display:flex;flex-direction:column;gap:2px}
+nav.rail a{color:var(--muted);text-decoration:none;padding:6px 10px;border-radius:8px;font-size:.93rem;display:flex;gap:10px;align-items:baseline}
+nav.rail a span{font-family:var(--f-mono);font-size:.72rem;min-width:2.2em;opacity:.7}
+nav.rail a:hover,nav.rail a:focus-visible{background:var(--paper);color:var(--ink);outline:none}
+nav.rail a.on{color:var(--ink);background:var(--paper);font-weight:700}
+nav.rail .sep{height:1px;background:var(--line);margin:8px 10px}
+@media (max-width:900px){
+  nav.rail{top:env(safe-area-inset-top,0px);z-index:5;flex-direction:row;overflow-x:auto;background:var(--bg);padding-block:8px;margin-inline:-16px;padding-inline:16px;border-bottom:1px solid var(--line);scrollbar-width:none}
+  nav.rail a{white-space:nowrap;background:var(--paper);border:1px solid var(--line)}
+  nav.rail a span,nav.rail .sep{display:none}
+}
+
+/* hero */
+header.hero{padding-block:8px 8px}
+header.hero h1{font-size:clamp(2.4rem,6vw,4.2rem);font-weight:800;letter-spacing:-.025em}
+header.hero h1 em{font-style:normal;color:var(--good)}
+header.hero p.lead{font-size:1.15rem;max-width:62ch;color:var(--muted)}
+.howto{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.howto div{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-size:.92rem;flex:1 1 200px}
+.howto b{display:block;font-family:var(--f-display)}
+
+section.ch{padding-top:56px;scroll-margin-top:70px}
+section.ch>.head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;border-bottom:2px solid var(--ink);padding-bottom:10px;margin-bottom:16px}
+section.ch>.head .pg{margin-left:auto}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:start}
+@media (max-width:760px){.cols{grid-template-columns:minmax(0,1fr)}}
+.txt{max-width:66ch}
+
+/* key boxes */
+.key{background:var(--paper);border:1px solid var(--line);border-left:5px solid var(--protein);border-radius:6px 12px 12px 6px;padding:14px 18px;margin:16px 0}
+.key.m{border-left-color:var(--membrane)} .key.r{border-left-color:var(--mito)} .key.g{border-left-color:var(--good)}
+.key .mono{display:block;margin-bottom:4px}
+.key ul,.key ol{margin:.3rem 0;padding-left:1.2rem}
+.trick{background:var(--membrane-soft);border-radius:12px;padding:14px 18px;margin:16px 0}
+.trick .mono{color:var(--ink);opacity:.75}
+.trick p{margin:.3rem 0}
+.big{font-family:var(--f-display);font-weight:800;font-size:1.5rem;letter-spacing:.02em}
+.ex{color:var(--muted);font-style:italic}
+table.cmp{width:100%;border-collapse:collapse;font-size:.95rem;margin:12px 0}
+table.cmp th,table.cmp td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+table.cmp th{font-family:var(--f-display);background:var(--paper)}
+.tscroll{overflow-x:auto}
+figure{margin:12px 0;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:12px}
+figure svg{width:100%;height:auto;display:block}
+figcaption{font-size:.85rem;color:var(--muted);margin-top:6px}
+svg text{font-family:var(--f-body);fill:var(--ink)}
+
+/* segmented + meter */
+.seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:999px;overflow:hidden;margin:4px 0 10px}
+.seg button{border:0;background:transparent;color:var(--ink);font:inherit;font-size:.9rem;padding:6px 14px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.verdict{font-family:var(--f-display);font-weight:800;font-size:1.25rem}
+.verdict.g{color:var(--good)} .verdict.b{color:var(--bad)}
+
+/* explorers */
+.explore{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:18px}
+@media (max-width:760px){.explore{grid-template-columns:minmax(0,1fr)}}
+.org{cursor:pointer}
+.org:hover>*,.org:focus>*{filter:brightness(1.12)}
+.org:focus{outline:none}
+.org.sel>*{stroke:var(--ink)!important;stroke-width:3px}
+.org.sel>.hit{stroke:transparent!important}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px 18px;min-height:200px}
+.panel h3{margin-top:0}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chips button{font:inherit;font-size:.85rem;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:4px 11px;cursor:pointer}
+.chips button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chips button:focus-visible,.seg button:focus-visible,.btn:focus-visible,.route button:focus-visible,.opts button:focus-visible{outline:2px solid var(--protein);outline-offset:2px}
+
+/* journey / steppers */
+.journey{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.step{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px;font-size:.92rem;position:relative;transition:border-color .2s,background .2s}
+.step b{font-family:var(--f-display);display:block;margin-bottom:2px}
+.step .n{font-family:var(--f-mono);font-size:.72rem;color:var(--muted)}
+.step.on{border-color:var(--good);background:var(--good-soft)}
+.mn circle{fill:var(--paper);stroke:var(--line);stroke-width:2;transition:fill .25s,stroke .25s}
+.mn.on circle{fill:var(--good-soft);stroke:var(--good);stroke-width:3}
+.mn .num{font-family:var(--f-display);font-weight:800;font-size:22px}
+.hs{transition:opacity .25s}
+.hs.dim{opacity:.18}
+.btn{font:inherit;font-weight:700;border:0;border-radius:10px;padding:9px 16px;cursor:pointer;background:var(--ink);color:var(--bg)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:12px 0}
+
+/* who-is-it game */
+.route{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:6px}
+.route button{font:inherit;font-size:.9rem;text-align:left;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:8px 12px;cursor:pointer}
+.route button.right{background:var(--good-soft);border-color:var(--good)}
+.route button.wrong{background:var(--bad-soft);border-color:var(--bad)}
+.route button:disabled{cursor:default}
+.tree{list-style:none;padding:0;margin:8px 0;counter-reset:t}
+.tree li{counter-increment:t;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:8px 12px 8px 44px;margin:6px 0;position:relative;font-size:.94rem}
+.tree li::before{content:counter(t);position:absolute;left:12px;top:8px;font-family:var(--f-mono);font-size:.8rem;width:22px;height:22px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center}
+
+/* practice */
+.card3d{perspective:1200px;margin:10px 0}
+.flash{position:relative;height:240px;transform-style:preserve-3d;transition:transform .5s;cursor:pointer}
+.flash.flip{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;padding:22px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;border:1px solid var(--line);background:var(--paper)}
+.face.back{transform:rotateY(180deg);background:var(--good-soft)}
+.face .q{font-family:var(--f-display);font-size:1.35rem;font-weight:700}
+.face .a{font-size:1.02rem;max-width:52ch}
+.face .mono{position:absolute;top:12px;left:16px}
+.fcbar{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center}
+.quiz .qq{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:12px 0}
+.quiz .qq p.t{font-weight:700;margin-top:0}
+.opts{display:grid;gap:6px}
+.opts button{font:inherit;text-align:left;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:8px 12px;cursor:pointer}
+.opts button.right{background:var(--good-soft);border-color:var(--good)}
+.opts button.wrong{background:var(--bad-soft);border-color:var(--bad)}
+.opts button:disabled{cursor:default}
+.why{font-size:.92rem;color:var(--muted);margin-top:8px}
+.score{font-family:var(--f-display);font-size:1.3rem;font-weight:800}
+.cheat{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+.cheat div{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:.92rem}
+.cheat b{font-family:var(--f-display);font-size:1.02rem;display:block}
+.cheat i{font-style:normal;color:var(--muted)}
+.gl-search{width:100%;font:inherit;font-size:1rem;padding:10px 14px;border-radius:10px;border:1px solid var(--line);background:var(--paper);color:var(--ink)}
+dl.gl{margin:10px 0;display:grid;gap:6px}
+dl.gl>div{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:8px 14px}
+dl.gl dt{font-family:var(--f-display);font-weight:700}
+dl.gl dt span{font-family:var(--f-mono);font-size:.7rem;color:var(--muted);font-weight:500;margin-left:8px}
+dl.gl dd{margin:2px 0 0;font-size:.94rem}
+footer{color:var(--muted);font-size:.85rem;margin-top:60px}
+</style>
+<style id="fx-css">
+/* ===== Läsbarhet + animationer (tillagt) ===== */
+:root{
+  --muted:#4A5966;
+  --good-btn:#24724A; --mito-btn:#B23E35; --btn-ink:#FFFFFF;
+  --ease-out:cubic-bezier(.22,1,.36,1);
+  --ease-in:cubic-bezier(.55,0,1,.45);
+  --ease-spring:cubic-bezier(.34,1.4,.55,1);
+  --sh-1:0 1px 2px rgb(16 34 43/.06),0 2px 6px rgb(16 34 43/.05);
+  --sh-2:0 2px 4px rgb(16 34 43/.05),0 10px 28px rgb(16 34 43/.10);
+  --sh-3:0 4px 10px rgb(16 34 43/.08),0 22px 48px rgb(16 34 43/.16);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --muted:#AAB9C4; --good-btn:#5CC28A; --mito-btn:#EA7A6F; --btn-ink:#0E171C;
+  --sh-1:0 1px 2px rgb(0 0 0/.3); --sh-2:0 2px 6px rgb(0 0 0/.3),0 12px 30px rgb(0 0 0/.35); --sh-3:0 6px 14px rgb(0 0 0/.35),0 24px 50px rgb(0 0 0/.45)}}
+:root[data-theme="dark"]{
+  --muted:#AAB9C4; --good-btn:#5CC28A; --mito-btn:#EA7A6F; --btn-ink:#0E171C;
+  --sh-1:0 1px 2px rgb(0 0 0/.3); --sh-2:0 2px 6px rgb(0 0 0/.3),0 12px 30px rgb(0 0 0/.35); --sh-3:0 6px 14px rgb(0 0 0/.35),0 24px 50px rgb(0 0 0/.45)}
+
+/* --- läsbarhet --- */
+body{font-size:17.5px;line-height:1.7;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;font-kerning:normal}
+@media (min-width:900px){body{font-size:18px}}
+p,li,dd,td,figcaption,.why{text-wrap:pretty}
+p{margin:.8rem 0}
+li{margin:.3rem 0}
+h2{letter-spacing:-.015em}
+h3{margin-top:2rem;margin-bottom:.25rem}
+.txt p,.txt li,.txt ul,.txt ol{max-width:68ch}
+.mono{font-size:.8rem;letter-spacing:.05em}
+.step,.cheat div,.howto div,.tree li,.ends div{font-size:.98rem;line-height:1.55}
+figcaption{font-size:.93rem;line-height:1.5}
+.why{font-size:1rem;line-height:1.6}
+.key,.trick{line-height:1.65}
+table.cmp{font-size:.98rem} table.cmp td,table.cmp th{line-height:1.5;padding:10px 12px}
+nav.rail a{font-size:.96rem;line-height:1.4}
+.step,.cheat div,.face,td,dd,.tree li,.opts button{hyphens:auto;-webkit-hyphens:auto;overflow-wrap:break-word}
+::selection{background:var(--protein-soft);color:var(--ink)}
+a{text-underline-offset:.18em}
+
+.btn{min-height:44px;padding:10px 18px;line-height:1.2}
+.seg button{min-height:40px;padding:8px 16px}
+.opts{gap:8px}
+.opts button{padding:12px 15px;line-height:1.45;min-height:48px}
+.quiz .qq p.t,.qq p.t{font-size:1.06rem;line-height:1.5}
+#fcKnow{background:var(--good-btn)!important;color:var(--btn-ink)!important}
+#fcAgain{background:var(--mito-btn)!important;color:var(--btn-ink)!important}
+
+/* --- flashcards: kortet växer med texten --- */
+.card3d{perspective:1400px;margin:14px 0 8px;border-radius:18px}
+.flash{display:grid!important;height:auto!important;min-height:250px;transition:transform .75s var(--ease-spring)!important;-webkit-tap-highlight-color:transparent}
+.face{position:relative!important;inset:auto!important;grid-area:1/1;padding:54px 28px 32px!important;border-radius:18px!important;box-shadow:var(--sh-2);overflow:visible!important;-webkit-backface-visibility:hidden;backface-visibility:hidden;transition:box-shadow .3s var(--ease-out)}
+.flash:hover .face{box-shadow:var(--sh-3)}
+.flash:focus-visible{outline:none}
+.flash:focus-visible .face{box-shadow:0 0 0 3px var(--protein),var(--sh-3)}
+.face .q{font-size:clamp(1.25rem,2.6vw,1.6rem)!important;line-height:1.3;max-width:34ch;letter-spacing:-.005em}
+.face .a{font-size:1.16rem!important;line-height:1.6;max-width:52ch}
+.face>.mono,.face .mono{top:16px!important;left:20px!important}
+.face .st{top:13px!important;right:16px!important}
+.fc-hint{margin-top:2px}
+
+.fcprog{height:6px;border-radius:99px;background:var(--line);overflow:hidden;margin:2px 0 4px}
+.fcprog i{display:block;height:100%;width:0;border-radius:inherit;background:linear-gradient(90deg,var(--protein),var(--good));transition:width .6s var(--ease-out)}
+
+.fc-restart{position:relative;display:inline-block}
+.fc-menu{position:absolute;z-index:30;top:calc(100% + 8px);left:0;width:min(330px,calc(100vw - 32px));background:var(--paper);border:1px solid var(--line);border-radius:14px;box-shadow:var(--sh-3);padding:6px;display:grid;gap:2px;transform-origin:top left;animation:fxMenu .24s var(--ease-out)}
+.fc-menu button{font:inherit;text-align:left;background:none;border:0;border-radius:10px;padding:10px 12px;color:var(--ink);cursor:pointer;display:grid;gap:2px;transition:background-color .15s}
+.fc-menu button:hover,.fc-menu button:focus-visible{background:var(--bg);outline:none}
+.fc-menu b{font-family:var(--f-display);font-size:1.02rem}
+.fc-menu span{font-size:.9rem;color:var(--muted);line-height:1.4}
+.fc-menu .danger b{color:var(--bad)}
+@keyframes fxMenu{from{opacity:0;transform:translateY(-6px) scale(.96)}}
+
+.fc-done{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0;padding:14px 16px;border-radius:14px;background:var(--good-soft);border:1px solid color-mix(in srgb,var(--good) 35%,transparent);animation:fxPop .55s var(--ease-spring)}
+.fc-done p{margin:0 auto 0 0;font-weight:700}
+@keyframes fxPop{from{opacity:0;transform:translateY(10px) scale(.96)}}
+
+/* --- mjukare interaktioner --- */
+.btn,.seg button,.chips button,.opts button,.tabs button,nav.rail a,.route button{transition:background-color .22s var(--ease-out),color .22s var(--ease-out),border-color .22s var(--ease-out),box-shadow .25s var(--ease-out),transform .2s var(--ease-out)}
+.btn:hover{box-shadow:var(--sh-1);transform:translateY(-1px)}
+.btn:active,.seg button:active,.chips button:active,.tabs button:active{transform:scale(.96);transition-duration:.07s}
+.opts button:not(:disabled):hover{border-color:var(--ink);transform:translateX(3px)}
+.opts button:not(:disabled):active{transform:scale(.985)}
+.meter i,.stat .bar i{transition:width .8s var(--ease-out)!important}
+.step{transition:border-color .3s var(--ease-out),background-color .3s var(--ease-out),box-shadow .3s var(--ease-out),transform .3s var(--ease-out)!important}
+.step.on{box-shadow:var(--sh-2);transform:translateY(-2px)}
+.org>*{transition:filter .25s var(--ease-out),stroke-width .2s}
+figure{transition:box-shadow .3s var(--ease-out)}
+.panel{transition:border-color .3s}
+
+/* rubrikens linje ritas fram */
+section.ch>.head{position:relative;border-bottom-color:transparent!important}
+section.ch>.head::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;background:var(--ink);transform-origin:left center}
+
+/* avslöjande vid scroll (bara när JS kör) */
+html.fx-on .rv{opacity:0;transform:translateY(22px);transition:opacity .8s var(--ease-out),transform .8s var(--ease-out)!important;transition-delay:var(--d,0s)!important}
+html.fx-on .rv.in{opacity:1;transform:none}
+html.fx-on section.ch>.head.rv{transform:translateY(12px)}
+html.fx-on section.ch>.head.rv::after{transform:scaleX(0);transition:transform 1.1s var(--ease-out) calc(var(--d,0s) + .15s)}
+html.fx-on section.ch>.head.rv.in{transform:none}
+html.fx-on section.ch>.head.rv.in::after{transform:scaleX(1)}
+
+.fx-confetti{position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden}
+.fx-confetti i{position:absolute;width:9px;height:14px;border-radius:2px}
+
+@media (prefers-reduced-motion: reduce){html.fx-on .rv{opacity:1;transform:none}.flash,.step,.meter i,.stat .bar i{transition:none!important}.fc-menu,.fc-done{animation:none}}
+@media (max-width:600px){.fc-menu{position:fixed;left:16px;right:16px;top:auto;bottom:calc(16px + env(safe-area-inset-bottom,0px));width:auto;transform-origin:bottom center;padding:8px}.fc-menu button{padding:14px}}
+</style>
+<script id="fx-js">
+(function(){
+  var reduce=false;try{reduce=matchMedia("(prefers-reduced-motion: reduce)").matches}catch(e){}
+  var canAnim=!reduce&&typeof Element!=="undefined"&&!!Element.prototype.animate;
+  if(canAnim&&"IntersectionObserver" in window)document.documentElement.classList.add("fx-on");
+  var EO="cubic-bezier(.22,1,.36,1)",EI="cubic-bezier(.55,0,1,.45)",SPR="cubic-bezier(.34,1.4,.55,1)";
+  function css(v){try{return getComputedStyle(document.documentElement).getPropertyValue(v).trim()}catch(e){return ""}}
+
+  /* ---------- flashcard-byte ---------- */
+  var busy=null;
+  var OUT={next:"translateX(-70px) rotate(-5deg)",prev:"translateX(70px) rotate(5deg)",know:"translate(90px,-14px) rotate(8deg)",again:"translate(-90px,10px) rotate(-8deg)",restart:"translateY(26px) scale(.86)",shuffle:"scale(.9) rotate(-3deg)",mode:"translateY(10px) scale(.96)"};
+  var IN={next:"translateX(70px) rotate(4deg)",prev:"translateX(-70px) rotate(-4deg)",know:"translateX(70px) rotate(4deg)",again:"translateX(70px) rotate(4deg)",restart:"translateY(-30px) scale(.9)",shuffle:"scale(.9) rotate(3deg)",mode:"translateY(10px) scale(.96)"};
+  function resetFlip(flash){flash.style.transition="none";flash.classList.remove("flip");void flash.offsetWidth;flash.style.transition=""}
+  function swap(flash,dir,update){
+    var box=flash.parentElement;
+    if(!canAnim){update();return}
+    if(busy){busy.cancel();busy=null}
+    var glow=dir==="know"?css("--good"):dir==="again"?css("--mito-btn"):"";
+    var k0={transform:"none",opacity:1},k1={transform:OUT[dir]||OUT.next,opacity:0};
+    if(glow){k0.boxShadow="0 0 0 0 transparent";k1.boxShadow="0 0 0 6px "+glow}
+    var a=box.animate([k0,k1],{duration:dir==="restart"?240:190,easing:EI});
+    busy=a;
+    var done=false;
+    function fin(){if(done)return;done=true;busy=null;resetFlip(flash);update();
+      box.animate([{transform:IN[dir]||IN.next,opacity:0},{transform:"none",opacity:1}],{duration:dir==="restart"?620:460,easing:SPR})}
+    a.onfinish=fin;a.oncancel=fin;
+  }
+
+  /* ---------- konfetti ---------- */
+  function confetti(el){
+    if(!canAnim||!el)return;
+    var r=el.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
+    var layer=document.createElement("div");layer.className="fx-confetti";document.body.appendChild(layer);
+    var cols=["--membrane","--protein","--good","--mito"].map(css).filter(Boolean);if(!cols.length)cols=["#D9A42B","#3C6BD0","#2E8A57"];
+    for(var i=0;i<36;i++){
+      var p=document.createElement("i");p.style.left=cx+"px";p.style.top=cy+"px";p.style.background=cols[i%cols.length];
+      if(i%3===0){p.style.borderRadius="50%";p.style.width=p.style.height="9px"}
+      layer.appendChild(p);
+      var ang=Math.random()*Math.PI*2,sp=120+Math.random()*220,dx=Math.cos(ang)*sp,dy=Math.sin(ang)*sp-140,rot=(Math.random()*720-360);
+      p.animate([{transform:"translate(-50%,-50%) rotate(0)",opacity:1},{transform:"translate(calc(-50% + "+dx*.7+"px),calc(-50% + "+dy*.7+"px)) rotate("+rot*.6+"deg)",opacity:1,offset:.45},{transform:"translate(calc(-50% + "+dx+"px),calc(-50% + "+(dy+260)+"px)) rotate("+rot+"deg)",opacity:0}],{duration:1300+Math.random()*700,easing:"cubic-bezier(.2,.7,.4,1)",fill:"forwards"});
+    }
+    setTimeout(function(){layer.remove()},2300);
+  }
+
+  /* ---------- meny (Börja om) ---------- */
+  function menu(btn,box,choose){
+    function close(focus){box.hidden=true;btn.setAttribute("aria-expanded","false");if(focus)btn.focus()}
+    function open(){box.hidden=false;btn.setAttribute("aria-expanded","true");var f=box.querySelector("button");if(f)f.focus()}
+    btn.addEventListener("click",function(e){e.stopPropagation();box.hidden?open():close()});
+    box.addEventListener("click",function(e){var b=e.target.closest("button[data-r]");if(!b)return;close(false);choose(b.dataset.r)});
+    document.addEventListener("click",function(e){if(!box.hidden&&!box.contains(e.target)&&e.target!==btn)close(false)});
+    box.addEventListener("keydown",function(e){
+      var bs=[].slice.call(box.querySelectorAll("button")),i=bs.indexOf(document.activeElement);
+      if(e.key==="Escape"){e.preventDefault();close(true)}
+      else if(e.key==="ArrowDown"){e.preventDefault();bs[(i+1)%bs.length].focus()}
+      else if(e.key==="ArrowUp"){e.preventDefault();bs[(i-1+bs.length)%bs.length].focus()}
+    });
+  }
+
+  function prog(v){var i=document.querySelector("#fcProg i");if(i)i.style.width=Math.max(0,Math.min(1,v))*100+"%"}
+  var wasDone=false,t0=Date.now();
+  function finish(on,text){
+    var row=document.getElementById("fcDone");if(!row)return;
+    if(text){var p=row.querySelector("p");if(p)p.textContent=text}
+    row.hidden=!on;
+    if(on&&!wasDone&&Date.now()-t0>1200)confetti(document.getElementById("flash"));
+    wasDone=on;
+  }
+  function pulse(el){if(canAnim&&el)el.animate([{transform:"scale(1)"},{transform:"scale(1.08)"},{transform:"scale(1)"}],{duration:420,easing:SPR})}
+
+  window.FX={swap:swap,confetti:confetti,menu:menu,prog:prog,finish:finish,pulse:pulse,reduce:!canAnim};
+
+  /* ---------- efter laddning ---------- */
+  function ready(){
+    if(!canAnim)return;
+    /* avslöjande vid scroll */
+    if("IntersectionObserver" in window){
+      var SEL="section.ch>.head,header.hero>*,.howto>div,.stats>*,figure,.key,.trick,.cheat>div,.journey>.step,.ends>div,.panel,.qq,.lab,table.cmp,.tree>li,.card3d,.fcbar,dl.gl>div,.kan";
+      var els=[].slice.call(document.querySelectorAll(SEL)).filter(function(el){var p=el.parentElement;while(p){if(p.classList&&p.classList.contains("rv"))return false;p=p.parentElement}el.classList.add("rv");return true});
+      var io=new IntersectionObserver(function(ents){
+        var batch=ents.filter(function(e){return e.isIntersecting}).map(function(e){return e.target});
+        batch.sort(function(a,b){var r1=a.getBoundingClientRect(),r2=b.getBoundingClientRect();return (r1.top-r2.top)||(r1.left-r2.left)});
+        batch.forEach(function(el,i){io.unobserve(el);el.style.setProperty("--d",Math.min(i*.07,.42)+"s");el.classList.add("in");
+          setTimeout(function(){el.classList.remove("rv","in");el.style.removeProperty("--d")},1500+i*70)});
+      },{rootMargin:"0px 0px -8% 0px",threshold:.08});
+      els.forEach(function(el){io.observe(el)});
+    }
+    /* feedback på svar, steg och poäng */
+    var mo=new MutationObserver(function(ms){ms.forEach(function(m){
+      var t=m.target;
+      if(m.type==="attributes"){
+        var old=m.oldValue||"",had=function(c){return (" "+old+" ").indexOf(" "+c+" ")>-1};
+        if(t.classList.contains("right")&&!had("right")){t.animate([{transform:"scale(1)",boxShadow:"0 0 0 0 transparent"},{transform:"scale(1.03)",boxShadow:"0 0 0 5px "+css("--good-soft")},{transform:"scale(1)",boxShadow:"0 0 0 0 transparent"}],{duration:520,easing:EO})}
+        else if(t.classList.contains("wrong")&&!had("wrong")){t.animate([{transform:"translateX(0)"},{transform:"translateX(-8px)"},{transform:"translateX(7px)"},{transform:"translateX(-5px)"},{transform:"translateX(3px)"},{transform:"translateX(0)"}],{duration:460,easing:"ease-out"})}
+        else if(t.classList.contains("step")&&t.classList.contains("on")&&!had("on")){t.animate([{transform:"translateY(0) scale(.97)"},{transform:"translateY(-2px) scale(1)"}],{duration:480,easing:SPR})}
+      }else if(m.type==="childList"){
+        var live=t.closest&&t.closest("[aria-live],.panel");
+        if(live&&!live.closest(".stats")&&!live._fxT){live._fxT=1;requestAnimationFrame(function(){live._fxT=0;live.animate([{opacity:0,transform:"translateY(8px)"},{opacity:1,transform:"none"}],{duration:420,easing:EO})})}
+        if(t.classList&&t.classList.contains("score"))pulse(t);
+      }
+    })});
+    mo.observe(document.body,{subtree:true,attributes:true,attributeFilter:["class"],attributeOldValue:true,childList:true});
+  }
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",ready);else ready();
+})();
+</script>
+<style id="page-css">
+:root{--bg:#F1F4F6;--line:#E0DCCB}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#16150F;--paper:#201E16;--line:#39352A}}
+:root[data-theme="dark"]{--bg:#16150F;--paper:#201E16;--line:#39352A}
+header.hero h1 em{color:var(--protein)}
+[hidden]{display:none!important}
+.beads{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;margin:12px 0 8px}
+.beads i{display:block;aspect-ratio:1;border-radius:50%}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.92rem}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:50%}
+.formula{font-family:var(--f-mono);font-size:1rem;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:10px 14px;display:inline-block}
+#sockSvg *{transition:opacity .4s var(--ease-out)}
+@media (prefers-reduced-motion: reduce){#p3{transition:none!important}}
+.wrapseg{max-width:100%}
+</style>
+</head><body>
+
+<div class="wrap">
+<nav class="rail" id="rail" aria-label="Kapitel">
+  <a href="#start"><span>▶</span>Start</a>
+  <a href="#kort"><span>▶</span>Flashcards</a>
+  <a href="#quiz"><span>▶</span>Quiz</a>
+  <a href="#ord"><span>▶</span>Ordlista</a>
+</nav>
+<main>
+<header class="hero" id="start">
+  <div class="mono">Biologi · alla flikar · 385 begrepp</div>
+  <h1>Alla <em>begrepp</em></h1>
+  <p class="lead">Varje begrepp från ordlistorna i hela Biologiatlas, samlat som flashcards. Välj ett kapitel eller kör alla på en gång. Du kan också vända på korten och få förklaringen först.</p>
+  <div class="cheat"><div><b>Cellens karta</b>28 begrepp</div><div><b>Membranets portar</b>65 begrepp</div><div><b>Osmos</b>30 begrepp</div><div><b>Aktiv transport</b>24 begrepp</div><div><b>Mikrobernas värld</b>59 begrepp</div><div><b>Antibiotika & resistens</b>43 begrepp</div><div><b>Växtcellen</b>27 begrepp</div><div><b>Svampar</b>45 begrepp</div><div><b>Psilocybin</b>24 begrepp</div><div><b>Livets kemi</b>40 begrepp</div></div>
+</header>
+
+<!-- ============ FLASHCARDS ============ -->
+<style>#deckMode{flex-wrap:wrap;max-width:100%}#fcStar[aria-pressed="true"]{color:#A87400;border-color:#D9A400;background:color-mix(in srgb,#F2C230 18%,transparent)}#fcStar:disabled{opacity:.45;cursor:default}</style>
+<section class="ch" id="kort">
+  <div class="head"><h2>Flashcards</h2><span class="mono">klicka på kortet för att vända det</span></div>
+  <div class="fcbar">
+    <div class="seg" id="deckMode"><button type="button" data-v="all" aria-pressed="true">Alla kort</button><button type="button" data-v="left" aria-pressed="false">Bara de jag inte kan</button><button type="button" data-v="until" aria-pressed="false">Kör tills jag kan alla</button><button type="button" data-v="star" aria-pressed="false">★ Markerade</button></div>
+    <div class="seg wrapseg" id="deckType"><button type="button" data-v="" aria-pressed="true">Alla kapitel</button><button type="button" data-v="Cellens karta" aria-pressed="false">Cellens karta</button><button type="button" data-v="Membranets portar" aria-pressed="false">Membranets portar</button><button type="button" data-v="Osmos" aria-pressed="false">Osmos</button><button type="button" data-v="Aktiv transport" aria-pressed="false">Aktiv transport</button><button type="button" data-v="Mikrobernas värld" aria-pressed="false">Mikrobernas värld</button><button type="button" data-v="Antibiotika & resistens" aria-pressed="false">Antibiotika & resistens</button><button type="button" data-v="Växtcellen" aria-pressed="false">Växtcellen</button><button type="button" data-v="Svampar" aria-pressed="false">Svampar</button><button type="button" data-v="Psilocybin" aria-pressed="false">Psilocybin</button><button type="button" data-v="Livets kemi" aria-pressed="false">Livets kemi</button></div>
+    <div class="seg" id="deckDir"><button type="button" data-v="t" aria-pressed="true">Begrepp först</button><button type="button" data-v="d" aria-pressed="false">Förklaring först</button></div>
+    <div class="seg" id="deckSrc" aria-label="Källa" hidden><button type="button" data-v="book" aria-pressed="false">Utan PowerPoint</button><button type="button" data-v="all" aria-pressed="true">Med PowerPoint</button><button type="button" data-v="ppt" aria-pressed="false">Bara PowerPoint</button></div>
+  </div>
+  <div class="row"><button class="btn ghost" id="fcShuffle" type="button">Blanda</button><div class="fc-restart"><button class="btn ghost" id="fcRestart" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="fcRestartMenu">↺ Börja om</button><div class="fc-menu" id="fcRestartMenu" role="menu" hidden><button type="button" role="menuitem" data-r="soft"><b>Börja om från första kortet</b><span>Samma kortlek i ursprunglig ordning. Det du kan och dina ★-markerade kort sparas.</span></button><button type="button" role="menuitem" data-r="hard" class="danger"><b>Nollställ allt</b><span>Rensar vad du kan och filtren (★-markerade kort sparas) och visar alla kort från början.</span></button></div></div><span class="mono" id="fcStat"></span></div>
+  <div class="card3d"><div class="flash" id="flash" tabindex="0" role="button" aria-label="Vänd kortet">
+    <div class="face front"><span class="mono" id="fcTag"></span><div class="q" id="fcQ"></div></div>
+    <div class="face back"><span class="mono">Svar</span><div class="a" id="fcA"></div></div>
+  </div></div>
+  <div class="fcprog" id="fcProg" aria-hidden="true"><i></i></div>
+  <div class="row">
+    <button class="btn ghost" id="fcPrev" type="button">← Förra</button>
+    <button class="btn" id="fcKnow" type="button" style="background:var(--good)">Jag kan den ✓</button>
+    <button class="btn" id="fcAgain" type="button" style="background:var(--mito)">Öva mer</button>
+    <button class="btn ghost" id="fcStar" type="button" aria-pressed="false" title="Markera kortet för att plugga det senare (M)">☆ Markera</button>
+    <button class="btn ghost" id="fcNext" type="button">Nästa →</button>
+  </div>
+  <div class="fc-done" id="fcDone" hidden><p>Varvet klart!</p><button class="btn" id="fcDoneRestart" type="button">↺ Kör igen</button><button class="btn ghost" id="fcDoneLeft" type="button">Kör tills jag kan alla</button></div>
+  <p class="mono fc-hint">Tangentbord: mellanslag vänder · ← → bläddrar · M markerar · R börjar om</p>
+</section>
+
+<!-- ============ QUIZ ============ -->
+<section class="ch quiz" id="quiz">
+  <div class="head"><h2>Quiz</h2><span class="mono">provfrågor</span></div>
+  <div class="row"><span class="score" id="qScore">0 / 0</span><button class="btn ghost" id="qReset" type="button">Gör om quizet</button></div>
+  <div id="qList"></div>
+</section>
+
+<!-- ============ ORDLISTA ============ -->
+<section class="ch" id="ord">
+  <div class="head"><h2>Ordlista</h2><span class="mono" id="glCount"></span></div>
+  <input type="search" id="glSearch" class="gl-search" placeholder="Sök bland alla begrepp" aria-label="Sök i ordlistan">
+  <dl class="gl" id="glList"></dl>
+</section>
+
+
+<footer>Samlar ordlistorna från alla flikar i Biologiatlas. Uppdateras automatiskt när en flik får nya begrepp.</footer>
+</main>
+</div>
+
+<script>
+(function(){
+const $=s=>document.querySelector(s);
+const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const NS="http://www.w3.org/2000/svg";
+function el(tag,attrs,parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function shuffled(n){const a=[...Array(n).keys()];for(let i=n-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+
+/* generic explorer */
+function explorer(svgSel,panelSel,chipsSel,DATA,first,tag,onShow){
+  const panel=$(panelSel),chips=$(chipsSel),svg=$(svgSel);
+  function show(id){
+    const [t,d]=DATA[id];
+    panel.innerHTML=`<span class="mono">${tag}</span><h3>${t}</h3><p>${d}</p>`;
+    svg.querySelectorAll(".org").forEach(o=>o.classList.toggle("sel",o.dataset.id===id));
+    chips.querySelectorAll("button").forEach(b=>b.classList.toggle("on",b.dataset.id===id));
+    if(onShow)onShow(id);
+  }
+  Object.keys(DATA).forEach(id=>{const b=document.createElement("button");b.type="button";b.dataset.id=id;b.textContent=DATA[id][0];b.onclick=()=>show(id);chips.appendChild(b)});
+  svg.querySelectorAll(".org").forEach(o=>{
+    o.setAttribute("role","button");o.setAttribute("tabindex","0");o.setAttribute("aria-label",DATA[o.dataset.id][0]);
+    o.addEventListener("click",e=>{e.stopPropagation();show(o.dataset.id)});
+    o.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();show(o.dataset.id)}});
+  });
+  show(first);
+}
+
+/* steppers */
+function stepper(boxSel,nextSel,resetSel,countSel,STEPS,onStep){
+  const box=$(boxSel);let i=-1;
+  STEPS.forEach((s,k)=>{const d=document.createElement("div");d.className="step";d.innerHTML=`<span class="n">Steg ${k+1}</span><b>${s[0]}</b><span class="d" hidden>${s[1]}</span>`;d.style.cursor="pointer";d.onclick=()=>{i=k;upd()};box.appendChild(d)});
+  const all=[...box.children];
+  function upd(){all.forEach((d,k)=>{d.classList.toggle("on",k===i);d.querySelector(".d").hidden=k>i});$(countSel).textContent=i<0?"Tryck för att börja":`${i+1} / ${STEPS.length}`;$(nextSel).textContent=i>=STEPS.length-1?"Klart ✓":"Nästa steg";if(onStep)onStep(i)}
+  $(nextSel).onclick=()=>{if(i<STEPS.length-1)i++;upd()};
+  $(resetSel).onclick=()=>{i=-1;upd()};
+  upd();
+}
+
+/* sorting game: GROUPS + rows [påstående, rätt index, varför] */
+function sorter(prefix,GROUPS,ROWS){
+  let order=shuffled(ROWS.length),pos=0,right=0,done=0;
+  function show(){
+    const [q,ans,why]=ROWS[order[pos]];
+    $("#"+prefix+"Count").textContent=`Påstående ${pos+1} av ${ROWS.length}`;$("#"+prefix+"Q").textContent=q;
+    const box=$("#"+prefix+"Opts");box.innerHTML="";$("#"+prefix+"Why").hidden=true;
+    GROUPS.forEach((g,gi)=>{const b=document.createElement("button");b.type="button";b.textContent=g;b.onclick=()=>{
+      box.querySelectorAll("button").forEach((x,xi)=>{x.disabled=true;if(xi===ans)x.classList.add("right")});
+      if(gi!==ans)b.classList.add("wrong");else right++;done++;
+      const w=$("#"+prefix+"Why");w.hidden=false;w.textContent=(gi===ans?"Rätt! ":"Inte riktigt. ")+why;
+      $("#"+prefix+"Score").textContent=`${right} / ${done}`;
+    };box.appendChild(b)});
+    $("#"+prefix+"Next").textContent=pos>=ROWS.length-1?"Börja om":"Nästa påstående";
+  }
+  $("#"+prefix+"Next").onclick=()=>{if(pos>=ROWS.length-1){pos=0;right=0;done=0;order=shuffled(ROWS.length);$("#"+prefix+"Score").textContent=""}else pos++;show()};
+  show();
+}
+
+const ROWS=[["Cellmembran", "Cellens karta · s. 17", "Kallas också plasmamembran. Avgränsar cellen, styr in- och uttransport, kommunicerar och binder till andra celler.", "Cellens karta"], ["Fosfolipid-dubbelskikt", "Cellens karta · s. 17–18", "Membranets grund: hydrofila huvuden utåt, hydrofoba fettsyrasvansar mot varandra.", "Cellens karta"], ["Tvådimensionell vätska", "Cellens karta · s. 18", "Membranet är ingen fast hinna: fosfolipider och proteiner glider ständigt runt varandra.", "Cellens karta"], ["Van der Waals-krafter", "Cellens karta · s. 18", "Relativt svaga krafter som håller ihop fosfolipiderna i membranet.", "Cellens karta"], ["Kolesterol", "Cellens karta · s. 18", "Hjälper djurcellers membran att hålla sig lagom flytande.", "Cellens karta"], ["TERKA", "Cellens karta · s. 19–20", "Membranproteinernas fem jobb: Transport, Enzymaktivitet, Receptorer, Koppla ihop celler, Ankra cellskelettet.", "Cellens karta"], ["Receptor", "Cellens karta · s. 19", "Protein som fungerar som ett lås: en viss molekyl (nyckeln) binder och låser upp aktiviteter i cellen.", "Cellens karta"], ["Glykokalyx", "Cellens karta · s. 20", "Kolhydratlager på cellytan av glykolipider och glykoproteiner. Igenkänning, skydd och slemmig yta.", "Cellens karta"], ["Extracellulär matrix (ECM)", "Cellens karta · s. 20–21", "Skikt av glykoproteiner och andra kolhydratinnehållande molekyler som cellen utsöndrar utanför sig.", "Cellens karta"], ["Kollagen", "Cellens karta · s. 21", "Protein som bygger upp matrixen i t.ex. senor och brosk och gör vävnaden elastisk.", "Cellens karta"], ["Spektrin", "Cellens karta · s. 21", "Proteintrådar som stabiliserar röda blodkroppar.", "Cellens karta"], ["Cytoplasma", "Cellens karta · s. 21", "Tjock vätska med lösta ämnen där många av cellens reaktioner sker.", "Cellens karta"], ["Inklusionskroppar", "Cellens karta · s. 22", "Upplagrade ämnen i cellen, t.ex. glykogen, fett, melanin och slem.", "Cellens karta"], ["Kärnmembran", "Cellens karta · s. 22", "Dubbelt membran runt kärnan med kärnporer som t.ex. mRNA tar sig ut genom.", "Cellens karta"], ["Nukleoplasma", "Cellens karta · s. 22", "Geléliknande vätska i kärnan med proteintrådar, enzymer och nukleotider.", "Cellens karta"], ["Kromatin", "Cellens karta · s. 22–23", "Blandningen av DNA och proteiner (histoner) i kärnan.", "Cellens karta"], ["Nukleol", "Cellens karta · s. 23", "Mörkt parti i kärnan runt rRNA-generna, till stor del av rRNA.", "Cellens karta"], ["Ribosom", "Cellens karta · s. 23–24", "Två subenheter av rRNA och proteiner. Tillverkar proteiner.", "Cellens karta"], ["tRNA", "Cellens karta · s. 23", "Levererar aminosyror som radas upp i rätt ordning längs mRNA.", "Cellens karta"], ["Adresslapp (signalsekvens)", "Cellens karta · s. 24", "Kort bit i början av aminosyrakedjan som styr proteinet till rätt organell.", "Cellens karta"], ["RER", "Cellens karta · s. 24", "Kornigt ER med ribosomer. Proteiner veckas, får kolhydrater och packas till golgi.", "Cellens karta"], ["SER", "Cellens karta · s. 24", "Slätt ER. Lipidmetabolism, avgiftning och jontransport i nerv- och muskelceller.", "Cellens karta"], ["Golgiapparaten", "Cellens karta · s. 25", "Platta säckar (cisterner) som modifierar och sorterar proteiner och knoppar av blåsor.", "Cellens karta"], ["Lysosom", "Cellens karta · s. 26", "Blåsa med nedbrytande enzymer och lågt pH.", "Cellens karta"], ["Peroxisom", "Cellens karta · s. 26", "Bryter ner fettsyror. Väteperoxiden som bildas oskadliggörs av katalas.", "Cellens karta"], ["Mitokondrie", "Cellens karta · s. 27", "Cellens kraftverk. Veckat inre membran där ATP bildas.", "Cellens karta"], ["Endosymbiosteorin", "Cellens karta · s. 27", "Mitokondrien var en bakterie som slukades och började leva i symbios med cellen.", "Cellens karta"], ["Cellskelett", "Cellens karta · s. 27", "Mikrotubuli, intermediära filament och mikrofilament. Stöd, form, rörelse och transport.", "Cellens karta"], ["Aktiv transport", "Membranets portar · s. 34", "Transport över ett cellmembran mot koncentrationsgradienten (låg → hög). Kräver energi och ett specifikt membrantransportprotein.", "Membranets portar"], ["Aquaporiner", "Membranets portar · s. 33", "Vattenkanaler i cellmembranet som vattenmolekyler diffunderar igenom. Antalet varierar mellan celler, och vissa kan stängas.", "Membranets portar"], ["Arkéer", "Membranets portar · s. 34", "Nämns på s. 34: vissa arkéer och bakterier har proteinpumpar som drivs av solenergi.", "Membranets portar"], ["ATP och ADP", "Membranets portar · s. 35", "Cellens energibärare. När ATP hydrolyseras till ADP \"tappar\" den ett fosfat och energi frigörs.", "Membranets portar"], ["ATP-driven proteinpump", "Membranets portar · s. 35", "Protein som pumpar ämnen mot gradienten med energi från ATP. Fungerar oberoende av koncentrationsgradienter.", "Membranets portar"], ["Bärarprotein", "Membranets portar · s. 32", "Protein som binder ett visst ämne, t.ex. glukos, och lyfter det genom membranet genom att ändra form. Passivt.", "Membranets portar"], ["Co-transport", "Membranets portar · s. 34", "Annat namn för kopplad transport.", "Membranets portar"], ["Destillerat vatten", "Membranets portar · s. 33", "Rent vatten utan lösta ämnen. En hypoton lösning.", "Membranets portar"], ["Diffusion", "Membranets portar · s. 31", "Spridning från hög till låg koncentration genom partiklarnas slumpmässiga rörelse. Kräver ingen energi.", "Membranets portar"], ["Endocytos", "Membranets portar · s. 35–36", "Upptag i cellen med membranblåsor. Kräver energi. Fagocytos och pinocytos är två former.", "Membranets portar"], ["Epitelceller i tarmen", "Membranets portar · s. 35", "Tarmcellerna som tar upp natriumjoner genom kopplad transport till glukos.", "Membranets portar"], ["Exocytos", "Membranets portar · s. 35, 37", "\"Ut ur cellen\". Utsöndring med membranblåsor från golgi. Kräver energi och ger membranet ett tillskott av fosfolipider.", "Membranets portar"], ["Fagocyter", "Membranets portar · s. 36", "Vita blodkroppar som binder och slukar t.ex. inkräktande bakterier.", "Membranets portar"], ["Fagocytos", "Membranets portar · s. 36", "\"Cellätande\": upptag av stora partiklar eller hela celler. Membranet bildar två armar runt partikeln. Kräver receptorer.", "Membranets portar"], ["Fettlöslighet", "Membranets portar · s. 31", "Hur lätt ett ämne löser sig i fett. Fettlösliga ämnen passerar fritt genom fosfolipidskiktet.", "Membranets portar"], ["HDL", "Membranets portar · s. 36", "High density lipoprotein. Kör överskott av kolesterol från vävnaderna till levern. Kallas slarvigt \"det goda kolesterolet\".", "Membranets portar"], ["Hydrofil", "Membranets portar · s. 31", "Vattenälskande. Hydrofila ämnen, som joner, har svårt att passera fosfolipidskiktet.", "Membranets portar"], ["Hydrofob", "Membranets portar · s. 31", "Vattenskyende, fettlöslig. Hydrofoba ämnen, som O₂ och steroidhormoner, passerar lätt.", "Membranets portar"], ["Hydrolys", "Membranets portar · s. 35", "När ATP hydrolyseras till ADP \"tappar\" den ett fosfat och energi frigörs. Extra (inte i boken): hydrolys betyder spjälkning med hjälp av vatten.", "Membranets portar"], ["Hyperton lösning", "Membranets portar · s. 33", "Hög halt av lösta ämnen. En blodkropp i den förlorar vatten och krymper.", "Membranets portar"], ["Hypoton lösning", "Membranets portar · s. 33", "Låg halt av lösta ämnen, t.ex. destillerat vatten. En blodkropp i den tar upp vatten och kan spricka.", "Membranets portar"], ["Isoton lösning", "Membranets portar · s. 33", "Samma halt av lösta ämnen som inuti cellen. Lika mycket vatten in som ut.", "Membranets portar"], ["Jonbalans", "Membranets portar · s. 35", "Rätt halter av joner i cellerna och kroppen. Natrium-kaliumpumpen upprätthåller den, och diarré kan störa den.", "Membranets portar"], ["Jonkanal", "Membranets portar · s. 32", "Kanalprotein specialiserat på joner, t.ex. bara för Na⁺ eller bara för K⁺.", "Membranets portar"], ["Joner", "Membranets portar · s. 31", "Laddade partiklar, t.ex. H⁺, Na⁺, K⁺, Cl⁻. De omges av ett vattenskal och passerar inte fosfolipidskiktet.", "Membranets portar"], ["Kanalprotein", "Membranets portar · s. 32", "Protein som bildar en vattenfylld kanal för vatten och joner. Öppnas och stängs av kemiska, elektriska eller mekaniska stimuli.", "Membranets portar"], ["Kodominant", "Membranets portar · s. 36", "Boken använder ordet om sjukdomen med felaktig LDL-receptor: en felaktig gen ger mycket höga LDL-halter, två ger extremt höga.", "Membranets portar"], ["Koncentrationsgradient", "Membranets portar · s. 31", "Övergången från hög till låg koncentration. Ämnen \"rullar\" nedför den utan energi. Det finns lägesenergi i den.", "Membranets portar"], ["Kopplad transport", "Membranets portar · s. 34–35", "Transport av ett ämne mot sin gradient kopplas till ett annat ämne som diffunderar. Kräver ATP indirekt.", "Membranets portar"], ["LDL", "Membranets portar · s. 36", "Low density lipoprotein. Mer kolesterol per protein, släpper kolesterolet lättare. Höga halter ger ökad risk för hjärt-kärlsjukdom.", "Membranets portar"], ["LDL-receptor", "Membranets portar · s. 36", "Receptorn som behövs för att ta upp LDL från blodet via endocytos. Fel i genen ger höga LDL-halter.", "Membranets portar"], ["Lägesenergi", "Membranets portar · s. 31", "Potentiell energi. Finns i ett föremål uppe på en backe, och i en koncentrationsgradient.", "Membranets portar"], ["Membrantransportprotein", "Membranets portar · s. 34", "Protein i membranet som binder specifikt till ämnet som transporteras. Behövs vid aktiv transport.", "Membranets portar"], ["Mikrofilament (aktin)", "Membranets portar · s. 36", "Trådar i cytoskelettet som gör endocytos möjlig.", "Membranets portar"], ["Natrium-kaliumpumpen", "Membranets portar · s. 35", "ATP-driven pump som upprätthåller jonbalansen. Använder ungefär 40 % av cellens ATP.", "Membranets portar"], ["Osmos", "Membranets portar · s. 33", "\"Vattnets diffusion över ett semipermeabelt membran.\"", "Membranets portar"], ["Passiv transport", "Membranets portar · s. 31", "Diffusion genom ett cellmembran. Kostar ingen energi för cellen.", "Membranets portar"], ["Pinocytos", "Membranets portar · s. 36", "\"Celldrickande\": upptag av vattenlösliga makromolekyler. Kräver receptorer för just det ämnet. Membranet buktar in.", "Membranets portar"], ["Reabsorption", "Membranets portar · s. 35", "Återupptag, t.ex. av natriumjoner i tarmen.", "Membranets portar"], ["Receptorer", "Membranets portar · s. 36", "Proteiner som binder ett visst ämne. Krävs vid pinocytos och fagocytos.", "Membranets portar"], ["Sekretoriska blåsor", "Membranets portar · s. 37", "Blåsor där sekretoriska celler lagrar ämnen som släpps ut med exocytos vid behov.", "Membranets portar"], ["Sekretoriska celler", "Membranets portar · s. 37", "Celler som utsöndrar ämnen, t.ex. insulinproducerande celler i bukspottkörteln.", "Membranets portar"], ["Semipermeabelt membran", "Membranets portar · s. 33", "Membran som osmos sker över. Extra (inte i boken): halvgenomsläppligt, släpper igenom vissa ämnen men inte andra.", "Membranets portar"], ["Specifik", "Membranets portar · s. 32", "Om ett transportprotein: underlättar transporten för bara ett visst ämne.", "Membranets portar"], ["Spänning över cellmembranet", "Membranets portar · s. 37", "Rubriken finns på s. 37, men texten var avklippt på fotot. Saknas i guiden.", "Membranets portar"], ["Stimuli", "Membranets portar · s. 32", "Signaler som öppnar och stänger kanaler: kemiska, elektriska och mekaniska.", "Membranets portar"], ["Synapsblåsor", "Membranets portar · s. 37", "Blåsor där nervceller lagrar neurotransmittorer innan de släpps ut med exocytos.", "Membranets portar"], ["Underlättad diffusion", "Membranets portar · s. 32", "Diffusion med hjälp av kanalproteiner eller bärarproteiner. Följer gradienten, ingen energi.", "Membranets portar"], ["Vattenkoncentration", "Membranets portar · s. 33", "Hur mycket vatten en lösning innehåller. Ju mer löst ämne, desto lägre vattenkoncentration. Högre vattenkoncentration = högre vattenpotential.", "Membranets portar"], ["Vesiklar", "Membranets portar · s. 35", "Membranblåsor som används vid endocytos och exocytos.", "Membranets portar"], ["Vätejonen (H⁺)", "Membranets portar · s. 31", "Den minsta av alla joner. Kan ändå inte passera fosfolipidskiktet, eftersom den omges av ett vattenskal.", "Membranets portar"], ["Antiport", "Membranets portar · PPT", "Transportprotein som för två ämnen åt motsatt håll, t.ex. natrium-kaliumpumpen.", "Membranets portar"], ["Digoxin", "Membranets portar · PPT", "Hjärtläkemedel som hämmar Na⁺/K⁺-pumpen och gör att hjärtat drar ihop sig kraftigare.", "Membranets portar"], ["Elektrokemisk gradient", "Membranets portar · PPT", "Skillnad i både koncentration och laddning över ett membran.", "Membranets portar"], ["Faciliterad diffusion", "Membranets portar · PPT", "Annat namn för underlättad diffusion.", "Membranets portar"], ["Fagosom", "Membranets portar · PPT", "Blåsa (näringsvakuol) som bildas runt en partikel vid fagocytos.", "Membranets portar"], ["Integralt membranprotein", "Membranets portar · PPT", "Protein som går tvärs genom hela membranet.", "Membranets portar"], ["Klatrin", "Membranets portar · PPT", "Protein som klär gropen och vesikeln vid receptormedierad endocytos.", "Membranets portar"], ["Perifert membranprotein", "Membranets portar · PPT", "Protein som sitter på membranets yta.", "Membranets portar"], ["Primär aktiv transport", "Membranets portar · PPT", "Transport som drivs direkt av ATP, t.ex. natrium-kaliumpumpen.", "Membranets portar"], ["Pseudopodier", "Membranets portar · PPT", "Skenfötter: utskott av cellen som omsluter partiklar vid fagocytos.", "Membranets portar"], ["Receptormedierad endocytos", "Membranets portar · PPT", "Endocytos där molekyler binder till receptorer i klatrinbelagda gropar.", "Membranets portar"], ["Sekundär aktiv transport", "Membranets portar · PPT", "Annat namn för kopplad transport.", "Membranets portar"], ["Symport", "Membranets portar · PPT", "Transportprotein som för två ämnen åt samma håll, t.ex. Na⁺ och glukos.", "Membranets portar"], ["Vesikulär transport", "Membranets portar · PPT", "Transport med vesiklar: endocytos och exocytos.", "Membranets portar"], ["Akvaporiner", "Osmos · s. 11:56", "Proteinkanaler i cellmembranet som bara släpper igenom vatten. Kallas också aquaporiner.", "Osmos"], ["Erytrocyter", "Osmos · s. 18:48", "Röda blodkroppar.", "Osmos"], ["Flaccid", "Osmos · film", "Engelska för slapp. Bildens ord för en växtcell i isoton lösning.", "Osmos"], ["Hemolys", "Osmos · s. 18:48", "När röda blodkroppar spricker, t.ex. i hypoton lösning.", "Osmos"], ["Hyperton lösning", "Osmos · s. 18:48", "Lösning med högre osmolalitet än cellen. Vatten lämnar cellen.", "Osmos"], ["Hypoton lösning", "Osmos · s. 15:42", "Lösning med lägre osmolalitet än cellen, under ca 280 mOsmol/kg. Vatten går in i cellen.", "Osmos"], ["Isoton lösning", "Osmos · s. 15:42", "Lösning med samma osmolalitet som cellen, ca 280–295 mOsmol/kg. Ingen volymändring.", "Osmos"], ["Konservering", "Osmos · film", "Att bevara livsmedel så att de inte förstörs av mikroorganismer eller kemiska förändringar.", "Osmos"], ["mOsm/L", "Osmos · s. 15:42", "Milliosmol per liter lösning. Enheten för osmolaritet, används i sjukvården.", "Osmos"], ["Nettoflöde", "Osmos · s. 15:42", "Det sammanlagda flödet av vatten. Vid osmos går det från låg till hög osmolalitet.", "Osmos"], ["Opolär", "Osmos · s. 11:56", "Utan laddade ändar, som fettsyrorna i membranets inre. Vatten har svårt att passera där.", "Osmos"], ["Osmol/kg", "Osmos · s. 15:42", "Enheten för osmolalitet. 1 osmol/kg = 1 mol osmotiskt aktiva partiklar per kilogram lösningsmedel.", "Osmos"], ["Osmolalitet", "Osmos · s. 15:42", "Antalet osmotiskt aktiva partiklar i ett kilogram lösning.", "Osmos"], ["Osmolaritet", "Osmos · s. 15:42", "Samma sak men per liter lösning, ofta i mOsm/L.", "Osmos"], ["Osmotiskt aktiva partiklar", "Osmos · s. 15:42", "Ämnen som drar till sig och binder vatten, t.ex. sockermolekyler och saltjoner.", "Osmos"], ["Plasmolys", "Osmos · film", "När cellmembranet drar sig bort från cellväggen i en växtcell som förlorar vatten.", "Osmos"], ["Polär", "Osmos · s. 11:56", "Med en positiv och en negativ ände, som vattenmolekylen.", "Osmos"], ["Turgid", "Osmos · film", "Engelska för spänd. En växtcell med högt turgortryck.", "Osmos"], ["Turgortryck", "Osmos · film", "Trycket från cellens innehåll mot cellväggen. Hög turgor gör växten spänstig.", "Osmos"], ["Elektrolyter", "Osmos · lektionen", "Saltjoner i kroppsvätskorna, t.ex. Na⁺, K⁺, Ca²⁺ och Mg²⁺.", "Osmos"], ["Fysiologisk koksaltlösning", "Osmos · lektionen", "0,9 % NaCl (9 g/L, 154 mmol/L, ca 308 mOsmol/L). Funktionellt isoton dropp.", "Osmos"], ["Hjärnödem", "Osmos · lektionen", "Svullnad av hjärnceller på grund av att vatten strömmar in i dem via osmos.", "Osmos"], ["Hjärnstam", "Osmos · lektionen", "Del av hjärnan som styr andning och hjärtfrekvens. Kan komprimeras vid högt tryck i kraniet.", "Osmos"], ["Hyperton hyponatremi", "Osmos · lektionen", "Låg natriumkoncentration men hög osmolalitet i blodet, t.ex. vid mycket högt blodsocker.", "Osmos"], ["Hyponatremi", "Osmos · lektionen", "Låg natriumkoncentration i blodplasman och andra kroppsvätskor.", "Osmos"], ["Hypoton hyponatremi", "Osmos · lektionen", "Låg osmolalitet och natriumkoncentration i blodet. Vanligast och kan ge hjärnödem.", "Osmos"], ["Intrakraniellt tryck", "Osmos · lektionen", "Trycket inne i kraniet.", "Osmos"], ["Intravenöst", "Osmos · lektionen", "Direkt i en ven, t.ex. med dropp.", "Osmos"], ["Cellulär dehydrering", "Osmos · lektionen", "När cellerna förlorar vätska och krymper, t.ex. efter att man druckit havsvatten.", "Osmos"], ["Ringer-Acetat", "Osmos · lektionen", "Dropplösning med buffrande ämnen som stabiliserar blodets pH. Används vid större vätskeförluster och kirurgi.", "Osmos"], ["ACE2-receptorn", "Aktiv transport · s. 21:55", "Receptor på celler i lungor, luftvägar, tarm m.m. som coronaviruset binder till.", "Aktiv transport"], ["Acetylkolin", "Aktiv transport · s. 18:35", "Signalsubstans som släpps ut från nervceller med exocytos.", "Aktiv transport"], ["Aktionspotential", "Aktiv transport · s. 18:35", "Nervimpuls som går längs nervcellen.", "Aktiv transport"], ["Aktiv transport", "Aktiv transport · film", "Transport som kräver ATP: pumpar mot gradienten eller vesikeltransport.", "Aktiv transport"], ["Avknoppning", "Aktiv transport · film", "När en del av ett membran snörs av till en vesikel.", "Aktiv transport"], ["Bärarprotein", "Aktiv transport · film", "Membranprotein som binder ämnen, ändrar form och släpper dem på andra sidan.", "Aktiv transport"], ["Dopamin", "Aktiv transport · s. 18:35", "Signalsubstans som släpps ut från nervceller med exocytos.", "Aktiv transport"], ["Endocytos", "Aktiv transport · s. 13:52", "Cellen tar upp stora molekyler eller partiklar genom att membranet bildar en vesikel.", "Aktiv transport"], ["Exocytos", "Aktiv transport · s. 13:52", "Cellen för ut stora molekyler i vesiklar som smälter ihop med cellmembranet.", "Aktiv transport"], ["Fagocytos", "Aktiv transport · s. 20:59", "Cellätande: stora partiklar omsluts och tas in i fagosomer. Makrofager och neutrofiler.", "Aktiv transport"], ["Fagosom", "Aktiv transport · s. 20:59", "Stor vesikel med en partikel som tagits upp genom fagocytos.", "Aktiv transport"], ["Makrofager", "Aktiv transport · s. 20:59", "Immunceller som äter bakterier och döda celler med fagocytos.", "Aktiv transport"], ["Motorproteiner", "Aktiv transport · s. 13:52", "Proteiner som använder ATP för att \"gå\" längs cytoskelettets filament med vesiklar.", "Aktiv transport"], ["Natrium-kaliumpumpen", "Aktiv transport · film", "Bärarprotein som med ATP pumpar 3 Na⁺ ut och 2 K⁺ in.", "Aktiv transport"], ["Neutrofiler", "Aktiv transport · s. 20:59", "Immunceller som utför fagocytos.", "Aktiv transport"], ["Pinocytos", "Aktiv transport · s. 20:59", "Celldrickande: ospecifikt upptag av lite vätska med lösta ämnen.", "Aktiv transport"], ["Proteinpump", "Aktiv transport · film", "Bärarprotein som pumpar ämnen mot koncentrationsgradienten med ATP.", "Aktiv transport"], ["Receptorförmedlad endocytos", "Aktiv transport · s. 20:59", "Specifik endocytos där molekyler först binder till receptorer, t.ex. LDL.", "Aktiv transport"], ["SARS-CoV-2", "Aktiv transport · s. 21:55", "Coronaviruset som orsakar covid-19. Tas in i cellen med receptormedierad endocytos.", "Aktiv transport"], ["Signalsubstans", "Aktiv transport · s. 18:35", "Ämne som nervceller släpper ut för att skicka signaler, t.ex. acetylkolin och dopamin.", "Aktiv transport"], ["Spänningsstyrda kalciumkanaler", "Aktiv transport · s. 18:35", "Kanaler i nervändan som öppnas av en nervimpuls och släpper in Ca²⁺.", "Aktiv transport"], ["Synapsklyfta", "Aktiv transport · s. 18:35", "Mellanrummet mellan en nervände och nästa cell.", "Aktiv transport"], ["Vesikel", "Aktiv transport · film", "Liten blåsa med enkelt fosfolipidmembran som transporterar ämnen i cellen.", "Aktiv transport"], ["Vesikeltransport", "Aktiv transport · film", "Transport med vesiklar: exocytos och endocytos. Kräver alltid ATP.", "Aktiv transport"], ["Acidofil", "Mikrobernas värld · s. 184", "Syraälskande arké. Kan leva vid pH 0.", "Mikrobernas värld"], ["Amöbadysenteri", "Mikrobernas värld · s. 178", "Blodiga diarréer som orsakas av Entamoeba histolytica.", "Mikrobernas värld"], ["Arkéer", "Mikrobernas värld · s. 178, 184", "Encelliga utan cellkärna. En egen huvudgren av livets träd med kemiskt annorlunda membran. Ger aldrig sjukdom.", "Mikrobernas värld"], ["Bakterier", "Mikrobernas värld · s. 180", "Encelliga utan cellkärna och membranomslutna organeller. Cellmembranet liknar eukaryoternas.", "Mikrobernas värld"], ["Biomassa", "Mikrobernas värld · s. 178", "Den totala massan av levande organismer. Huvuddelen på jorden är mikroorganismer.", "Mikrobernas värld"], ["Cyanobakterier", "Mikrobernas värld · s. 181", "Fotosyntetiserande bakterier, tidigare kallade blågröna alger.", "Mikrobernas värld"], ["Eukaryoter", "Mikrobernas värld · s. 178", "Organismer vars celler har cellkärna. De flesta eukaryota arter är mikroorganismer.", "Mikrobernas värld"], ["Extremofiler", "Mikrobernas värld · s. 184", "Organismer som lever i extrema miljöer, t.ex. halofiler, termofila och acidofila arkéer.", "Mikrobernas värld"], ["Fager (bakteriofager)", "Mikrobernas värld · s. 185", "Virus som infekterar bakterier eller arkéer.", "Mikrobernas värld"], ["Fimbrier", "Mikrobernas värld · s. 181", "Tunna proteinutskott som bakterien använder för att fästa vid något.", "Mikrobernas värld"], ["Flagell", "Mikrobernas värld · s. 181", "Tjockt proteinutskott som roterar och sätter bakterien i rörelse.", "Mikrobernas värld"], ["Gramfärgning", "Mikrobernas värld · s. 180", "Test av Hans Christian Gram. Grampositiva behåller blå färg, gramnegativa gör det inte.", "Mikrobernas värld"], ["Grampositiv (Gr⁺)", "Mikrobernas värld · s. 180", "Bakterie med tjockt peptidoglykanlager och inget yttermembran.", "Mikrobernas värld"], ["Gramnegativ (Gr⁻)", "Mikrobernas värld · s. 180", "Bakterie med tunt peptidoglykanlager och ett yttermembran med LPS.", "Mikrobernas värld"], ["Halofil", "Mikrobernas värld · s. 184", "Saltälskande arké. Kan färga saltdammar röda och gröna.", "Mikrobernas värld"], ["Homolog omlagring", "Mikrobernas värld · s. 183", "Naturlig process där gener byter plats, t.ex. mellan plasmid och kromosom. Kallas också homolog rekombination.", "Mikrobernas värld"], ["Horisontell genöverföring", "Mikrobernas värld · s. 186", "Gener förs mellan individer och arter, inte bara från förälder till avkomma.", "Mikrobernas värld"], ["Kemoautotrofer", "Mikrobernas värld · s. 181", "Bakterier som bildar kolhydrater med energi från oorganiska kemikalier.", "Mikrobernas värld"], ["Klon", "Mikrobernas värld · s. 182", "Grupp av bakterier med i stort sett samma arvsmassa, bildade genom delning.", "Mikrobernas värld"], ["Kock", "Mikrobernas värld · s. 180", "Rund bakterie.", "Mikrobernas värld"], ["Konjugation", "Mikrobernas värld · s. 182", "En bakterie fäster vid en annan, bildar en kanal och för över arvsmassa.", "Mikrobernas värld"], ["Kromosom (bakteriens)", "Mikrobernas värld · s. 182", "En cirkulär DNA-molekyl med några tusen gener.", "Mikrobernas värld"], ["Latent", "Mikrobernas värld · s. 186", "När ett virus ligger gömt och tyst i kroppens celler, ofta i många år.", "Mikrobernas värld"], ["LPS (lipopolysackarid)", "Mikrobernas värld · s. 180", "Lipid med sockerkedja i gramnegativas yttermembran. Kan vara mycket skadlig för människor.", "Mikrobernas värld"], ["Lysogent", "Mikrobernas värld · s. 186", "Viruset ligger tyst i cellen, ibland inbyggt i cellens DNA, och prioriterar långsiktig överlevnad.", "Mikrobernas värld"], ["Lytiskt", "Mikrobernas värld · s. 186", "Viruset förökar sig snabbt och dödar värdcellen.", "Mikrobernas värld"], ["Mikroorganismer (mikrober)", "Mikrobernas värld · s. 178", "Levande varelser som är för små för att ses med blotta ögat.", "Mikrobernas värld"], ["Normalflora", "Mikrobernas värld · s. 182", "Bakterier på och i kroppen som inte gör oss sjuka.", "Mikrobernas värld"], ["Patogen", "Mikrobernas värld · s. 178", "Sjukdomsframkallande.", "Mikrobernas värld"], ["Peptidoglykan", "Mikrobernas värld · s. 180", "Kolhydratkedjor korsbundna med peptider. Bygger bakteriens cellvägg.", "Mikrobernas värld"], ["Plasmid", "Mikrobernas värld · s. 182", "Liten extra cirkulär DNA-molekyl med få gener, t.ex. för antibiotikaresistens.", "Mikrobernas värld"], ["Plasmodium", "Mikrobernas värld · s. 178–179", "Släkte av encelliga eukaryoter som orsakar malaria.", "Mikrobernas värld"], ["Spirill / spiroket", "Mikrobernas värld · s. 180", "Spiralformad bakterie.", "Mikrobernas värld"], ["Stav", "Mikrobernas värld · s. 180", "Avlång bakterie.", "Mikrobernas värld"], ["Termofil", "Mikrobernas värld · s. 184", "Värmeälskande arké. Klarar +122 °C.", "Mikrobernas värld"], ["16S rRNA", "Mikrobernas värld · s. 183", "Gen för en av ribosomernas RNA-molekyler som avgör bakteriers släkte och familj.", "Mikrobernas värld"], ["Transduktion", "Mikrobernas värld · s. 183", "Gener förs över mellan bakterier av bakterievirus.", "Mikrobernas värld"], ["Transformation", "Mikrobernas värld · s. 182", "En bakterie tar upp naket DNA eller plasmider från omgivningen.", "Mikrobernas värld"], ["Transposoner", "Mikrobernas värld · s. 183", "Mobila genetiska element: DNA-avsnitt som lätt flyttas eller kopieras till ett nytt ställe.", "Mikrobernas värld"], ["Virus", "Mikrobernas värld · s. 184", "Arvsanlag i ett paket av proteiner (och ibland membran) som får en cell att göra nya viruspartiklar.", "Mikrobernas värld"], ["Amöbadjur (Rhizopoda)", "Mikrobernas värld · PPT", "Urdjursstam som lever av bakterier och andra mikroorganismer.", "Mikrobernas värld"], ["Anaerob", "Mikrobernas värld · PPT", "Klarar sig utan syrgas, t.ex. metanproducerande arkéer.", "Mikrobernas värld"], ["Baciller", "Mikrobernas värld · PPT", "Stavformade bakterier. I vardagligt tal även alla smittämnen.", "Mikrobernas värld"], ["Ciliater (flimmerdjur)", "Mikrobernas värld · PPT", "Urdjur täckta av flimmerhår. Lever i vatten och äter bakterier och växtplankton, t.ex. toffeldjuret.", "Mikrobernas värld"], ["Diplokocker", "Mikrobernas värld · PPT", "Kocker som sitter två och två.", "Mikrobernas värld"], ["Domän", "Mikrobernas värld · PPT", "Den högsta nivån i systematiken: bakterier, arkéer och eukaryoter.", "Mikrobernas värld"], ["Flagellater (gisseldjur)", "Mikrobernas värld · PPT", "Urdjur med piskliknande organeller. Många är parasiter, t.ex. de som ger sömnsjuka.", "Mikrobernas värld"], ["Förna", "Mikrobernas värld · PPT", "Multnande organiskt material på marken, t.ex. löv och barr.", "Mikrobernas värld"], ["Gamet", "Mikrobernas värld · PPT", "Könscell med enkel kromosomuppsättning.", "Mikrobernas värld"], ["Kapsel", "Mikrobernas värld · PPT", "Slemlager ytterst hos vissa bakterier. Skyddar bakterien.", "Mikrobernas värld"], ["Mesosom", "Mikrobernas värld · PPT", "Inbuktning av bakteriens membran i äldre bilder. Tros idag uppstå vid preparationen.", "Mikrobernas värld"], ["Plasmodium (slemsvamp)", "Mikrobernas värld · PPT", "Slemsvampens \"supercell\" som kryper i förnan. Inte samma som malariaparasiten Plasmodium.", "Mikrobernas värld"], ["Protister", "Mikrobernas värld · PPT", "Äldre namn för encelliga organismer med cellkärna: protozoer, alger och slemsvampar.", "Mikrobernas värld"], ["Protozoer (urdjur)", "Mikrobernas värld · PPT", "Djurliknande protister: flagellater, amöbadjur, ciliater och spordjur.", "Mikrobernas värld"], ["Slemsvampar", "Mikrobernas värld · PPT", "Svampliknande protister med fyra stadier: spor, gamet, plasmodium och fruktkropp.", "Mikrobernas värld"], ["Spordjur", "Mikrobernas värld · PPT", "Parasitiska urdjur som tar upp flytande föda genom cellmembranet, t.ex. malariaparasiten.", "Mikrobernas värld"], ["Stafylokocker", "Mikrobernas värld · PPT", "Kocker som sitter i klasar, t.ex. gula stafylokocker.", "Mikrobernas värld"], ["Streptokocker", "Mikrobernas värld · PPT", "Kocker som sitter i kedjor. Många ger sjukdom, t.ex. halsfluss.", "Mikrobernas värld"], ["Zygot", "Mikrobernas värld · PPT", "Cell som bildas när två gameter smälter ihop vid befruktning.", "Mikrobernas värld"], ["Antibiotika", "Antibiotika & resistens · s. 212", "Ämnen som dödar bakterier men lämnar människans celler relativt oskadda.", "Antibiotika & resistens"], ["Antibiotikaresistens", "Antibiotika & resistens · s. 212–213", "När en bakterie tål ett antibiotikum som normalt skulle döda den.", "Antibiotika & resistens"], ["Cefalosporiner", "Antibiotika & resistens · s. 213", "Antibiotikagrupp som, liksom penicilliner, slår mot cellväggsbygget.", "Antibiotika & resistens"], ["Ekologisk nisch", "Antibiotika & resistens · s. 213", "En arts plats och roll i ekosystemet. Mikrober konkurrerar om resurserna i den.", "Antibiotika & resistens"], ["ESBL", "Antibiotika & resistens · s. 215", "Gramnegativa tarmbakterier (ofta E. coli) med en plasmid som ger ett protein som klipper sönder penicillin.", "Antibiotika & resistens"], ["Fleming, Alexander", "Antibiotika & resistens · s. 212", "Brittisk forskare (1881–1955) som upptäckte penicillinet. Boken stavar Flemming.", "Antibiotika & resistens"], ["Hygienråd", "Antibiotika & resistens · s. 215", "Det enklaste och viktigaste sättet att motverka resistens: minska smittspridningen.", "Antibiotika & resistens"], ["Isoniazid", "Antibiotika & resistens · s. 215", "Ett av två förstahandsmedel mot tuberkulos, tillsammans med rifampicin.", "Antibiotika & resistens"], ["Karbapenemer", "Antibiotika & resistens · s. 213", "Antibiotikagrupp som slår mot cellväggsbygget.", "Antibiotika & resistens"], ["Kinoloner", "Antibiotika & resistens · s. 213", "Antibiotika som slår mot bakteriens DNA-replikation.", "Antibiotika & resistens"], ["Makrolider", "Antibiotika & resistens · s. 213", "Antibiotika som slår mot proteinsyntesen.", "Antibiotika & resistens"], ["Linkosamider", "Antibiotika & resistens · s. 213", "Antibiotika som slår mot proteinsyntesen.", "Antibiotika & resistens"], ["MRSA", "Antibiotika & resistens · s. 215", "Meticillinresistenta gula stafylokocker. Har en transposon med ett förändrat cellväggsenzym.", "Antibiotika & resistens"], ["Multiresistent", "Antibiotika & resistens · s. 215", "Bakterie med resistensgener mot fler än tre antibiotika.", "Antibiotika & resistens"], ["Penicillin", "Antibiotika & resistens · s. 212", "Det första antibiotikumet och det mest använda i Sverige. Bildas av mögelsvampar.", "Antibiotika & resistens"], ["Peptidoglykan", "Antibiotika & resistens · s. 212–213", "Ämnet i bakteriens cellvägg. Penicillin stoppar bygget av det. Boken skriver peptidoglukan.", "Antibiotika & resistens"], ["Plasmid", "Antibiotika & resistens · s. 214", "Liten extra DNA-molekyl i bakterier. Bär ofta resistensgener och kan förloras vid delning.", "Antibiotika & resistens"], ["Pneumokocker", "Antibiotika & resistens · s. 212", "Bakterier som kan ge lunginflammation. Barn vaccineras mot dem.", "Antibiotika & resistens"], ["Resistensgen", "Antibiotika & resistens · s. 213", "Gen som gör bakterien motståndskraftig, t.ex. genom att klippa sönder eller pumpa ut antibiotikan.", "Antibiotika & resistens"], ["Rifampicin", "Antibiotika & resistens · s. 213, 215", "Antibiotikum som stoppar steget DNA → RNA. Förstahandsmedel mot tuberkulos.", "Antibiotika & resistens"], ["Selektivt tryck", "Antibiotika & resistens · s. 213–214", "När miljön gynnar vissa varianter. Antibiotika gynnar resistenta bakterier.", "Antibiotika & resistens"], ["Selektera", "Antibiotika & resistens · s. 212", "Att gynna vissa individer så att de blir vanligare i populationen.", "Antibiotika & resistens"], ["Tetracykliner", "Antibiotika & resistens · s. 213", "Antibiotika som slår mot proteinsyntesen.", "Antibiotika & resistens"], ["Transposon", "Antibiotika & resistens · s. 215", "Hoppande genpaket som kan flytta sig i arvsmassan. MRSA:s resistens sitter i en sådan.", "Antibiotika & resistens"], ["Vaccinationsprogram", "Antibiotika & resistens · s. 212", "Vaccin som alla barn i Sverige erbjuds mot ett antal bakterie- och virussjukdomar.", "Antibiotika & resistens"], ["Aminoglykosider", "Antibiotika & resistens · PPT", "Antibiotikagrupp som hämmar proteinsyntesen.", "Antibiotika & resistens"], ["Ampicillin", "Antibiotika & resistens · PPT", "Penicillin med en extra aminogrupp. Verkar även mot gramnegativa bakterier.", "Antibiotika & resistens"], ["Betalaktamer", "Antibiotika & resistens · PPT", "Antibiotikagrupp som hämmar cellväggssyntesen, t.ex. penicilliner.", "Antibiotika & resistens"], ["Brett spektrum", "Antibiotika & resistens · PPT", "Antibiotikum som biter på många sorters bakterier. Används vid svår eller oklar infektion.", "Antibiotika & resistens"], ["Glykopeptider", "Antibiotika & resistens · PPT", "Antibiotikagrupp som hämmar cellväggssyntesen.", "Antibiotika & resistens"], ["Horisontell spridning", "Antibiotika & resistens · PPT", "Gener förs från en bakterie till en annan: konjugation, transformation eller transduktion.", "Antibiotika & resistens"], ["Kloramfenikol", "Antibiotika & resistens · PPT", "Antibiotikum som hämmar proteinsyntesen.", "Antibiotika & resistens"], ["Kompetent bakterie", "Antibiotika & resistens · PPT", "Bakterie som kan ta upp fritt DNA från omgivningen (transformation).", "Antibiotika & resistens"], ["Konjugation", "Antibiotika & resistens · PPT", "Plasmider förs över mellan bakterier via kontakt med sexpili.", "Antibiotika & resistens"], ["Lysera", "Antibiotika & resistens · PPT", "När en cell spricker och innehållet släpps ut.", "Antibiotika & resistens"], ["Metronidazol", "Antibiotika & resistens · PPT", "Antibiotikum som hämmar DNA-replikationen.", "Antibiotika & resistens"], ["Sexpili", "Antibiotika & resistens · PPT", "Utskott som bakterier använder vid konjugation. Generna för dem sitter på plasmiden.", "Antibiotika & resistens"], ["Smalt spektrum", "Antibiotika & resistens · PPT", "Antibiotikum som biter på få sorters bakterier. Läkarens förstahandsval.", "Antibiotika & resistens"], ["Sulfonamid", "Antibiotika & resistens · PPT", "Antibiotikum som hämmar nukleinsyrasyntesen.", "Antibiotika & resistens"], ["Transduktion", "Antibiotika & resistens · PPT", "En bakteriofag (virus) för över DNA från en bakterie till en annan.", "Antibiotika & resistens"], ["Transformation", "Antibiotika & resistens · PPT", "En kompetent bakterie tar upp DNA från döda, lyserade bakterier.", "Antibiotika & resistens"], ["Trimetoprim", "Antibiotika & resistens · PPT", "Antibiotikum som hämmar nukleinsyrasyntesen.", "Antibiotika & resistens"], ["Vertikal spridning", "Antibiotika & resistens · PPT", "Gener förs från en modercell till två dotterceller vid delning.", "Antibiotika & resistens"], ["Cellulosa", "Växtcellen · s. 244", "Polysackarid som bygger upp växtcellens cellvägg.", "Växtcellen"], ["Cellvägg", "Växtcellen · s. 244–245", "Extracellulär matrix av cellulosa. Ger form, skydd och stadga och hindrar cellen från att spricka.", "Växtcellen"], ["Endosymbios", "Växtcellen · s. 247", "Teorin att kloroplaster och mitokondrier en gång var fritt levande celler som tagits upp av en annan cell.", "Växtcellen"], ["Extracellulär matrix", "Växtcellen · s. 244", "Material som cellerna bildar utanför sig själva. Hos växter är det cellväggen.", "Växtcellen"], ["Fotoautotrof", "Växtcellen · s. 244", "Kan bilda organiska ämnen själv med hjälp av solljus och koldioxid.", "Växtcellen"], ["Fröväxter", "Växtcellen · s. 244", "Kärlväxter som förökar sig med frön: gömfröiga och nakenfröiga.", "Växtcellen"], ["Granum", "Växtcellen · s. 247", "En packe av tylakoider. Plural: grana.", "Växtcellen"], ["Gömfröiga", "Växtcellen · s. 244", "Blommande fröväxter.", "Växtcellen"], ["Hypoton lösning", "Växtcellen · s. 245", "Lösning med lägre koncentration lösta ämnen än cellen, t.ex. destillerat vatten. Cellen tar upp vatten.", "Växtcellen"], ["Klorofyll", "Växtcellen · s. 246–247", "Grönt pigment i tylakoiderna som fångar ljus. Absorberar violett, blått och rött, reflekterar grönt.", "Växtcellen"], ["Kloroplast", "Växtcellen · s. 246–247", "Plastid med klorofyll där fotosyntesen sker. Dubbla membran, eget DNA.", "Växtcellen"], ["Kromoplaster", "Växtcellen · s. 247", "Plastider med pigment som ger blommor och frukter orange eller röd färg.", "Växtcellen"], ["Kärlväxter", "Växtcellen · s. 244", "Växter med rötter och ledningsvävnad, t.ex. ormbunkar, lummer och fröväxter.", "Växtcellen"], ["Leukoplaster", "Växtcellen · s. 247", "Färglösa plastider som lagrar stärkelse, t.ex. i potatisens stamknölar.", "Växtcellen"], ["Ledningsvävnad", "Växtcellen · s. 244", "Vävnad som transporterar vatten och näring inne i växten.", "Växtcellen"], ["Mikrotubuli", "Växtcellen · s. 247", "Proteinrör i cellskelettet. Transporterar bl.a. kloroplaster mot ljuset.", "Växtcellen"], ["Mossor", "Växtcellen · s. 244", "De enklast uppbyggda växterna. Saknar rötter och ledningsvävnad.", "Växtcellen"], ["Nakenfröiga", "Växtcellen · s. 244", "Fröväxter utan blommor, t.ex. barrträd.", "Växtcellen"], ["Närsalter", "Växtcellen · s. 244", "Kväve, fosfor och andra mineraler som växten tar upp från omgivningen.", "Växtcellen"], ["Plasmodesmata", "Växtcellen · s. 245", "Membranklädda kanaler fyllda med cytoplasma genom cellväggen. Ämnen förs från cell till cell.", "Växtcellen"], ["Plastider", "Växtcellen · s. 246–247", "Grupp organeller som bara finns hos växter och alger: kloroplaster, leukoplaster, kromoplaster.", "Växtcellen"], ["Rhizoider", "Växtcellen · s. 244", "Rotliknande trådar hos mossor. Bara förankring, kan inte suga upp vatten.", "Växtcellen"], ["Sporer", "Växtcellen · s. 244", "Förökningskroppar hos mossor, ormbunkar och lummer.", "Växtcellen"], ["Stroma", "Växtcellen · s. 247", "Vattenlösningen runt tylakoiderna i kloroplasten. Motsvarar mitokondriens matrix.", "Växtcellen"], ["Turgor", "Växtcellen · s. 246", "Vakuolens tryck mot cellväggen som gör att växten kan stå upprätt.", "Växtcellen"], ["Tylakoider", "Växtcellen · s. 247", "Platta membranblåsor i kloroplasten med klorofyll. Här fångas ljusenergin in.", "Växtcellen"], ["Vakuol", "Växtcellen · s. 245–246", "Stor blåsa i växtcellen, upp till 90 % av volymen. Vatten, joner och nedbrytande enzymer.", "Växtcellen"], ["Cyklosporin", "Svampar · s. 268", "Läkemedel från svampar som trycker tillbaka kroppens specifika försvar vid transplantationer.", "Svampar"], ["Diploid (2n)", "Svampar · s. 269", "Cell med dubbel kromosomuppsättning. Hos svampar bara en kort stund i den sexuella livscykeln.", "Svampar"], ["Feromon", "Svampar · s. 269", "Parningssignalämne. Svampens två kön tillverkar varsitt och har receptor för det andra.", "Svampar"], ["Fruktkropp", "Svampar · s. 266", "Det som skjuter upp ur mycelet, t.ex. en karljohan. Tät massa av samma celler som mycelet.", "Svampar"], ["Haploid (n)", "Svampar · s. 269", "Cell med enkel kromosomuppsättning. Svampceller är normalt haploida.", "Svampar"], ["Heterotrof", "Svampar · s. 266", "Lever av energi som andra livsformer skapat, som svampar och djur.", "Svampar"], ["Honungsskivling", "Svampar · s. 268", "Svamp som parasiterar på träd: mycelet får rötterna att ruttna.", "Svampar"], ["Hyf", "Svampar · s. 266", "Lång tråd av avlånga svampceller som hänger ihop genom stora öppningar.", "Svampar"], ["Häxring", "Svampar · s. 267", "Ring av svampar i en gräsmatta som visar ytterkanten av ett enda mycel.", "Svampar"], ["Jäst", "Svampar · s. 266", "Encellig svamp med runda celler. Används till bröd, öl och vin. Förökar sig genom delning.", "Svampar"], ["Kitin", "Svampar · s. 266", "Cellulosaliknande polysackarid med aminogrupper i svampens cellvägg. Starkare och segare än cellulosa.", "Svampar"], ["Lav", "Svampar · s. 268", "Symbios mellan svamp och encelliga alger eller cyanobakterier.", "Svampar"], ["Lignin", "Svampar · s. 268", "Klisterämne i trä som försämrar papperskvaliteten. Kan brytas ner av svampenzym.", "Svampar"], ["Meios", "Svampar · s. 269", "Celldelning som halverar kromosomantalet. Hos svampar bildas haploida sporer.", "Svampar"], ["Mycel", "Svampar · s. 266", "Förgrenat nätverk av hyfer, t.ex. mögel på bröd.", "Svampar"], ["Mykorrhiza", "Svampar · s. 267", "Ömsesidig symbios mellan svamp och växtrot: mineraler mot kolhydrater.", "Svampar"], ["Mögelsvampar", "Svampar · s. 268", "Svampar som ger ostar aromer, gav penicillin och används för att tillverka proteiner.", "Svampar"], ["Nedbrytare", "Svampar · s. 268", "Organism som bryter ner dött material, t.ex. svampar som gör träd till mull.", "Svampar"], ["Parasitism", "Svampar · s. 267", "När en organism lever på en annan och skadar den. Svampar ger ~80 % av växtsjukdomarna.", "Svampar"], ["Rovsvamp", "Svampar · s. 267", "Svamp som fångar och dödar små djur, t.ex. rundmaskar.", "Svampar"], ["Spor", "Svampar · s. 269", "Liten cell med hårt, tåligt skal som sprids med vind eller djur och gror till nytt mycel.", "Svampar"], ["Symbios", "Svampar · s. 267", "Samlevnad mellan två arter. Ömsesidig symbios gynnar båda.", "Svampar"], ["Vittring", "Svampar · s. 268", "När berg och sten bryts ner, t.ex. när lavars hyfer tränger in i sprickor.", "Svampar"], ["Algsvampar", "Svampar · PPT", "Svampgrupp som ofta lever i vatten. Hit hör kräftpest och mögel på bröd.", "Svampar"], ["Basidie", "Svampar · PPT", "Klubba med fyra små skaft där basidiesvampens sporer bildas, en spor på varje skaft.", "Svampar"], ["Basidiesvampar", "Svampar · PPT", "Svampgrupp med sporer på basidier: skivlingar, rörsvampar, taggsvampar, buksvampar och tickor.", "Svampar"], ["Buksvamp", "Svampar · PPT", "Basidiesvamp där sporerna bildas inne i en sluten kropp, t.ex. röksvamp och stinksvamp.", "Svampar"], ["Domän", "Svampar · PPT", "Högsta nivån under Liv. Tre domäner: bakterier, arkéer och eukaryoter.", "Svampar"], ["Eukaryot", "Svampar · PPT", "Organism med celler där arvsmassan ligger i en cellkärna med membran.", "Svampar"], ["Hymenium", "Svampar · PPT", "Det sporbildande lagret på t.ex. skivorna under hatten.", "Svampar"], ["Jäsning", "Svampar · PPT", "Jästsvampar spjälkar socker utan syre till koldioxid och etanol.", "Svampar"], ["Kräftpest", "Svampar · PPT", "Algsvamp som parasiterar på kräftor.", "Svampar"], ["Lameller", "Svampar · PPT", "Skivorna under hatten på en skivling, där sporerna bildas.", "Svampar"], ["Penselmögel", "Svampar · PPT", "Penicillium. Används till roquefort och camembert och ger penicillin.", "Svampar"], ["Rike", "Svampar · PPT", "Nivån under domän. Eukaryoternas riken: protister, svampar, växter och djur.", "Svampar"], ["Ring", "Svampar · PPT", "Krage runt svampens fot, rest av höljet som skyddade skivorna.", "Svampar"], ["Rörsvamp", "Svampar · PPT", "Basidiesvamp med sporerna i rör under hatten, t.ex. soppar som stensopp.", "Svampar"], ["Saprofyt", "Svampar · PPT", "Nedbrytare som lever på döda växter och djur.", "Svampar"], ["Skivling", "Svampar · PPT", "Basidiesvamp med skivor under hatten, t.ex. kantarell och flugsvamp.", "Svampar"], ["Slemsvampar", "Svampar · PPT", "Inga riktiga svampar utan protister, t.ex. trollsmör och vargmjölk.", "Svampar"], ["Sporsäckssvampar", "Svampar · PPT", "Svampgrupp med sporerna i sporsäckar: murklor, tryfflar, jäst, mögel och skålsvampar.", "Svampar"], ["Strumpa", "Svampar · PPT", "Säckliknande slida vid foten av t.ex. flugsvampar.", "Svampar"], ["Taggsvamp", "Svampar · PPT", "Basidiesvamp med taggar under hatten, t.ex. blek taggsvamp.", "Svampar"], ["Tickor", "Svampar · PPT", "Rörsvampar som oftast saknar fot, är hårda och fleråriga och ger röta i träd, t.ex. talltickan.", "Svampar"], ["Woeses livsträd", "Svampar · PPT", "Carl Woeses indelning av allt liv i tre domäner: bakterier, arkéer och eukaryoter.", "Svampar"], ["Amygdala", "Psilocybin · MDMA", "Del av hjärnan där rädsla bearbetas. MDMA dämpar rädslan där.", "Psilocybin"], ["Bufotenin", "Psilocybin · s. 1", "Gift från huden på Coloradopaddor som röks i lekmannaterapi.", "Psilocybin"], ["COMPASS Pathways", "Psilocybin · s. 5", "Företag i London med största psilocybinstudien hittills, över 200 patienter.", "Psilocybin"], ["Cortex", "Psilocybin · s. 4", "Hjärnans tänkande delar. Där verkar psilocybin enligt Nutt.", "Psilocybin"], ["Dubbelblind", "Psilocybin · s. 4", "Varken forskare eller deltagare vet vem som får vad.", "Psilocybin"], ["Escitalopram", "Psilocybin · s. 4", "Ett av de bästa antidepressiva läkemedlen. Jämfördes med psilocybin.", "Psilocybin"], ["Fantastika", "Psilocybin · s. 8", "Linnés ord för fantasiäggande substanser.", "Psilocybin"], ["Hippocampus", "Psilocybin · MDMA", "Del av hjärnan där minnen lagras.", "Psilocybin"], ["Inebriantia", "Psilocybin · s. 8", "Carl von Linnés drogbok.", "Psilocybin"], ["Konnektivitet", "Psilocybin · s. 3", "Hur mycket hjärnans delar är kopplade till varandra.", "Psilocybin"], ["LSD", "Psilocybin · s. 8", "Psykedelisk drog som forskades på 50–60-talet och förbjöds i slutet av 60-talet.", "Psilocybin"], ["Magnetkamera", "Psilocybin · s. 3", "Används för att se hjärnans aktivitet. Visade hur psilocybin kopplar ihop hjärnan.", "Psilocybin"], ["MAPS", "Psilocybin · s. 9", "Organisationen bakom MDMA-studien mot PTSD.", "Psilocybin"], ["MDMA", "Psilocybin · s. 9", "Ämnet i ecstasy. Testas mot PTSD.", "Psilocybin"], ["Paradigmskifte", "Psilocybin · s. 6", "Ett helt nytt sätt att se på något. Lundbergs ord om psilocybin.", "Psilocybin"], ["PET", "Psilocybin · s. 6", "Undersökning av hjärnan som görs i KI:s studie.", "Psilocybin"], ["Placebo", "Psilocybin · s. 7", "Overksam behandling, t.ex. sockerpiller, som jämförelse.", "Psilocybin"], ["Prefrontala cortex", "Psilocybin · s. 9", "Främre delen av hjärnbarken. MDMA förbättrar bearbetningen där.", "Psilocybin"], ["Psilocybin", "Psilocybin · s. 1", "Det aktiva ämnet i magiska svampar. Hallucinogent och narkotikaklassat.", "Psilocybin"], ["Psykedelisk", "Psilocybin · s. 1", "Ämne eller upplevelse som förändrar perception och medvetande.", "Psilocybin"], ["PTSD", "Psilocybin · s. 9", "Posttraumatiskt stressyndrom: man tvingas återuppleva svåra händelser.", "Psilocybin"], ["Small world brain", "Psilocybin · s. 3", "Normal hjärna där de flesta kopplingar går mellan närliggande delar.", "Psilocybin"], ["SSRI", "Psilocybin · s. 8", "Vanliga antidepressiva sedan 90-talet.", "Psilocybin"], ["Välbefinnande", "Psilocybin · s. 4", "Att må bra och ha kontakt med sig själv och andra, inte bara att inte vara deprimerad.", "Psilocybin"], ["ADP", "Livets kemi · bild 29", "Adenosindifosfat: ATP som förlorat en fosfatgrupp. Kan laddas upp till ATP igen.", "Livets kemi"], ["Aminosyror", "Livets kemi · bild 15", "Byggstenarna i proteiner. Det finns 20 sorter.", "Livets kemi"], ["ATP", "Livets kemi · bild 29", "Adenosintrifosfat: cellens viktigaste energibärare. Ribos + adenin + tre fosfatgrupper.", "Livets kemi"], ["Cellplasma", "Livets kemi · bild 22", "Cytoplasma: innehåller specialiserade celldelar och mycket vatten.", "Livets kemi"], ["Cellulosa", "Livets kemi · bild 7", "Polysackarid i växternas cellväggar. Kan inte brytas ner av människan.", "Livets kemi"], ["Disackarid", "Livets kemi · bild 6", "Två sockerringar ihopkopplade, t.ex. sackaros, laktos och maltos.", "Livets kemi"], ["Essentiella aminosyror", "Livets kemi · bild 16", "Aminosyror som kroppen inte kan tillverka och som måste komma från maten.", "Livets kemi"], ["Eukaryot", "Livets kemi · bild 26", "Cell med cellkärna.", "Livets kemi"], ["Fettsyra", "Livets kemi · bild 9", "Lång kedja av kolatomer. Tre fettsyror + glycerol = fett.", "Livets kemi"], ["Fleromättat fett", "Livets kemi · bild 12", "Fettsyror med fler än en dubbelbindning. Flytande.", "Livets kemi"], ["Fosfolipid", "Livets kemi · bild 14", "Fett med hydrofilt huvud (fosfatgrupp) och hydrofob svans. Bygger cellmembran.", "Livets kemi"], ["Fruktos", "Livets kemi · bild 5", "Fruktsocker, en monosackarid.", "Livets kemi"], ["Generalist", "Livets kemi · bild 20", "Cell som gör alla funktioner, som hos encelliga organismer.", "Livets kemi"], ["Glukos", "Livets kemi · bild 5", "Druvsocker, C₆H₁₂O₆. Finns som rak kedja, α-glukos och β-glukos.", "Livets kemi"], ["Glycerol", "Livets kemi · bild 9", "Molekylen som de tre fettsyrorna sitter fast på i en fettmolekyl.", "Livets kemi"], ["HDL", "Livets kemi · bild 14", "\"Det goda kolesterolet\". Hjälper till att transportera bort fett från blodet.", "Livets kemi"], ["Hemoglobin", "Livets kemi · bild 15", "Det röda blodfärgämnet. Ett protein.", "Livets kemi"], ["Hydrolys", "Livets kemi · bild 29", "Spjälkning med hjälp av vatten, t.ex. när ATP blir ADP och frigör energi.", "Livets kemi"], ["Kolhydrater", "Livets kemi · bild 4", "Ämnen av kol, väte och syre, ofta i sockerringar.", "Livets kemi"], ["Kostfiber", "Livets kemi · bild 7", "Cellulosa och liknande ämnen som vi inte bryter ner. Motverkar förstoppning och ger mättnad.", "Livets kemi"], ["Kreatin", "Livets kemi · bild 31", "Kvävehaltigt ämne från lever och njurar. Lagras i musklerna som kreatinfosfat.", "Livets kemi"], ["Kreatinfosfat", "Livets kemi · bild 31", "Musklernas reservbatteri: kreatinfosfat + ADP → kreatin + ATP.", "Livets kemi"], ["Kvävebas", "Livets kemi · bild 27", "Del av en nukleotid: adenin, guanin, cytosin, tymin eller uracil.", "Livets kemi"], ["Laktos", "Livets kemi · bild 6", "Mjölksocker, en disackarid.", "Livets kemi"], ["LDL", "Livets kemi · bild 14", "\"Det dåliga kolesterolet\". Kan fastna på kärlväggarna.", "Livets kemi"], ["Lipider", "Livets kemi · bild 8", "Ämnen som är olösliga eller svårlösliga i vatten, t.ex. fetter och fosfolipider.", "Livets kemi"], ["Maltos", "Livets kemi · bild 6", "Maltsocker, en disackarid.", "Livets kemi"], ["Monosackarid", "Livets kemi · bild 5", "Enkel sockerart med en sockerring, t.ex. glukos och fruktos.", "Livets kemi"], ["Mättat fett", "Livets kemi · bild 10", "Bara enkelbindningar i fettsyrorna. Fast vid rumstemperatur.", "Livets kemi"], ["Närsalter", "Livets kemi · bild 3", "Oorganiska ämnen (mineralämnen) som cellerna behöver.", "Livets kemi"], ["Nukleotid", "Livets kemi · bild 28", "Fosfatgrupp + socker + kvävebas. Bygger DNA och RNA.", "Livets kemi"], ["Omättat fett", "Livets kemi · bild 12", "Fettsyror med en dubbelbindning. Flytande vid rumstemperatur.", "Livets kemi"], ["Organiska ämnen", "Livets kemi · bild 3", "Kolföreningar, t.ex. kolhydrater, lipider och proteiner.", "Livets kemi"], ["Polysackarid", "Livets kemi · bild 7", "Många sockerringar, t.ex. stärkelse och cellulosa.", "Livets kemi"], ["Prokaryot", "Livets kemi · bild 26", "Cell utan avgränsad cellkärna, t.ex. bakterier.", "Livets kemi"], ["Ribos", "Livets kemi · bild 29", "Sockret i ATP och i RNA:s nukleotider.", "Livets kemi"], ["Sackaros", "Livets kemi · bild 6", "Vanligt strösocker: glukos + fruktos.", "Livets kemi"], ["Specialist", "Livets kemi · bild 20", "Cell i en flercellig organism som är specialiserad på vissa funktioner.", "Livets kemi"], ["Stärkelse", "Livets kemi · bild 7", "Polysackarid och ett av våra viktigaste näringsämnen, t.ex. i potatis.", "Livets kemi"], ["Vävnad", "Livets kemi · bild 18", "Flera likadana celler tillsammans, t.ex. muskelvävnad.", "Livets kemi"]];
+const GLOSS=ROWS.map(r=>[r[0],r[1],r[2]]);
+const KEY="allabegrepp_known";
+const CARDS=ROWS.map(r=>["Begrepp",r[3],r[0],r[2]]);
+/* auto-quiz: vilket begrepp beskrivs? */
+const QUIZ=(function(){
+  const idx=shuffled(ROWS.length).slice(0,20);
+  return idx.map(i=>{const r=ROWS[i];
+    let pool=ROWS.filter((o,k)=>k!==i&&o[3]===r[3]&&o[0]!==r[0]);if(pool.length<3)pool=ROWS.filter((o,k)=>k!==i);
+    const wrong=shuffled(pool.length).slice(0,3).map(k=>pool[k][0]);
+    const opts=[r[0],...wrong];const ord=shuffled(4);
+    return ["Vilket begrepp beskrivs? "+r[2],ord.map(k=>opts[k]),ord.indexOf(0),r[0]+" · "+r[3]+"."]});
+})();
+
+/* glossary */
+(function(){
+  const list=$("#glList");
+  function render(){
+    const q=$("#glSearch").value.trim().toLowerCase();list.innerHTML="";let n=0;
+    GLOSS.forEach(([t,p,d])=>{if(q&&!(t.toLowerCase().includes(q)||d.toLowerCase().includes(q)))return;n++;const div=document.createElement("div");div.innerHTML=`<dt>${esc(t)}<span>${esc(p)}</span></dt><dd>${esc(d)}</dd>`;list.appendChild(div)});
+    $("#glCount").textContent=q?`${n} av ${GLOSS.length} ord`:`${GLOSS.length} ord`;
+  }
+  $("#glSearch").addEventListener("input",render);render();
+})();
+
+/* flashcards: [ämne, typ, fråga, svar] */
+(function(){
+  let known=new Set(store.get(KEY,[]));
+  let star=new Set(store.get(KEY+"_star",[])),round=1;
+  const saveStar=()=>store.set(KEY+"_star",[...star]);
+  let order=CARDS.map((_,i)=>i), pos=0, mode="all", type="";
+  const PF=(typeof PPT_FROM==="number")?PPT_FROM:CARDS.length;
+  let src="all";try{src=localStorage.getItem(KEY+"_src")||"all"}catch(e){}
+  if(PF>=CARDS.length)src="all";
+  const srcOk=i=>src==="all"||(src==="ppt")===(i>=PF);
+  {const sb=document.getElementById("deckSrc");if(sb){sb.hidden=PF>=CARDS.length;sb.querySelectorAll("button").forEach(o=>o.setAttribute("aria-pressed",o.dataset.v===src))}}
+  const flash=$("#flash");
+  function deck(){return order.filter(i=>srcOk(i)&&(!type||CARDS[i][1]===type)&&(mode==="all"||(mode==="star"?star.has(i):!known.has(i))))}
+  function setSeg(id,v){document.querySelectorAll(id+" button").forEach(o=>o.setAttribute("aria-pressed",o.dataset.v===v))}
+  function render(){
+    const d=deck();
+    $("#fcStat").textContent=`Kan: ${known.size} av ${CARDS.length} · ★ ${star.size}`;
+    flash.classList.remove("flip");starUI(-1);
+    $("#fcDoneLeft").hidden=mode!=="all"||known.size===CARDS.length;
+    if(!d.length&&mode==="star"){$("#fcTag").textContent="";$("#fcQ").textContent="Inga markerade kort än.";$("#fcA").textContent="Tryck på ☆ Markera (eller M) på ett kort du vill plugga senare.";FX.prog(0);FX.finish(false);return}
+    if(!d.length){$("#fcTag").textContent="";$("#fcQ").textContent="Du kan alla kort här!";$("#fcA").textContent="Tryck på Börja om för att köra igen, eller gör quizet.";FX.prog(1);FX.finish(true,"Du kan alla kort här!");return}
+    if(pos<0)pos=d.length-1;
+    if(pos>=d.length&&mode==="until"){round++;pos=0;mix();return render()}
+    if(pos>=d.length){pos=d.length;$("#fcTag").textContent="Klart";$("#fcQ").textContent="Varvet är klart!";$("#fcA").textContent=`Du har gått igenom alla ${d.length} kort. Kan: ${known.size} av ${CARDS.length}.`;FX.prog(1);FX.finish(true,`Varvet klart! Kan: ${known.size} av ${CARDS.length}`);return}
+    FX.finish(false);
+    const c=CARDS[d[pos]];
+    $("#fcTag").textContent=`${c[0]}${d[pos]>=PF&&c[0]!=="PPT"?" · PPT":""} · ${c[1]} · ${pos+1}/${d.length}${known.has(d[pos])?" · ✓":""}`;
+    $("#fcQ").textContent=c[2]; $("#fcA").textContent=c[3];
+    FX.prog((pos+1)/d.length);
+    if(mode==="until")$("#fcTag").textContent+=` · Varv ${round} · ${d.length} kvar`;
+    starUI(d[pos]);
+  }
+  const atEnd=()=>pos>=deck().length;
+  function mix(){for(let i=order.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[order[i],order[j]]=[order[j],order[i]]}}
+  function starUI(i){const b=document.getElementById("fcStar");if(!b)return;b.disabled=i<0;const on=star.has(i);b.textContent=on?"★ Markerad":"☆ Markera";b.setAttribute("aria-pressed",String(on))}
+  function toggleStar(){const d=deck();if(!d.length||pos<0||pos>=d.length)return;const i=d[pos];if(star.has(i))star.delete(i);else star.add(i);saveStar();
+    if(mode==="star"&&!star.has(i))FX.swap(flash,"next",()=>render());else{starUI(i);const st=document.getElementById("fcStat");if(st)st.textContent=st.textContent.replace(/★ \d+/,"★ "+star.size)}}
+  {const sb=document.getElementById("fcStar");if(sb)sb.onclick=toggleStar}
+
+  function restart(hard){FX.swap(flash,"restart",()=>{order=CARDS.map((_,i)=>i);pos=0;round=1;if(hard){known.clear();store.set(KEY,[]);mode="all";type="";setSeg("#deckMode","all");setSeg("#deckType","")}render()})}
+  function next(){if(atEnd())return restart(false);FX.swap(flash,"next",()=>{pos++;render()})}
+  function prev(){FX.swap(flash,"prev",()=>{pos--;render()})}
+  const flip=()=>{if(!atEnd())flash.classList.toggle("flip")};
+  flash.addEventListener("click",flip);
+  flash.addEventListener("keydown",e=>{if(e.key===" "||e.key==="Enter"){e.preventDefault();flip()}else if(e.key==="ArrowRight"){e.preventDefault();next()}else if(e.key==="ArrowLeft"){e.preventDefault();prev()}else if(e.key==="m"||e.key==="M"){e.preventDefault();toggleStar()}else if(e.key==="r"||e.key==="R"){e.preventDefault();restart(false)}});
+  $("#fcNext").onclick=next;
+  $("#fcPrev").onclick=prev;
+  $("#fcKnow").onclick=()=>{if(atEnd())return;FX.swap(flash,"know",()=>{const d=deck();known.add(d[pos]);store.set(KEY,[...known]);if(mode==="all"||mode==="star")pos++;render()})};
+  $("#fcAgain").onclick=()=>{if(atEnd())return;FX.swap(flash,"again",()=>{const d=deck();known.delete(d[pos]);store.set(KEY,[...known]);pos++;render()})};
+  $("#fcShuffle").onclick=()=>FX.swap(flash,"shuffle",()=>{for(let i=order.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[order[i],order[j]]=[order[j],order[i]]}pos=0;render()});
+  function seg(id,set){document.querySelectorAll(id+" button").forEach(b=>b.onclick=()=>FX.swap(flash,"mode",()=>{setSeg(id,b.dataset.v);set(b.dataset.v);pos=0;render()}))}
+  seg("#deckMode",v=>{mode=v;round=1;if(v==="until")mix()}); seg("#deckType",v=>type=v);
+  seg("#deckSrc",v=>{src=v;try{localStorage.setItem(KEY+"_src",v)}catch(e){}});
+  FX.menu($("#fcRestart"),$("#fcRestartMenu"),r=>restart(r==="hard"));
+  $("#fcDoneRestart").onclick=()=>restart(false);
+  $("#fcDoneLeft").onclick=()=>FX.swap(flash,"mode",()=>{mode="until";round=1;mix();setSeg("#deckMode","until");pos=0;render()});
+  render();
+})();
+
+/* quiz */
+(function(){
+  const list=$("#qList");let right=0,done=0;
+  function build(){
+    list.innerHTML="";right=0;done=0;upd();
+    QUIZ.forEach((q,qi)=>{
+      const box=document.createElement("div");box.className="qq";
+      box.innerHTML=`<p class="t">${qi+1}. ${esc(q[0])}</p><div class="opts"></div><div class="why" hidden></div>`;
+      const opts=box.querySelector(".opts");
+      q[1].forEach((o,oi)=>{const b=document.createElement("button");b.type="button";b.textContent=o;b.onclick=()=>{
+        opts.querySelectorAll("button").forEach((x,xi)=>{x.disabled=true;if(xi===q[2])x.classList.add("right")});
+        if(oi!==q[2])b.classList.add("wrong");else right++;
+        done++;const w=box.querySelector(".why");w.hidden=false;w.textContent=(oi===q[2]?"Rätt! ":"Inte riktigt. ")+q[3];upd();
+      };opts.appendChild(b)});
+      list.appendChild(box);
+    });
+  }
+  function upd(){$("#qScore").textContent=`${right} rätt av ${done}${done===QUIZ.length?" · klart!":` · ${QUIZ.length-done} kvar`}`}
+  $("#qReset").onclick=build;build();
+})();
+
+/* active rail link */
+(function(){
+  const links=[...document.querySelectorAll("#rail a")];
+  const secs=links.map(a=>document.querySelector(a.getAttribute("href")));
+  function on(){let cur=0;secs.forEach((s,i)=>{if(s&&s.getBoundingClientRect().top<140)cur=i});links.forEach((a,i)=>a.classList.toggle("on",i===cur))}
+  addEventListener("scroll",on,{passive:true});on();
+})();
+
+/* vänd korten */
+(function(){
+  let dir="t";try{dir=localStorage.getItem(KEY+"_dir")||"t"}catch(e){}
+  function apply(v){if(v===dir)return;CARDS.forEach(c=>{const q=c[2];c[2]=c[3];c[3]=q});dir=v;try{localStorage.setItem(KEY+"_dir",v)}catch(e){}}
+  const saved=dir;dir="t";apply(saved);
+  if(saved==="d")setTimeout(()=>{const cur=document.querySelector('#deckType button[aria-pressed="true"]');if(cur)cur.click()},0);
+  document.querySelectorAll("#deckDir button").forEach(b=>{b.setAttribute("aria-pressed",b.dataset.v===dir);b.onclick=()=>{apply(b.dataset.v);document.querySelectorAll("#deckDir button").forEach(o=>o.setAttribute("aria-pressed",o===b));const cur=document.querySelector('#deckType button[aria-pressed="true"]');if(cur)cur.click()}});
+})();
+})();
+</script>
+<script>document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a)return;var t=document.getElementById(a.getAttribute("href").slice(1));if(!t)return;e.preventDefault();t.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"})},true);</script></body></html>

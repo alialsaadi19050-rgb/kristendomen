@@ -1,0 +1,1163 @@
+<!doctype html><html lang="sv"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Växtcellen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+
+:root{
+  --bg:#F3F6F2; --paper:#FFFFFF; --ink:#18241B; --muted:#5B6B5F; --line:#D5DFD6;
+  --membrane:#D9A42B; --membrane-soft:#F6E7C1;
+  --protein:#3C6BD0; --protein-soft:#DCE6FA;
+  --mito:#C4473D; --mito-soft:#F6DCD8;
+  --good:#2E8A57; --good-soft:#DAF0E2; --bad:#B83A3A; --bad-soft:#F7DEDE;
+  --f-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body:"Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, Consolas, monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#10170F; --paper:#182219; --ink:#E5EEE6; --muted:#9AAE9E; --line:#2C3B2E;
+  --membrane:#E8B947; --membrane-soft:#3A3120;
+  --protein:#7FA3F0; --protein-soft:#1F2D48;
+  --mito:#EA7A6F; --mito-soft:#3F2522;
+  --good:#5CC28A; --good-soft:#1D3528; --bad:#EC7C7C; --bad-soft:#3F2323; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#10170F; --paper:#182219; --ink:#E5EEE6; --muted:#9AAE9E; --line:#2C3B2E;
+  --membrane:#E8B947; --membrane-soft:#3A3120;
+  --protein:#7FA3F0; --protein-soft:#1F2D48;
+  --mito:#EA7A6F; --mito-soft:#3F2522;
+  --good:#5CC28A; --good-soft:#1D3528; --bad:#EC7C7C; --bad-soft:#3F2323; color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6;padding-inline:16px}
+h1,h2,h3{font-family:var(--f-display);line-height:1.15;text-wrap:balance;margin:0}
+h2{font-size:clamp(1.6rem,3.5vw,2.2rem);font-weight:800;letter-spacing:-.01em}
+h3{font-size:1.2rem;font-weight:700;margin-top:1.6rem}
+p{margin:.6rem 0}
+.mono{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+b,strong{font-weight:700}
+.wrap{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:220px minmax(0,1fr);gap:40px;padding-block:28px 80px}
+@media (max-width:900px){.wrap{grid-template-columns:minmax(0,1fr);gap:16px}}
+
+/* rail */
+nav.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 20px);align-self:start;display:flex;flex-direction:column;gap:2px}
+nav.rail a{color:var(--muted);text-decoration:none;padding:6px 10px;border-radius:8px;font-size:.93rem;display:flex;gap:10px;align-items:baseline}
+nav.rail a span{font-family:var(--f-mono);font-size:.72rem;min-width:2.2em;opacity:.7}
+nav.rail a:hover,nav.rail a:focus-visible{background:var(--paper);color:var(--ink);outline:none}
+nav.rail a.on{color:var(--ink);background:var(--paper);font-weight:700}
+nav.rail .sep{height:1px;background:var(--line);margin:8px 10px}
+@media (max-width:900px){
+  nav.rail{top:env(safe-area-inset-top,0px);z-index:5;flex-direction:row;overflow-x:auto;background:var(--bg);padding-block:8px;margin-inline:-16px;padding-inline:16px;border-bottom:1px solid var(--line);scrollbar-width:none}
+  nav.rail a{white-space:nowrap;background:var(--paper);border:1px solid var(--line)}
+  nav.rail a span,nav.rail .sep{display:none}
+}
+
+/* hero */
+header.hero{padding-block:8px 8px}
+header.hero h1{font-size:clamp(2.4rem,6vw,4.2rem);font-weight:800;letter-spacing:-.025em}
+header.hero h1 em{font-style:normal;color:var(--good)}
+header.hero p.lead{font-size:1.15rem;max-width:62ch;color:var(--muted)}
+.howto{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.howto div{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-size:.92rem;flex:1 1 200px}
+.howto b{display:block;font-family:var(--f-display)}
+
+section.ch{padding-top:56px;scroll-margin-top:70px}
+section.ch>.head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;border-bottom:2px solid var(--ink);padding-bottom:10px;margin-bottom:16px}
+section.ch>.head .pg{margin-left:auto}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:start}
+@media (max-width:760px){.cols{grid-template-columns:minmax(0,1fr)}}
+.txt{max-width:66ch}
+
+/* key boxes */
+.key{background:var(--paper);border:1px solid var(--line);border-left:5px solid var(--protein);border-radius:6px 12px 12px 6px;padding:14px 18px;margin:16px 0}
+.key.m{border-left-color:var(--membrane)} .key.r{border-left-color:var(--mito)} .key.g{border-left-color:var(--good)}
+.key .mono{display:block;margin-bottom:4px}
+.key ul,.key ol{margin:.3rem 0;padding-left:1.2rem}
+.trick{background:var(--membrane-soft);border-radius:12px;padding:14px 18px;margin:16px 0}
+.trick .mono{color:var(--ink);opacity:.75}
+.trick p{margin:.3rem 0}
+.big{font-family:var(--f-display);font-weight:800;font-size:1.5rem;letter-spacing:.02em}
+.ex{color:var(--muted);font-style:italic}
+table.cmp{width:100%;border-collapse:collapse;font-size:.95rem;margin:12px 0}
+table.cmp th,table.cmp td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+table.cmp th{font-family:var(--f-display);background:var(--paper)}
+.tscroll{overflow-x:auto}
+figure{margin:12px 0;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:12px}
+figure svg{width:100%;height:auto;display:block}
+figcaption{font-size:.85rem;color:var(--muted);margin-top:6px}
+svg text{font-family:var(--f-body);fill:var(--ink)}
+
+/* segmented + meter */
+.seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:999px;overflow:hidden;margin:4px 0 10px}
+.seg button{border:0;background:transparent;color:var(--ink);font:inherit;font-size:.9rem;padding:6px 14px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.verdict{font-family:var(--f-display);font-weight:800;font-size:1.25rem}
+.verdict.g{color:var(--good)} .verdict.b{color:var(--bad)}
+
+/* explorers */
+.explore{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:18px}
+@media (max-width:760px){.explore{grid-template-columns:minmax(0,1fr)}}
+.org{cursor:pointer}
+.org:hover>*,.org:focus>*{filter:brightness(1.12)}
+.org:focus{outline:none}
+.org.sel>*{stroke:var(--ink)!important;stroke-width:3px}
+.org.sel>.hit{stroke:transparent!important}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px 18px;min-height:200px}
+.panel h3{margin-top:0}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chips button{font:inherit;font-size:.85rem;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:4px 11px;cursor:pointer}
+.chips button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chips button:focus-visible,.seg button:focus-visible,.btn:focus-visible,.route button:focus-visible,.opts button:focus-visible{outline:2px solid var(--protein);outline-offset:2px}
+
+/* journey / steppers */
+.journey{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.step{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px;font-size:.92rem;position:relative;transition:border-color .2s,background .2s}
+.step b{font-family:var(--f-display);display:block;margin-bottom:2px}
+.step .n{font-family:var(--f-mono);font-size:.72rem;color:var(--muted)}
+.step.on{border-color:var(--good);background:var(--good-soft)}
+.mn circle{fill:var(--paper);stroke:var(--line);stroke-width:2;transition:fill .25s,stroke .25s}
+.mn.on circle{fill:var(--good-soft);stroke:var(--good);stroke-width:3}
+.mn .num{font-family:var(--f-display);font-weight:800;font-size:22px}
+.hs{transition:opacity .25s}
+.hs.dim{opacity:.18}
+.btn{font:inherit;font-weight:700;border:0;border-radius:10px;padding:9px 16px;cursor:pointer;background:var(--ink);color:var(--bg)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:12px 0}
+
+/* who-is-it game */
+.route{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:6px}
+.route button{font:inherit;font-size:.9rem;text-align:left;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:8px 12px;cursor:pointer}
+.route button.right{background:var(--good-soft);border-color:var(--good)}
+.route button.wrong{background:var(--bad-soft);border-color:var(--bad)}
+.route button:disabled{cursor:default}
+.tree{list-style:none;padding:0;margin:8px 0;counter-reset:t}
+.tree li{counter-increment:t;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:8px 12px 8px 44px;margin:6px 0;position:relative;font-size:.94rem}
+.tree li::before{content:counter(t);position:absolute;left:12px;top:8px;font-family:var(--f-mono);font-size:.8rem;width:22px;height:22px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center}
+
+/* practice */
+.card3d{perspective:1200px;margin:10px 0}
+.flash{position:relative;height:240px;transform-style:preserve-3d;transition:transform .5s;cursor:pointer}
+.flash.flip{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;padding:22px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;border:1px solid var(--line);background:var(--paper)}
+.face.back{transform:rotateY(180deg);background:var(--good-soft)}
+.face .q{font-family:var(--f-display);font-size:1.35rem;font-weight:700}
+.face .a{font-size:1.02rem;max-width:52ch}
+.face .mono{position:absolute;top:12px;left:16px}
+.fcbar{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center}
+.quiz .qq{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:12px 0}
+.quiz .qq p.t{font-weight:700;margin-top:0}
+.opts{display:grid;gap:6px}
+.opts button{font:inherit;text-align:left;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:8px 12px;cursor:pointer}
+.opts button.right{background:var(--good-soft);border-color:var(--good)}
+.opts button.wrong{background:var(--bad-soft);border-color:var(--bad)}
+.opts button:disabled{cursor:default}
+.why{font-size:.92rem;color:var(--muted);margin-top:8px}
+.score{font-family:var(--f-display);font-size:1.3rem;font-weight:800}
+.cheat{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+.cheat div{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:.92rem}
+.cheat b{font-family:var(--f-display);font-size:1.02rem;display:block}
+.cheat i{font-style:normal;color:var(--muted)}
+.gl-search{width:100%;font:inherit;font-size:1rem;padding:10px 14px;border-radius:10px;border:1px solid var(--line);background:var(--paper);color:var(--ink)}
+dl.gl{margin:10px 0;display:grid;gap:6px}
+dl.gl>div{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:8px 14px}
+dl.gl dt{font-family:var(--f-display);font-weight:700}
+dl.gl dt span{font-family:var(--f-mono);font-size:.7rem;color:var(--muted);font-weight:500;margin-left:8px}
+dl.gl dd{margin:2px 0 0;font-size:.94rem}
+footer{color:var(--muted);font-size:.85rem;margin-top:60px}
+</style>
+<style id="fx-css">
+/* ===== Läsbarhet + animationer (tillagt) ===== */
+:root{
+  --muted:#4A5966;
+  --good-btn:#24724A; --mito-btn:#B23E35; --btn-ink:#FFFFFF;
+  --ease-out:cubic-bezier(.22,1,.36,1);
+  --ease-in:cubic-bezier(.55,0,1,.45);
+  --ease-spring:cubic-bezier(.34,1.4,.55,1);
+  --sh-1:0 1px 2px rgb(16 34 43/.06),0 2px 6px rgb(16 34 43/.05);
+  --sh-2:0 2px 4px rgb(16 34 43/.05),0 10px 28px rgb(16 34 43/.10);
+  --sh-3:0 4px 10px rgb(16 34 43/.08),0 22px 48px rgb(16 34 43/.16);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --muted:#AAB9C4; --good-btn:#5CC28A; --mito-btn:#EA7A6F; --btn-ink:#0E171C;
+  --sh-1:0 1px 2px rgb(0 0 0/.3); --sh-2:0 2px 6px rgb(0 0 0/.3),0 12px 30px rgb(0 0 0/.35); --sh-3:0 6px 14px rgb(0 0 0/.35),0 24px 50px rgb(0 0 0/.45)}}
+:root[data-theme="dark"]{
+  --muted:#AAB9C4; --good-btn:#5CC28A; --mito-btn:#EA7A6F; --btn-ink:#0E171C;
+  --sh-1:0 1px 2px rgb(0 0 0/.3); --sh-2:0 2px 6px rgb(0 0 0/.3),0 12px 30px rgb(0 0 0/.35); --sh-3:0 6px 14px rgb(0 0 0/.35),0 24px 50px rgb(0 0 0/.45)}
+
+/* --- läsbarhet --- */
+body{font-size:17.5px;line-height:1.7;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;font-kerning:normal}
+@media (min-width:900px){body{font-size:18px}}
+p,li,dd,td,figcaption,.why{text-wrap:pretty}
+p{margin:.8rem 0}
+li{margin:.3rem 0}
+h2{letter-spacing:-.015em}
+h3{margin-top:2rem;margin-bottom:.25rem}
+.txt p,.txt li,.txt ul,.txt ol{max-width:68ch}
+.mono{font-size:.8rem;letter-spacing:.05em}
+.step,.cheat div,.howto div,.tree li,.ends div{font-size:.98rem;line-height:1.55}
+figcaption{font-size:.93rem;line-height:1.5}
+.why{font-size:1rem;line-height:1.6}
+.key,.trick{line-height:1.65}
+table.cmp{font-size:.98rem} table.cmp td,table.cmp th{line-height:1.5;padding:10px 12px}
+nav.rail a{font-size:.96rem;line-height:1.4}
+.step,.cheat div,.face,td,dd,.tree li,.opts button{hyphens:auto;-webkit-hyphens:auto;overflow-wrap:break-word}
+::selection{background:var(--protein-soft);color:var(--ink)}
+a{text-underline-offset:.18em}
+
+.btn{min-height:44px;padding:10px 18px;line-height:1.2}
+.seg button{min-height:40px;padding:8px 16px}
+.opts{gap:8px}
+.opts button{padding:12px 15px;line-height:1.45;min-height:48px}
+.quiz .qq p.t,.qq p.t{font-size:1.06rem;line-height:1.5}
+#fcKnow{background:var(--good-btn)!important;color:var(--btn-ink)!important}
+#fcAgain{background:var(--mito-btn)!important;color:var(--btn-ink)!important}
+
+/* --- flashcards: kortet växer med texten --- */
+.card3d{perspective:1400px;margin:14px 0 8px;border-radius:18px}
+.flash{display:grid!important;height:auto!important;min-height:250px;transition:transform .75s var(--ease-spring)!important;-webkit-tap-highlight-color:transparent}
+.face{position:relative!important;inset:auto!important;grid-area:1/1;padding:54px 28px 32px!important;border-radius:18px!important;box-shadow:var(--sh-2);overflow:visible!important;-webkit-backface-visibility:hidden;backface-visibility:hidden;transition:box-shadow .3s var(--ease-out)}
+.flash:hover .face{box-shadow:var(--sh-3)}
+.flash:focus-visible{outline:none}
+.flash:focus-visible .face{box-shadow:0 0 0 3px var(--protein),var(--sh-3)}
+.face .q{font-size:clamp(1.25rem,2.6vw,1.6rem)!important;line-height:1.3;max-width:34ch;letter-spacing:-.005em}
+.face .a{font-size:1.16rem!important;line-height:1.6;max-width:52ch}
+.face>.mono,.face .mono{top:16px!important;left:20px!important}
+.face .st{top:13px!important;right:16px!important}
+.fc-hint{margin-top:2px}
+
+.fcprog{height:6px;border-radius:99px;background:var(--line);overflow:hidden;margin:2px 0 4px}
+.fcprog i{display:block;height:100%;width:0;border-radius:inherit;background:linear-gradient(90deg,var(--protein),var(--good));transition:width .6s var(--ease-out)}
+
+.fc-restart{position:relative;display:inline-block}
+.fc-menu{position:absolute;z-index:30;top:calc(100% + 8px);left:0;width:min(330px,calc(100vw - 32px));background:var(--paper);border:1px solid var(--line);border-radius:14px;box-shadow:var(--sh-3);padding:6px;display:grid;gap:2px;transform-origin:top left;animation:fxMenu .24s var(--ease-out)}
+.fc-menu button{font:inherit;text-align:left;background:none;border:0;border-radius:10px;padding:10px 12px;color:var(--ink);cursor:pointer;display:grid;gap:2px;transition:background-color .15s}
+.fc-menu button:hover,.fc-menu button:focus-visible{background:var(--bg);outline:none}
+.fc-menu b{font-family:var(--f-display);font-size:1.02rem}
+.fc-menu span{font-size:.9rem;color:var(--muted);line-height:1.4}
+.fc-menu .danger b{color:var(--bad)}
+@keyframes fxMenu{from{opacity:0;transform:translateY(-6px) scale(.96)}}
+
+.fc-done{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0;padding:14px 16px;border-radius:14px;background:var(--good-soft);border:1px solid color-mix(in srgb,var(--good) 35%,transparent);animation:fxPop .55s var(--ease-spring)}
+.fc-done p{margin:0 auto 0 0;font-weight:700}
+@keyframes fxPop{from{opacity:0;transform:translateY(10px) scale(.96)}}
+
+/* --- mjukare interaktioner --- */
+.btn,.seg button,.chips button,.opts button,.tabs button,nav.rail a,.route button{transition:background-color .22s var(--ease-out),color .22s var(--ease-out),border-color .22s var(--ease-out),box-shadow .25s var(--ease-out),transform .2s var(--ease-out)}
+.btn:hover{box-shadow:var(--sh-1);transform:translateY(-1px)}
+.btn:active,.seg button:active,.chips button:active,.tabs button:active{transform:scale(.96);transition-duration:.07s}
+.opts button:not(:disabled):hover{border-color:var(--ink);transform:translateX(3px)}
+.opts button:not(:disabled):active{transform:scale(.985)}
+.meter i,.stat .bar i{transition:width .8s var(--ease-out)!important}
+.step{transition:border-color .3s var(--ease-out),background-color .3s var(--ease-out),box-shadow .3s var(--ease-out),transform .3s var(--ease-out)!important}
+.step.on{box-shadow:var(--sh-2);transform:translateY(-2px)}
+.org>*{transition:filter .25s var(--ease-out),stroke-width .2s}
+figure{transition:box-shadow .3s var(--ease-out)}
+.panel{transition:border-color .3s}
+
+/* rubrikens linje ritas fram */
+section.ch>.head{position:relative;border-bottom-color:transparent!important}
+section.ch>.head::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;background:var(--ink);transform-origin:left center}
+
+/* avslöjande vid scroll (bara när JS kör) */
+html.fx-on .rv{opacity:0;transform:translateY(22px);transition:opacity .8s var(--ease-out),transform .8s var(--ease-out)!important;transition-delay:var(--d,0s)!important}
+html.fx-on .rv.in{opacity:1;transform:none}
+html.fx-on section.ch>.head.rv{transform:translateY(12px)}
+html.fx-on section.ch>.head.rv::after{transform:scaleX(0);transition:transform 1.1s var(--ease-out) calc(var(--d,0s) + .15s)}
+html.fx-on section.ch>.head.rv.in{transform:none}
+html.fx-on section.ch>.head.rv.in::after{transform:scaleX(1)}
+
+.fx-confetti{position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden}
+.fx-confetti i{position:absolute;width:9px;height:14px;border-radius:2px}
+
+@media (prefers-reduced-motion: reduce){html.fx-on .rv{opacity:1;transform:none}.flash,.step,.meter i,.stat .bar i{transition:none!important}.fc-menu,.fc-done{animation:none}}
+@media (max-width:600px){.fc-menu{position:fixed;left:16px;right:16px;top:auto;bottom:calc(16px + env(safe-area-inset-bottom,0px));width:auto;transform-origin:bottom center;padding:8px}.fc-menu button{padding:14px}}
+</style>
+<script id="fx-js">
+(function(){
+  var reduce=false;try{reduce=matchMedia("(prefers-reduced-motion: reduce)").matches}catch(e){}
+  var canAnim=!reduce&&typeof Element!=="undefined"&&!!Element.prototype.animate;
+  if(canAnim&&"IntersectionObserver" in window)document.documentElement.classList.add("fx-on");
+  var EO="cubic-bezier(.22,1,.36,1)",EI="cubic-bezier(.55,0,1,.45)",SPR="cubic-bezier(.34,1.4,.55,1)";
+  function css(v){try{return getComputedStyle(document.documentElement).getPropertyValue(v).trim()}catch(e){return ""}}
+
+  /* ---------- flashcard-byte ---------- */
+  var busy=null;
+  var OUT={next:"translateX(-70px) rotate(-5deg)",prev:"translateX(70px) rotate(5deg)",know:"translate(90px,-14px) rotate(8deg)",again:"translate(-90px,10px) rotate(-8deg)",restart:"translateY(26px) scale(.86)",shuffle:"scale(.9) rotate(-3deg)",mode:"translateY(10px) scale(.96)"};
+  var IN={next:"translateX(70px) rotate(4deg)",prev:"translateX(-70px) rotate(-4deg)",know:"translateX(70px) rotate(4deg)",again:"translateX(70px) rotate(4deg)",restart:"translateY(-30px) scale(.9)",shuffle:"scale(.9) rotate(3deg)",mode:"translateY(10px) scale(.96)"};
+  function resetFlip(flash){flash.style.transition="none";flash.classList.remove("flip");void flash.offsetWidth;flash.style.transition=""}
+  function swap(flash,dir,update){
+    var box=flash.parentElement;
+    if(!canAnim){update();return}
+    if(busy){busy.cancel();busy=null}
+    var glow=dir==="know"?css("--good"):dir==="again"?css("--mito-btn"):"";
+    var k0={transform:"none",opacity:1},k1={transform:OUT[dir]||OUT.next,opacity:0};
+    if(glow){k0.boxShadow="0 0 0 0 transparent";k1.boxShadow="0 0 0 6px "+glow}
+    var a=box.animate([k0,k1],{duration:dir==="restart"?240:190,easing:EI});
+    busy=a;
+    var done=false;
+    function fin(){if(done)return;done=true;busy=null;resetFlip(flash);update();
+      box.animate([{transform:IN[dir]||IN.next,opacity:0},{transform:"none",opacity:1}],{duration:dir==="restart"?620:460,easing:SPR})}
+    a.onfinish=fin;a.oncancel=fin;
+  }
+
+  /* ---------- konfetti ---------- */
+  function confetti(el){
+    if(!canAnim||!el)return;
+    var r=el.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
+    var layer=document.createElement("div");layer.className="fx-confetti";document.body.appendChild(layer);
+    var cols=["--membrane","--protein","--good","--mito"].map(css).filter(Boolean);if(!cols.length)cols=["#D9A42B","#3C6BD0","#2E8A57"];
+    for(var i=0;i<36;i++){
+      var p=document.createElement("i");p.style.left=cx+"px";p.style.top=cy+"px";p.style.background=cols[i%cols.length];
+      if(i%3===0){p.style.borderRadius="50%";p.style.width=p.style.height="9px"}
+      layer.appendChild(p);
+      var ang=Math.random()*Math.PI*2,sp=120+Math.random()*220,dx=Math.cos(ang)*sp,dy=Math.sin(ang)*sp-140,rot=(Math.random()*720-360);
+      p.animate([{transform:"translate(-50%,-50%) rotate(0)",opacity:1},{transform:"translate(calc(-50% + "+dx*.7+"px),calc(-50% + "+dy*.7+"px)) rotate("+rot*.6+"deg)",opacity:1,offset:.45},{transform:"translate(calc(-50% + "+dx+"px),calc(-50% + "+(dy+260)+"px)) rotate("+rot+"deg)",opacity:0}],{duration:1300+Math.random()*700,easing:"cubic-bezier(.2,.7,.4,1)",fill:"forwards"});
+    }
+    setTimeout(function(){layer.remove()},2300);
+  }
+
+  /* ---------- meny (Börja om) ---------- */
+  function menu(btn,box,choose){
+    function close(focus){box.hidden=true;btn.setAttribute("aria-expanded","false");if(focus)btn.focus()}
+    function open(){box.hidden=false;btn.setAttribute("aria-expanded","true");var f=box.querySelector("button");if(f)f.focus()}
+    btn.addEventListener("click",function(e){e.stopPropagation();box.hidden?open():close()});
+    box.addEventListener("click",function(e){var b=e.target.closest("button[data-r]");if(!b)return;close(false);choose(b.dataset.r)});
+    document.addEventListener("click",function(e){if(!box.hidden&&!box.contains(e.target)&&e.target!==btn)close(false)});
+    box.addEventListener("keydown",function(e){
+      var bs=[].slice.call(box.querySelectorAll("button")),i=bs.indexOf(document.activeElement);
+      if(e.key==="Escape"){e.preventDefault();close(true)}
+      else if(e.key==="ArrowDown"){e.preventDefault();bs[(i+1)%bs.length].focus()}
+      else if(e.key==="ArrowUp"){e.preventDefault();bs[(i-1+bs.length)%bs.length].focus()}
+    });
+  }
+
+  function prog(v){var i=document.querySelector("#fcProg i");if(i)i.style.width=Math.max(0,Math.min(1,v))*100+"%"}
+  var wasDone=false,t0=Date.now();
+  function finish(on,text){
+    var row=document.getElementById("fcDone");if(!row)return;
+    if(text){var p=row.querySelector("p");if(p)p.textContent=text}
+    row.hidden=!on;
+    if(on&&!wasDone&&Date.now()-t0>1200)confetti(document.getElementById("flash"));
+    wasDone=on;
+  }
+  function pulse(el){if(canAnim&&el)el.animate([{transform:"scale(1)"},{transform:"scale(1.08)"},{transform:"scale(1)"}],{duration:420,easing:SPR})}
+
+  window.FX={swap:swap,confetti:confetti,menu:menu,prog:prog,finish:finish,pulse:pulse,reduce:!canAnim};
+
+  /* ---------- efter laddning ---------- */
+  function ready(){
+    if(!canAnim)return;
+    /* avslöjande vid scroll */
+    if("IntersectionObserver" in window){
+      var SEL="section.ch>.head,header.hero>*,.howto>div,.stats>*,figure,.key,.trick,.cheat>div,.journey>.step,.ends>div,.panel,.qq,.lab,table.cmp,.tree>li,.card3d,.fcbar,dl.gl>div,.kan";
+      var els=[].slice.call(document.querySelectorAll(SEL)).filter(function(el){var p=el.parentElement;while(p){if(p.classList&&p.classList.contains("rv"))return false;p=p.parentElement}el.classList.add("rv");return true});
+      var io=new IntersectionObserver(function(ents){
+        var batch=ents.filter(function(e){return e.isIntersecting}).map(function(e){return e.target});
+        batch.sort(function(a,b){var r1=a.getBoundingClientRect(),r2=b.getBoundingClientRect();return (r1.top-r2.top)||(r1.left-r2.left)});
+        batch.forEach(function(el,i){io.unobserve(el);el.style.setProperty("--d",Math.min(i*.07,.42)+"s");el.classList.add("in");
+          setTimeout(function(){el.classList.remove("rv","in");el.style.removeProperty("--d")},1500+i*70)});
+      },{rootMargin:"0px 0px -8% 0px",threshold:.08});
+      els.forEach(function(el){io.observe(el)});
+    }
+    /* feedback på svar, steg och poäng */
+    var mo=new MutationObserver(function(ms){ms.forEach(function(m){
+      var t=m.target;
+      if(m.type==="attributes"){
+        var old=m.oldValue||"",had=function(c){return (" "+old+" ").indexOf(" "+c+" ")>-1};
+        if(t.classList.contains("right")&&!had("right")){t.animate([{transform:"scale(1)",boxShadow:"0 0 0 0 transparent"},{transform:"scale(1.03)",boxShadow:"0 0 0 5px "+css("--good-soft")},{transform:"scale(1)",boxShadow:"0 0 0 0 transparent"}],{duration:520,easing:EO})}
+        else if(t.classList.contains("wrong")&&!had("wrong")){t.animate([{transform:"translateX(0)"},{transform:"translateX(-8px)"},{transform:"translateX(7px)"},{transform:"translateX(-5px)"},{transform:"translateX(3px)"},{transform:"translateX(0)"}],{duration:460,easing:"ease-out"})}
+        else if(t.classList.contains("step")&&t.classList.contains("on")&&!had("on")){t.animate([{transform:"translateY(0) scale(.97)"},{transform:"translateY(-2px) scale(1)"}],{duration:480,easing:SPR})}
+      }else if(m.type==="childList"){
+        var live=t.closest&&t.closest("[aria-live],.panel");
+        if(live&&!live.closest(".stats")&&!live._fxT){live._fxT=1;requestAnimationFrame(function(){live._fxT=0;live.animate([{opacity:0,transform:"translateY(8px)"},{opacity:1,transform:"none"}],{duration:420,easing:EO})})}
+        if(t.classList&&t.classList.contains("score"))pulse(t);
+      }
+    })});
+    mo.observe(document.body,{subtree:true,attributes:true,attributeFilter:["class"],attributeOldValue:true,childList:true});
+  }
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",ready);else ready();
+})();
+</script>
+<style id="page-css">
+:root{--leaf:#4C8A2C;--leaf-soft:#DCEDCF}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--leaf:#8BC56A;--leaf-soft:#22351A}}
+:root[data-theme="dark"]{--leaf:#8BC56A;--leaf-soft:#22351A}
+header.hero h1 em{color:var(--leaf)}
+.org.sel text{stroke:none!important}
+.org:focus-visible>*{outline:none}
+#cellSvg .org{transition:opacity .5s var(--ease-out)}
+#cellSvg.animal .org.pl{opacity:.12}
+#cellSvg.animal .org[data-id="vagg"],#cellSvg.animal .org[data-id="plasmo"]{opacity:0;pointer-events:none}
+#cellSvg:not(.animal) .org.an{opacity:0;pointer-events:none}
+.cheat .sw{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:8px;vertical-align:0}
+#tStem{transition:d .6s var(--ease-out)}
+@media (prefers-reduced-motion: reduce){#cellSvg .org{transition:none}}
+[hidden]{display:none!important}
+</style>
+</head><body>
+
+<div class="wrap">
+<nav class="rail" id="rail" aria-label="Kapitel">
+  <a href="#start"><span>s.244</span>Start</a>
+  <a href="#vaxten"><span>244</span>Växtens behov</a>
+  <a href="#grupper"><span>244</span>Mossor till fröväxter</a>
+  <a href="#cell"><span>244–245</span>Växtcellens karta</a>
+  <a href="#vagg"><span>244–245</span>Cellväggen</a>
+  <a href="#vakuol"><span>245–246</span>Vakuolen &amp; turgor</a>
+  <a href="#kloro"><span>246–247</span>Kloroplasten</a>
+  <a href="#ljus"><span>247</span>Varför är växter gröna?</a>
+  <a href="#plastider"><span>247</span>Plastider</a>
+  <i class="sep"></i>
+  <a href="#vem"><span>▶</span>Växt, djur eller båda?</a>
+  <a href="#fusk"><span>▶</span>Snabböversikt</a>
+  <a href="#ord"><span>▶</span>Ordlista</a>
+  <a href="#kort"><span>▶</span>Flashcards</a>
+  <a href="#quiz"><span>▶</span>Quiz</a>
+</nav>
+
+<main>
+<header class="hero" id="start">
+  <div class="mono">Biologi · Kapitel 7 Hur växter och svampar fungerar · sidorna 244–247</div>
+  <h1>Växt<em>cellen</em></h1>
+  <p class="lead">Allt från dina fyra boksidor, samlat på ett ställe. Du börjar med vad en växt behöver och hur växterna har erövrat land, och sedan går du in i växtcellen: cellväggen, den stora vakuolen och kloroplasten. Sist finns ett sorteringsspel, flashcards och ett quiz.</p>
+  <div class="howto">
+    <div><b>1. Läs ett kapitel</b>Gula rutor är minnesknep. Rutor med kant är det viktigaste att kunna.</div>
+    <div><b>2. Klicka i bilderna</b>Klicka på delarna i växtcellen, byt till djurcell, ge cellen vatten och skicka ljus mot ett blad.</div>
+    <div><b>3. Testa dig</b>Kör "Växt, djur eller båda?", gör flashcards tills allt sitter och kör sedan quizet.</div>
+  </div>
+  <div class="trick" style="margin-top:18px">
+    <span class="mono">Minnesknep för hela avsnittet: "VVK in, LC ut"</span>
+    <p>Växtcellen är byggd som en djurcell, men har tre saker <b>extra</b>: <b>V</b>äggen (cellvägg av cellulosa), den stora <b>V</b>akuolen och <b>K</b>loroplasterna. Den <b>saknar</b> två saker som djurcellen har: <b>L</b>ysosomer och <b>C</b>entrioler. (Vakuolen tar över lysosomernas jobb.)</p>
+  </div>
+</header>
+
+<!-- ============ VÄXTEN ============ -->
+<section class="ch" id="vaxten">
+  <div class="head"><h2>Växten</h2><span class="mono">fotoautotrof men med samma behov som ett djur</span><span class="mono pg">s. 244</span></div>
+  <div class="cols">
+    <div class="txt">
+      <p>En växt skiljer sig från ett djur genom att den är <b>fotoautotrof</b>: den kan skapa organiska föreningar med hjälp av <b>solljus och koldioxid</b>.</p>
+      <p>Men den har ändå <b>samma grundläggande behov som ett djur</b> för att överleva som flercellig organism. Precis som hos djur har olika anpassningar utvecklats genom det <b>naturliga urvalet</b> för att klara uppgifterna. Liksom djur byggs växter upp av <b>celler med olika specialiseringar</b>, som bildar olika typer av <b>vävnader</b>.</p>
+    </div>
+    <div class="key g">
+      <span class="mono">Det här måste en växt klara</span>
+      <ul>
+        <li>Få <b>energirika organiska molekyler</b>, som den bildar själv genom <b>fotosyntes</b>.</li>
+        <li>Ta upp <b>vatten, koldioxid och solljus</b>.</li>
+        <li>Ta upp <b>kväve, fosfor och andra mineraler</b>. De kallas tillsammans <b>närsalter</b>.</li>
+        <li><b>Lagra energi</b>, <b>transportera ämnen</b> och <b>fortplanta sig</b>.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GRUPPER ============ -->
+<section class="ch" id="grupper">
+  <div class="head"><h2>Från vatten till land</h2><span class="mono">mossor, kärlväxter, fröväxter</span><span class="mono pg">s. 244</span></div>
+  <p class="txt">Alla växter <b>härstammar från vattenlevande grönalger</b> och har anpassningar som gör att de kan leva på land. Följ trappan:</p>
+  <div class="journey" id="landJourney"></div>
+  <div class="row"><button class="btn" id="landNext" type="button">Nästa steg</button><button class="btn ghost" id="landReset" type="button">Börja om</button><span class="mono" id="landCount"></span></div>
+  <div class="tscroll">
+  <table class="cmp">
+    <tr><th></th><th>Mossor</th><th>Ormbunkar &amp; lummer</th><th>Nakenfröiga</th><th>Gömfröiga</th></tr>
+    <tr><td><b>Rötter</b></td><td>Nej, bara <b>rhizoider</b></td><td>Ja</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><b>Ledningsvävnad</b></td><td>Nej</td><td>Ja</td><td>Ja</td><td>Ja</td></tr>
+    <tr><td><b>Tar upp vatten</b></td><td>via bladen (regn)</td><td>ur marken</td><td>ur marken</td><td>ur marken</td></tr>
+    <tr><td><b>Förökar sig med</b></td><td>sporer</td><td>sporer</td><td>frön</td><td>frön</td></tr>
+    <tr><td><b>Exempel</b></td><td>bladmossa</td><td>ormbunke, lummer</td><td>barrträd</td><td>blommande växter</td></tr>
+  </table>
+  </div>
+  <div class="cols">
+    <div class="key">
+      <span class="mono">Rhizoider ≠ rötter</span>
+      <p>Mossor har <b>rhizoider</b>. De ser ut som rötter men har bara en <b>förankrande funktion</b> och <b>kan inte suga upp vatten och närsalter</b>.</p>
+    </div>
+    <div class="trick">
+      <span class="mono">Minnesknep: "Mossa = Minst"</span>
+      <p>Mossor är de <b>enklast uppbyggda</b> växterna: inga rötter, ingen ledningsvävnad. <b>Kärl</b>växter har <b>kärl</b> (ledningsvävnad) och rötter, och klarar därför <b>torka</b> bättre.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CELLKARTA ============ -->
+<section class="ch" id="cell">
+  <div class="head"><h2>Växtcellens uppbyggnad</h2><span class="mono">klicka på delarna</span><span class="mono pg">s. 244–245</span></div>
+  <p class="txt">En växtcell är i stort sett uppbyggd som en djurcell, men har en <b>cellvägg</b>, en <b>stor vakuol</b> och <b>kloroplaster</b>, och <b>saknar lysosomer och centrioler</b>. Bokens fråga: <i>Hur skiljer sig denna växtcell från en djurcell?</i> Byt vy och se själv.</p>
+  <div class="seg" id="segCell"><button type="button" data-v="v" aria-pressed="true">Växtcell</button><button type="button" data-v="d" aria-pressed="false">Djurcell</button></div>
+  <div class="explore">
+    <figure>
+      <svg viewBox="0 0 560 420" id="cellSvg" role="img" aria-label="Växtcell med klickbara organeller">
+        <g class="org pl" data-id="vagg">
+          <path d="M60 70 Q70 30 140 34 L430 26 Q510 26 520 90 L534 320 Q536 392 460 394 L120 400 Q40 400 36 330 Z" stroke-width="22" style="fill:none;stroke:var(--leaf-soft)"/>
+          <path d="M60 70 Q70 30 140 34 L430 26 Q510 26 520 90 L534 320 Q536 392 460 394 L120 400 Q40 400 36 330 Z" stroke-width="1.5" style="fill:none;stroke:var(--leaf)"/>
+        </g>
+        <g class="org" data-id="plasmo">
+          <rect x="268" y="16" width="10" height="24" rx="3" style="fill:var(--bg);stroke:var(--leaf)" stroke-width="1.5"/>
+          <rect x="522" y="200" width="24" height="10" rx="3" style="fill:var(--bg);stroke:var(--leaf)" stroke-width="1.5"/>
+          <rect x="26" y="200" width="22" height="10" rx="3" style="fill:var(--bg);stroke:var(--leaf)" stroke-width="1.5"/>
+        </g>
+        <path d="M74 78 Q82 48 144 50 L428 42 Q500 42 506 96 L518 318 Q518 376 458 378 L124 384 Q54 384 52 326 Z" style="fill:var(--paper)"/>
+        <g class="org" data-id="cyto">
+          <path d="M74 78 Q82 48 144 50 L428 42 Q500 42 506 96 L518 318 Q518 376 458 378 L124 384 Q54 384 52 326 Z" style="fill:var(--protein-soft);opacity:.45"/>
+        </g>
+        <g class="org" data-id="membran">
+          <path class="hit" d="M74 78 Q82 48 144 50 L428 42 Q500 42 506 96 L518 318 Q518 376 458 378 L124 384 Q54 384 52 326 Z" stroke-width="16" style="fill:none;stroke:transparent"/>
+          <path d="M74 78 Q82 48 144 50 L428 42 Q500 42 506 96 L518 318 Q518 376 458 378 L124 384 Q54 384 52 326 Z" stroke-width="5" style="fill:none;stroke:var(--membrane)"/>
+        </g>
+        <g class="org pl" data-id="vakuol">
+          <path d="M110 90 Q130 64 230 70 L380 72 Q440 76 430 130 Q420 180 360 190 Q300 196 300 236 Q296 268 240 262 L150 256 Q100 250 98 200 Z" stroke-width="2" style="fill:var(--protein-soft);stroke:var(--protein)"/>
+        </g>
+        <g class="org an" data-id="lyso">
+          <circle cx="250" cy="150" r="13" stroke-width="2" style="fill:var(--mito-soft);stroke:var(--mito)"/>
+          <circle cx="322" cy="120" r="10" stroke-width="2" style="fill:var(--mito-soft);stroke:var(--mito)"/>
+          <circle cx="170" cy="200" r="11" stroke-width="2" style="fill:var(--mito-soft);stroke:var(--mito)"/>
+        </g>
+        <g class="org an" data-id="centr">
+          <rect x="300" y="226" width="34" height="12" rx="3" style="fill:var(--ink)"/>
+          <rect x="332" y="210" width="12" height="34" rx="3" style="fill:var(--ink)"/>
+        </g>
+        <g class="org" data-id="karna">
+          <circle cx="400" cy="290" r="62" stroke-width="5" stroke-dasharray="14 4" style="fill:var(--membrane-soft);stroke:var(--protein)"/>
+          <path d="M360 280 q10 -18 22 -2 t22 -4 t20 6 M368 304 q12 14 24 0 t24 4 M380 260 q8 10 18 0 t16 8" fill="none" stroke-width="3" style="stroke:var(--mito)"/>
+        </g>
+        <g class="org" data-id="er">
+          <path d="M318 248 Q300 290 322 336 M306 236 Q284 290 306 350 M332 360 Q400 384 456 360 M346 222 Q400 202 456 224" fill="none" stroke-width="5" stroke-linecap="round" style="stroke:var(--protein)"/>
+          <g style="fill:var(--ink)"><circle cx="300" cy="270" r="2.4"/><circle cx="296" cy="296" r="2.4"/><circle cx="300" cy="324" r="2.4"/><circle cx="370" cy="378" r="2.4"/><circle cx="410" cy="380" r="2.4"/><circle cx="380" cy="208" r="2.4"/><circle cx="420" cy="206" r="2.4"/></g>
+        </g>
+        <g class="org" data-id="golgi">
+          <path d="M196 300 q40 -22 80 0 M200 314 q36 -18 72 0 M204 328 q32 -14 64 0 M210 342 q26 -10 52 0" fill="none" stroke-width="6" stroke-linecap="round" style="stroke:var(--membrane)"/>
+        </g>
+        <g class="org" data-id="mito">
+          <ellipse cx="140" cy="300" rx="34" ry="18" stroke-width="3" style="fill:var(--mito-soft);stroke:var(--mito)"/>
+          <path d="M116 300 l6 -10 l6 20 l6 -20 l6 20 l6 -20 l6 20 l6 -10" fill="none" stroke-width="2" style="stroke:var(--mito)"/>
+          <ellipse cx="470" cy="150" rx="18" ry="30" stroke-width="3" style="fill:var(--mito-soft);stroke:var(--mito)"/>
+          <path d="M470 126 l-10 6 l20 6 l-20 6 l20 6 l-20 6 l20 6 l-10 6" fill="none" stroke-width="2" style="stroke:var(--mito)"/>
+        </g>
+        <g class="org pl" data-id="kloro">
+          <ellipse cx="88" cy="160" rx="22" ry="36" stroke-width="3" style="fill:var(--leaf-soft);stroke:var(--leaf)"/>
+          <path d="M78 140 h20 M76 152 h24 M76 164 h24 M78 176 h20" stroke-width="5" stroke-linecap="round" style="stroke:var(--leaf)"/>
+          <ellipse cx="470" cy="80" rx="30" ry="18" stroke-width="3" style="fill:var(--leaf-soft);stroke:var(--leaf)"/>
+          <path d="M454 74 v12 M466 72 v16 M478 72 v16 M490 74 v12" stroke-width="5" stroke-linecap="round" style="stroke:var(--leaf)"/>
+          <ellipse cx="160" cy="360" rx="30" ry="16" stroke-width="3" style="fill:var(--leaf-soft);stroke:var(--leaf)"/>
+          <path d="M144 354 v12 M156 352 v16 M168 352 v16 M180 354 v12" stroke-width="5" stroke-linecap="round" style="stroke:var(--leaf)"/>
+        </g>
+        <g class="org" data-id="ribo" style="fill:var(--ink)">
+          <circle cx="440" cy="200" r="3"/><circle cx="452" cy="212" r="3"/><circle cx="430" cy="214" r="3"/><circle cx="80" cy="240" r="3"/><circle cx="92" cy="254" r="3"/><circle cx="70" cy="262" r="3"/><circle cx="240" cy="380" r="3"/><circle cx="256" cy="372" r="3"/><circle cx="470" cy="250" r="3"/><circle cx="484" cy="262" r="3"/><circle cx="200" cy="56" r="3"/><circle cx="214" cy="60" r="3"/>
+        </g>
+      </svg>
+      <figcaption>Efter bokens figur på s. 245. <span id="cellCap">Grönt = bara i växtceller.</span></figcaption>
+    </figure>
+    <div>
+      <div class="panel" id="cellPanel" aria-live="polite"></div>
+      <div class="chips" id="cellChips"></div>
+    </div>
+  </div>
+  <div class="tscroll">
+  <table class="cmp">
+    <tr><th>Bara i växtcellen</th><th>Bara i djurcellen</th><th>I båda</th></tr>
+    <tr><td><b>Cellvägg</b> (cellulosa)<br><b>Stor vakuol</b> (upp till 90 %)<br><b>Kloroplaster</b> (och andra plastider)<br>Plasmodesmata</td><td><b>Lysosomer</b><br><b>Centrioler</b></td><td>Cellmembran, cytoplasma, kärna med kärnmembran och DNA, ER (med och utan ribosomer), ribosomer, golgiapparat, mitokondrier</td></tr>
+  </table>
+  </div>
+</section>
+
+<!-- ============ CELLVÄGG ============ -->
+<section class="ch" id="vagg">
+  <div class="head"><h2>Cellväggen</h2><span class="mono">extracellulär matrix av cellulosa</span><span class="mono pg">s. 244–245</span></div>
+  <div class="cols">
+    <div class="txt">
+      <p>Växtcellen har en <b>extracellulär matrix</b> i form av en <b>cellvägg av cellulosa</b>. Den ger cellen dess <b>form</b> och <b>skyddar</b> den.</p>
+      <p>Cellväggarna hänger ihop och bildar ett <b>nätverk med "hål" för var och en av växtens celler</b>. Det ger växten <b>stadga</b> så att den kan stå upprätt.</p>
+      <p>Cellväggen hindrar också cellen från att <b>spricka</b> när den tar upp vatten. En växtcell i en <b>hypoton lösning</b> (t.ex. destillerat vatten) spricker inte, till skillnad från en djurcell.</p>
+    </div>
+    <div class="key g">
+      <span class="mono">Uppbyggnad</span>
+      <ol>
+        <li><b>Cellulosafibriller</b> bildar tillsammans tjockare <b>fibrer</b>.</li>
+        <li>Fibrerna är <b>inbäddade i en matrix</b> av andra <b>polysackarider och proteiner</b>.</li>
+        <li>Genom väggen går <b>plasmodesmata</b>: kanaler <b>klädda med cellmembran och fyllda med cytoplasma</b>. Genom dem förs ämnen från <b>cell till cell</b>, så att cellerna kan kommunicera.</li>
+      </ol>
+      <p style="margin-bottom:0">Cellväggen kan se olika ut hos olika växter, men grunden är densamma.</p>
+    </div>
+  </div>
+  <figure>
+    <svg viewBox="0 0 600 150" role="img" aria-label="Två grannceller med plasmodesmata genom cellväggen">
+      <rect x="10" y="20" width="280" height="110" rx="14" stroke-width="14" style="fill:var(--protein-soft);stroke:var(--leaf-soft)"/>
+      <rect x="310" y="20" width="280" height="110" rx="14" stroke-width="14" style="fill:var(--protein-soft);stroke:var(--leaf-soft)"/>
+      <rect x="282" y="20" width="36" height="110" style="fill:var(--leaf-soft)"/>
+      <g style="fill:var(--protein-soft);stroke:var(--membrane)" stroke-width="2"><rect x="276" y="44" width="48" height="10" rx="5"/><rect x="276" y="96" width="48" height="10" rx="5"/></g>
+      <path d="M250 49 L350 49" stroke-width="2" stroke-dasharray="4 4" style="stroke:var(--ink)"/>
+      <circle cx="262" cy="49" r="5" style="fill:var(--mito)"><animate attributeName="cx" values="240;360;240" dur="4s" repeatCount="indefinite"/></circle>
+      <text x="150" y="82" font-size="14" text-anchor="middle">cell 1</text>
+      <text x="450" y="82" font-size="14" text-anchor="middle">cell 2</text>
+      <text x="300" y="146" font-size="12" text-anchor="middle" style="fill:var(--muted)">cellväggar + plasmodesmata</text>
+    </svg>
+    <figcaption>Egen förenklad bild. Den röda pricken är ett ämne som går genom en plasmodesma från cell till cell.</figcaption>
+  </figure>
+</section>
+
+<!-- ============ VAKUOL ============ -->
+<section class="ch" id="vakuol">
+  <div class="head"><h2>Vakuolen och turgor</h2><span class="mono">varför tulpaner slokar</span><span class="mono pg">s. 245–246</span></div>
+  <div class="cols">
+    <div class="txt">
+      <p>Även djurceller kan ha vakuoler, men de är <b>inte lika stora</b> och fyller <b>andra funktioner</b>. Växtcellens <b>vakuol</b> kan uppta <b>upp till 90 % av cellens volym</b>. Den bildas hos äldre celler genom att <b>många små vakuoler smälter samman</b>. På så sätt kan cellen <b>växa utan att behöva mycket mer cytoplasma</b>.</p>
+      <p>Inuti vakuolen finns en <b>vattenlösning med många lösta joner</b>. Vakuolen innehåller också <b>enzymer som kan spjälka makromolekyler</b>, så den fyller ungefär <b>samma funktion som djurcellens lysosomer</b>.</p>
+      <p>Vakuolen <b>anpassar sin storlek</b> så att cellen alltid fyller hela utrymmet innanför cellväggen. Den hjälper alltså cellen att hålla trycket mot cellväggarna, <b>turgor</b>, som gör att växten kan <b>stå upprätt trots att den saknar skelett och muskler</b>.</p>
+    </div>
+    <div class="panel">
+      <span class="mono">Testa själv · ge cellerna vatten</span>
+      <div class="seg" id="segWater" style="margin-top:8px"><button type="button" data-v="dry" aria-pressed="false">Vattenbrist</button><button type="button" data-v="ok" aria-pressed="true">Lagom</button><button type="button" data-v="hypo" aria-pressed="false">Destillerat vatten</button></div>
+      <svg viewBox="0 0 420 200" id="turSvg" role="img" aria-label="Växtcell, djurcell och tulpan vid olika vattentillgång" style="width:100%;height:auto;display:block">
+        <text x="80" y="16" font-size="12" text-anchor="middle" style="fill:var(--muted)">växtcell</text>
+        <text x="220" y="16" font-size="12" text-anchor="middle" style="fill:var(--muted)">djurcell</text>
+        <text x="350" y="16" font-size="12" text-anchor="middle" style="fill:var(--muted)">tulpan</text>
+        <rect x="20" y="30" width="120" height="120" rx="12" stroke-width="10" style="fill:none;stroke:var(--leaf-soft)"/>
+        <rect id="tPm" x="28" y="38" width="104" height="104" rx="8" stroke-width="3" style="fill:var(--paper);stroke:var(--membrane);transition:all .6s var(--ease-out)"/>
+        <rect id="tVac" x="38" y="48" width="84" height="84" rx="8" style="fill:var(--protein-soft);stroke:var(--protein);transition:all .6s var(--ease-out)" stroke-width="2"/>
+        <g id="tArrows" style="stroke:var(--protein);transition:opacity .4s" stroke-width="2.5"><path d="M80 90 L80 44 M80 90 L80 136 M80 90 L34 90 M80 90 L126 90" marker-end="url(#arT)"/></g>
+        <defs><marker id="arT" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" style="fill:var(--protein)"/></marker></defs>
+        <circle id="tAn" cx="220" cy="90" r="44" stroke-width="3" style="fill:var(--mito-soft);stroke:var(--membrane);transition:all .6s var(--ease-spring)"/>
+        <g id="tBurst" style="opacity:0;transition:opacity .4s"><path d="M178 70 l-14 -10 M262 70 l14 -10 M176 112 l-16 8 M264 112 l16 8 M220 40 l0 -16 M220 140 l0 16" stroke-width="3" style="stroke:var(--bad)"/><text x="220" y="94" font-size="14" text-anchor="middle" font-weight="700" style="fill:var(--bad)">sprack!</text></g>
+        <path id="tStem" d="M350 190 Q350 120 350 60" fill="none" stroke-width="5" style="stroke:var(--leaf);transition:d .6s var(--ease-out)"/>
+        <g id="tFlower" style="transition:transform .6s var(--ease-out);transform-origin:350px 60px"><path d="M334 60 Q332 30 342 26 L350 40 L358 26 Q368 30 366 60 Z" style="fill:var(--mito)"/></g>
+        <path d="M350 160 Q326 150 322 130 Q340 136 350 150" style="fill:var(--leaf)"/>
+      </svg>
+      <p class="verdict" id="turOut" style="margin:.4rem 0 0"></p>
+      <p class="why" id="turWhy" style="margin-top:4px"></p>
+    </div>
+  </div>
+  <div class="trick">
+    <span class="mono">Minnesknep: vakuolen = cellens vattenballong</span>
+    <p>Full ballong trycker mot väggen = <b>turgor</b> = växten står rak. Tom ballong = ingen turgor = växten <b>slokar</b>. Bokens bild på s. 246, de hängande tulpanerna, heter just "Tomma vakuoler".</p>
+  </div>
+</section>
+
+<!-- ============ KLOROPLAST ============ -->
+<section class="ch" id="kloro">
+  <div class="head"><h2>Kloroplasten</h2><span class="mono">där ljusenergin fångas in</span><span class="mono pg">s. 246–247</span></div>
+  <div class="cols">
+    <div class="txt">
+      <p><b>Kloroplasterna</b> tillhör en grupp organeller som kallas <b>plastider</b>, som <b>bara finns hos växter och alger</b>. De innehåller <b>klorofyll</b> och finns i alla celler i de <b>gröna delarna</b> av växten eller algen.</p>
+      <p>Kloroplasten har, liksom mitokondrien, <b>dubbla membran</b>, och precis som för mitokondrien tror man att den uppkom genom <b>endosymbios</b>.</p>
+      <p>Kloroplastens <b>DNA kan replikeras</b> och kloroplasterna kan <b>dela sig</b>, så de sköter sin <b>egen reproduktion</b>. De transporteras med hjälp av <b>mikrotubuli</b> till den del av cellen som träffas av <b>mest ljus</b>. Det kan man se i ett vanligt ljusmikroskop.</p>
+    </div>
+    <div class="trick" style="margin-top:0">
+      <span class="mono">Minnesknep: kloroplast ↔ mitokondrie</span>
+      <p>Båda har <b>dubbelt membran</b>, <b>egen ringformad DNA</b>, <b>egna ribosomer</b> och uppkom genom <b>endosymbios</b>. <b>Stroma</b> i kloroplasten motsvarar <b>matrix</b> i mitokondrien.</p>
+    </div>
+  </div>
+  <h3>Klicka på delarna</h3>
+  <div class="explore">
+    <figure>
+      <svg viewBox="0 0 560 320" id="kloSvg" role="img" aria-label="Kloroplast med klickbara delar">
+        <g class="org" data-id="ytter"><ellipse cx="280" cy="165" rx="250" ry="140" stroke-width="6" style="fill:var(--leaf-soft);stroke:var(--leaf)"/></g>
+        <g class="org" data-id="inner"><ellipse cx="280" cy="165" rx="234" ry="124" stroke-width="4" style="fill:none;stroke:var(--leaf)"/></g>
+        <g class="org" data-id="stroma"><ellipse cx="280" cy="165" rx="226" ry="116" style="fill:var(--paper);opacity:.55"/></g>
+        <g id="grana"></g>
+        <g class="org" data-id="dna">
+          <ellipse cx="420" cy="230" rx="26" ry="16" fill="none" stroke-width="3" style="stroke:var(--mito)"/>
+          <g style="fill:var(--ink)"><circle cx="380" cy="250" r="3"/><circle cx="460" cy="214" r="3"/><circle cx="452" cy="250" r="3"/><circle cx="392" cy="214" r="3"/></g>
+        </g>
+      </svg>
+      <figcaption>Efter bokens figur på s. 247. Varje packe av platta tylakoider är ett granum.</figcaption>
+    </figure>
+    <div>
+      <div class="panel" id="kloPanel" aria-live="polite"></div>
+      <div class="chips" id="kloChips"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LJUS ============ -->
+<section class="ch" id="ljus">
+  <div class="head"><h2>Varför är växter gröna?</h2><span class="mono">klorofyll och ljus</span><span class="mono pg">s. 247</span></div>
+  <div class="cols">
+    <div class="txt">
+      <p>Inuti tylakoiderna finns <b>klorofyllmolekylerna</b>, som fångar in solljuset. Det finns <b>olika typer av klorofyll</b> som fångar ljus av olika våglängder.</p>
+      <p><b>Violett, blått och rött ljus absorberas</b>, medan <b>grönt ljus reflekteras</b> i stället. Det är därför vi uppfattar växter som <b>gröna</b>.</p>
+      <div class="seg" id="segLight"><button type="button" data-v="v" aria-pressed="false">Violett</button><button type="button" data-v="b" aria-pressed="false">Blått</button><button type="button" data-v="g" aria-pressed="true">Grönt</button><button type="button" data-v="r" aria-pressed="false">Rött</button></div>
+      <p class="verdict" id="lightOut"></p>
+      <p class="why" id="lightWhy"></p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 400 220" role="img" aria-label="Ljusstråle mot ett blad">
+        <defs><marker id="arL" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="context-stroke"/></marker></defs>
+        <text x="40" y="30" font-size="28">☀</text>
+        <path d="M200 200 Q150 120 220 60 Q300 30 330 70 Q340 150 200 200 Z" stroke-width="2" style="fill:var(--leaf-soft);stroke:var(--leaf)"/>
+        <path d="M200 200 Q260 120 322 76" fill="none" stroke-width="2" style="stroke:var(--leaf)"/>
+        <path id="rayIn" d="M70 40 L230 120" stroke-width="6" marker-end="url(#arL)"/>
+        <path id="rayOut" d="M230 120 L90 190" stroke-width="6" marker-end="url(#arL)" style="transition:opacity .4s"/>
+        <text id="rayEye" x="56" y="206" font-size="26" style="transition:opacity .4s">👁</text>
+        <circle id="rayHit" cx="232" cy="122" r="16" style="transition:opacity .4s;opacity:0"/>
+      </svg>
+      <figcaption>Egen förenklad bild. Bara det reflekterade ljuset når ditt öga.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ PLASTIDER ============ -->
+<section class="ch" id="plastider">
+  <div class="head"><h2>Plastider</h2><span class="mono">tre sorter att kunna</span><span class="mono pg">s. 246–247</span></div>
+  <div class="cheat">
+    <div><b><span class="sw" style="background:var(--leaf)"></span>Kloroplaster</b>Innehåller <b>klorofyll</b> och gör fotosyntes. Finns i växtens <b>gröna delar</b>.</div>
+    <div><b><span class="sw" style="background:var(--paper);border:1px solid var(--muted)"></span>Leukoplaster</b><b>Färglösa</b> organeller som <b>lagrar stärkelse</b>. Finns framför allt i delar som lagrar energi, t.ex. <b>potatisens stamknölar</b>.</div>
+    <div><b><span class="sw" style="background:#E2702A"></span>Kromoplaster</b>Innehåller <b>pigment</b> som ger blommor och frukter (även rötter och blad) <b>orange eller röd</b> färg.</div>
+  </div>
+  <div class="trick">
+    <span class="mono">Minnesknep: grekiska färgord</span>
+    <p><b>Kloro</b> = grön · <b>Leuko</b> = vit (som leukocyter, vita blodkroppar) · <b>Kromo</b> = färg. <b>Plastid</b> är gruppnamnet för alla tre.</p>
+  </div>
+</section>
+
+<!-- ============ VÄXT DJUR BÅDA ============ -->
+<section class="ch" id="vem">
+  <div class="head"><h2>Växt, djur eller båda?</h2><span class="mono">binder ihop s. 244–247</span></div>
+  <div class="cols">
+    <div>
+      <p class="txt">Läs påståendet och välj var det stämmer. "Jämför växtcell och djurcell" är en klassisk provfråga.</p>
+      <div class="panel">
+        <span class="mono" id="vemCount"></span>
+        <p class="verdict" id="vemQ" style="margin:.3rem 0 .6rem"></p>
+        <div class="route" id="vemOpts"></div>
+        <div class="why" id="vemWhy" hidden></div>
+        <div class="row"><button class="btn" id="vemNext" type="button">Nästa påstående</button><span class="score" id="vemScore"></span></div>
+      </div>
+    </div>
+    <div>
+      <h3 style="margin-top:0">Frågorna du ställer dig</h3>
+      <ol class="tree">
+        <li><b>Handlar det om vägg, vakuol, ljus eller plastider?</b> Då är det <b>växtcellen</b>.</li>
+        <li><b>Lysosomer eller centrioler?</b> Då är det <b>djurcellen</b>.</li>
+        <li><b>Spricker i destillerat vatten?</b> <b>Djurcellen</b>, den saknar vägg.</li>
+        <li><b>Allt annat</b> (kärna, ribosomer, ER, golgi, mitokondrier, cellmembran) finns i <b>båda</b>.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FUSKLAPP ============ -->
+<section class="ch" id="fusk">
+  <div class="head"><h2>Snabböversikt</h2><span class="mono">läs den kvällen före provet</span></div>
+  <div class="cheat">
+    <div><b>Fotoautotrof</b>bildar organiska ämnen med solljus + koldioxid · samma grundbehov som djur</div>
+    <div><b>Närsalter</b>kväve, fosfor och andra mineraler från omgivningen</div>
+    <div><b>Ursprung</b>alla växter härstammar från vattenlevande grönalger</div>
+    <div><b>Mossor</b>enklast · inga rötter · ingen ledningsvävnad · vatten via bladen · rhizoider = bara förankring</div>
+    <div><b>Kärlväxter</b>rötter + ledningsvävnad · klarar torka · ormbunkar, lummer (sporer) → fröväxter</div>
+    <div><b>Fröväxter</b>gömfröiga (blommande) · nakenfröiga (barrträd)</div>
+    <div><b>Växtcellen extra</b>cellvägg · stor vakuol · kloroplaster <i>· saknar lysosomer, centrioler</i></div>
+    <div><b>Cellvägg</b>cellulosa · form, skydd, stadga · spricker inte i hypoton lösning</div>
+    <div><b>Väggens byggnad</b>cellulosafibriller → fibrer i matrix av polysackarider + proteiner</div>
+    <div><b>Plasmodesmata</b>membranklädda kanaler med cytoplasma · ämnen cell till cell</div>
+    <div><b>Vakuol</b>upp till 90 % · små vakuoler smälter ihop · joner i vatten · enzymer som lysosomer</div>
+    <div><b>Turgor</b>vakuolens tryck mot cellväggen · växten står upprätt · vattenbrist → slokar</div>
+    <div><b>Kloroplast</b>plastid · klorofyll · dubbla membran · endosymbios · eget DNA, delar sig · flyttas mot ljus (mikrotubuli)</div>
+    <div><b>Inuti</b>tylakoider (platta membranblåsor) · granum = packe · stroma ≈ matrix · ring-DNA, ribosomer, enzymer</div>
+    <div><b>Ljus</b>violett, blått, rött absorberas · grönt reflekteras → växter ser gröna ut</div>
+    <div><b>Plastider</b>kloroplaster (grön) · leukoplaster (stärkelse, potatis) · kromoplaster (orange/röd)</div>
+  </div>
+</section>
+
+<!-- ============ ORDLISTA ============ -->
+<section class="ch" id="ord">
+  <div class="head"><h2>Ordlista</h2><span class="mono" id="glCount"></span></div>
+  <input type="search" id="glSearch" class="gl-search" placeholder="Sök ett ord, t.ex. turgor eller granum" aria-label="Sök i ordlistan">
+  <dl class="gl" id="glList"></dl>
+</section>
+
+<!-- ============ FLASHCARDS ============ -->
+<style>#deckMode{flex-wrap:wrap;max-width:100%}#fcStar[aria-pressed="true"]{color:#A87400;border-color:#D9A400;background:color-mix(in srgb,#F2C230 18%,transparent)}#fcStar:disabled{opacity:.45;cursor:default}</style>
+<section class="ch" id="kort">
+  <div class="head"><h2>Flashcards</h2><span class="mono">klicka på kortet för att vända det</span></div>
+  <div class="fcbar">
+    <div class="seg" id="deckMode"><button type="button" data-v="all" aria-pressed="true">Alla kort</button><button type="button" data-v="left" aria-pressed="false">Bara de jag inte kan</button><button type="button" data-v="until" aria-pressed="false">Kör tills jag kan alla</button><button type="button" data-v="star" aria-pressed="false">★ Markerade</button></div>
+    <div class="seg" id="deckType"><button type="button" data-v="" aria-pressed="true">Alla typer</button><button type="button" data-v="Begrepp" aria-pressed="false">Begrepp</button><button type="button" data-v="Förklara varför" aria-pressed="false">Förklara varför</button><button type="button" data-v="Siffror och exempel" aria-pressed="false">Siffror och exempel</button></div>
+    <div class="seg" id="deckSrc" aria-label="Källa" hidden><button type="button" data-v="book" aria-pressed="false">Utan PowerPoint</button><button type="button" data-v="all" aria-pressed="true">Med PowerPoint</button><button type="button" data-v="ppt" aria-pressed="false">Bara PowerPoint</button></div>
+  </div>
+  <div class="row"><button class="btn ghost" id="fcShuffle" type="button">Blanda</button><div class="fc-restart"><button class="btn ghost" id="fcRestart" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="fcRestartMenu">↺ Börja om</button><div class="fc-menu" id="fcRestartMenu" role="menu" hidden><button type="button" role="menuitem" data-r="soft"><b>Börja om från första kortet</b><span>Samma kortlek i ursprunglig ordning. Det du kan och dina ★-markerade kort sparas.</span></button><button type="button" role="menuitem" data-r="hard" class="danger"><b>Nollställ allt</b><span>Rensar vad du kan och filtren (★-markerade kort sparas) och visar alla kort från början.</span></button></div></div><span class="mono" id="fcStat"></span></div>
+  <div class="card3d"><div class="flash" id="flash" tabindex="0" role="button" aria-label="Vänd kortet">
+    <div class="face front"><span class="mono" id="fcTag"></span><div class="q" id="fcQ"></div></div>
+    <div class="face back"><span class="mono">Svar</span><div class="a" id="fcA"></div></div>
+  </div></div>
+  <div class="fcprog" id="fcProg" aria-hidden="true"><i></i></div>
+  <div class="row">
+    <button class="btn ghost" id="fcPrev" type="button">← Förra</button>
+    <button class="btn" id="fcKnow" type="button" style="background:var(--good)">Jag kan den ✓</button>
+    <button class="btn" id="fcAgain" type="button" style="background:var(--mito)">Öva mer</button>
+    <button class="btn ghost" id="fcStar" type="button" aria-pressed="false" title="Markera kortet för att plugga det senare (M)">☆ Markera</button>
+    <button class="btn ghost" id="fcNext" type="button">Nästa →</button>
+  </div>
+  <div class="fc-done" id="fcDone" hidden><p>Varvet klart!</p><button class="btn" id="fcDoneRestart" type="button">↺ Kör igen</button><button class="btn ghost" id="fcDoneLeft" type="button">Kör tills jag kan alla</button></div>
+  <p class="mono fc-hint">Tangentbord: mellanslag vänder · ← → bläddrar · M markerar · R börjar om</p>
+</section>
+
+<!-- ============ QUIZ ============ -->
+<section class="ch quiz" id="quiz">
+  <div class="head"><h2>Quiz</h2><span class="mono">provfrågor</span></div>
+  <div class="row"><span class="score" id="qScore">0 / 0</span><button class="btn ghost" id="qReset" type="button">Gör om quizet</button></div>
+  <div id="qList"></div>
+</section>
+
+<footer>Byggd från bokens kapitel 7 "Hur växter och svampar fungerar", s. 244–247: växten, mossor och kärlväxter, växtcellens uppbyggnad, cellväggen, vakuolen, kloroplasten och plastider.</footer>
+</main>
+</div>
+
+<script>
+(function(){
+const $=s=>document.querySelector(s);
+const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const NS="http://www.w3.org/2000/svg";
+function el(tag,attrs,parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function shuffled(n){const a=[...Array(n).keys()];for(let i=n-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+
+/* generic explorer */
+function explorer(svgSel,panelSel,chipsSel,DATA,first,tag,onShow){
+  const panel=$(panelSel),chips=$(chipsSel),svg=$(svgSel);
+  function show(id){
+    const [t,d]=DATA[id];
+    panel.innerHTML=`<span class="mono">${tag}</span><h3>${t}</h3><p>${d}</p>`;
+    svg.querySelectorAll(".org").forEach(o=>o.classList.toggle("sel",o.dataset.id===id));
+    chips.querySelectorAll("button").forEach(b=>b.classList.toggle("on",b.dataset.id===id));
+    if(onShow)onShow(id);
+  }
+  Object.keys(DATA).forEach(id=>{const b=document.createElement("button");b.type="button";b.dataset.id=id;b.textContent=DATA[id][0];b.onclick=()=>show(id);chips.appendChild(b)});
+  svg.querySelectorAll(".org").forEach(o=>{
+    o.setAttribute("role","button");o.setAttribute("tabindex","0");o.setAttribute("aria-label",DATA[o.dataset.id][0]);
+    o.addEventListener("click",e=>{e.stopPropagation();show(o.dataset.id)});
+    o.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();show(o.dataset.id)}});
+  });
+  show(first);
+}
+
+/* steppers */
+function stepper(boxSel,nextSel,resetSel,countSel,STEPS,onStep){
+  const box=$(boxSel);let i=-1;
+  STEPS.forEach((s,k)=>{const d=document.createElement("div");d.className="step";d.innerHTML=`<span class="n">Steg ${k+1}</span><b>${s[0]}</b><span class="d" hidden>${s[1]}</span>`;d.style.cursor="pointer";d.onclick=()=>{i=k;upd()};box.appendChild(d)});
+  const all=[...box.children];
+  function upd(){all.forEach((d,k)=>{d.classList.toggle("on",k===i);d.querySelector(".d").hidden=k>i});$(countSel).textContent=i<0?"Tryck för att börja":`${i+1} / ${STEPS.length}`;$(nextSel).textContent=i>=STEPS.length-1?"Klart ✓":"Nästa steg";if(onStep)onStep(i)}
+  $(nextSel).onclick=()=>{if(i<STEPS.length-1)i++;upd()};
+  $(resetSel).onclick=()=>{i=-1;upd()};
+  upd();
+}
+
+/* sorting game: GROUPS + rows [påstående, rätt index, varför] */
+function sorter(prefix,GROUPS,ROWS){
+  let order=shuffled(ROWS.length),pos=0,right=0,done=0;
+  function show(){
+    const [q,ans,why]=ROWS[order[pos]];
+    $("#"+prefix+"Count").textContent=`Påstående ${pos+1} av ${ROWS.length}`;$("#"+prefix+"Q").textContent=q;
+    const box=$("#"+prefix+"Opts");box.innerHTML="";$("#"+prefix+"Why").hidden=true;
+    GROUPS.forEach((g,gi)=>{const b=document.createElement("button");b.type="button";b.textContent=g;b.onclick=()=>{
+      box.querySelectorAll("button").forEach((x,xi)=>{x.disabled=true;if(xi===ans)x.classList.add("right")});
+      if(gi!==ans)b.classList.add("wrong");else right++;done++;
+      const w=$("#"+prefix+"Why");w.hidden=false;w.textContent=(gi===ans?"Rätt! ":"Inte riktigt. ")+why;
+      $("#"+prefix+"Score").textContent=`${right} / ${done}`;
+    };box.appendChild(b)});
+    $("#"+prefix+"Next").textContent=pos>=ROWS.length-1?"Börja om":"Nästa påstående";
+  }
+  $("#"+prefix+"Next").onclick=()=>{if(pos>=ROWS.length-1){pos=0;right=0;done=0;order=shuffled(ROWS.length);$("#"+prefix+"Score").textContent=""}else pos++;show()};
+  show();
+}
+
+stepper("#landJourney","#landNext","#landReset","#landCount",[
+  ["Grönalger","Alla växter härstammar från vattenlevande grönalger."],
+  ["Mossor","De enklast uppbyggda växterna. Saknar rötter och ledningsvävnad. Tar vatten och närsalter från vattnet som hamnar på bladen, t.ex. regn. Fäster med rhizoider."],
+  ["Kärlväxter","Har rötter och ledningsvävnad, så de kan ta upp vatten och närsalter ur marken och transportera dem i växten. Klarar torka bättre."],
+  ["Ormbunkar & lummer","De tidigaste kärlväxterna. Förökar sig med sporer."],
+  ["Fröväxter","Utvecklades från sporväxterna. Gömfröiga (blommande växter) och nakenfröiga (t.ex. barrträd)."]
+]);
+
+/* växtcell / djurcell */
+(function(){
+  const svg=$("#cellSvg");let mode="v";
+  const PL=["vagg","plasmo","vakuol","kloro"],AN=["lyso","centr"];
+  function setMode(v){mode=v;svg.classList.toggle("animal",v==="d");
+    document.querySelectorAll("#segCell button").forEach(o=>o.setAttribute("aria-pressed",o.dataset.v===v));
+    $("#cellCap").textContent=v==="d"?"Djurcell: cellvägg, kloroplaster och den stora vakuolen är borta. Lysosomer (röda) och centrioler (svarta) har kommit till.":"Växtcell: cellvägg, stor vakuol och kloroplaster. Inga lysosomer eller centrioler.";
+    document.querySelectorAll("#cellChips button").forEach(b=>{const id=b.dataset.id;b.style.opacity=(v==="v"&&AN.includes(id))||(v==="d"&&PL.includes(id))?.5:1});
+  }
+  document.querySelectorAll("#segCell button").forEach(b=>b.onclick=()=>{setMode(b.dataset.v);const on=document.querySelector("#cellChips button.on");const id=on&&on.dataset.id;
+    if(b.dataset.v==="d"&&PL.includes(id))document.querySelector('#cellChips button[data-id="lyso"]').click();
+    else if(b.dataset.v==="v"&&AN.includes(id))document.querySelector('#cellChips button[data-id="vagg"]').click()});
+  explorer("#cellSvg","#cellPanel","#cellChips",{
+    vagg:["Cellvägg","<b>Bara i växtceller.</b> Extracellulär matrix av <b>cellulosa</b>. Ger cellen form, skyddar den, ger växten stadga och hindrar cellen från att spricka när den tar upp vatten."],
+    plasmo:["Plasmodesmata","<b>Bara i växtceller.</b> Kanaler genom cellväggen, klädda med cellmembran och fyllda med cytoplasma. Genom dem förs ämnen från cell till cell."],
+    membran:["Cellmembran","<b>I båda.</b> Ligger innanför cellväggen och avgränsar cellens innehåll. Det är membranet som styr vad som går in och ut."],
+    cyto:["Cytoplasma","<b>I båda.</b> Vätskan med alla organeller innanför cellmembranet. Tack vare den stora vakuolen behöver växtcellen inte så mycket cytoplasma för att bli stor."],
+    vakuol:["Vakuol","<b>Stor bara i växtceller.</b> Upp till 90 % av cellens volym. Vattenlösning med lösta joner och enzymer som spjälkar makromolekyler (som lysosomer). Ger turgor."],
+    karna:["Kärna, kärnmembran och DNA","<b>I båda.</b> Kärnan innehåller cellens DNA och omges av kärnmembranet."],
+    er:["ER (med och utan ribosomer)","<b>I båda.</b> Endoplasmatiskt nätverk. ER med ribosomer bygger proteiner, slätt ER bland annat lipider."],
+    ribo:["Ribosomer","<b>I båda.</b> Utför proteinsyntesen. Sitter fritt i cytoplasman eller på ER."],
+    golgi:["Golgiapparat","<b>I båda.</b> Tar emot, bearbetar och skickar vidare proteiner och andra ämnen."],
+    mito:["Mitokondrie","<b>I båda!</b> Växter har också mitokondrier och gör cellandning. Kloroplasten bildar socker, mitokondrien utvinner energin ur det."],
+    kloro:["Kloroplast","<b>Bara i växter och alger.</b> En plastid med klorofyll som fångar ljus för fotosyntesen. Dubbla membran, eget DNA. Läs mer längre ner."],
+    lyso:["Lysosomer","<b>Bara i djurceller.</b> Blåsor med nedbrytande enzymer. I växtcellen gör vakuolen ungefär samma jobb."],
+    centr:["Centrioler","<b>Bara i djurceller.</b> Saknas i växtcellen enligt boken."]
+  },"vagg","Del av cellen",id=>{if(mode==="v"&&AN.includes(id))setMode("d");else if(mode==="d"&&PL.includes(id))setMode("v")});
+  setMode("v");
+})();
+
+/* turgor */
+(function(){
+  const S={
+    dry:{pm:[44,54,72,72],vac:[58,68,44,44],an:30,stem:"M350 190 Q352 110 312 92",fl:"rotate(-120deg)",arrows:0,burst:0,out:"Slokar",why:"Vakuolen innehåller inte tillräckligt mycket vatten. Cellen trycker inte mot cellväggen, ingen turgor, och växten slokar. Djurcellen skrumpnar."},
+    ok:{pm:[28,38,104,104],vac:[38,48,84,84],an:44,stem:"M350 190 Q350 120 350 60",fl:"rotate(0deg)",arrows:1,burst:0,out:"Står upprätt",why:"Vakuolen fyller cellen så att den trycker mot cellväggen. Det trycket, turgor, håller växten upprätt utan skelett och muskler."},
+    hypo:{pm:[26,36,108,108],vac:[32,42,96,96],an:58,stem:"M350 190 Q350 120 350 60",fl:"rotate(0deg)",arrows:1,burst:1,out:"Växtcellen klarar sig, djurcellen spricker",why:"I en hypoton lösning (destillerat vatten) tar cellerna upp vatten. Växtcellens cellvägg håller emot så att den inte spricker. Djurcellen saknar vägg och spricker."}
+  };
+  function set(v){const s=S[v];
+    const r=(id,a)=>{const e=$(id);e.setAttribute("x",a[0]);e.setAttribute("y",a[1]);e.setAttribute("width",a[2]);e.setAttribute("height",a[3])};
+    r("#tPm",s.pm);r("#tVac",s.vac);$("#tAn").setAttribute("r",s.burst?52:s.an);$("#tAn").style.opacity=s.burst?.25:1;
+    $("#tStem").setAttribute("d",s.stem);$("#tStem").style.d=`path("${s.stem}")`;
+    $("#tFlower").style.transform=v==="dry"?"translate(-38px,32px) rotate(-150deg)":"none";
+    $("#tArrows").style.opacity=s.arrows;$("#tBurst").style.opacity=s.burst;
+    $("#turOut").textContent=s.out;$("#turOut").className="verdict "+(v==="dry"?"b":"g");$("#turWhy").textContent=s.why;
+    document.querySelectorAll("#segWater button").forEach(o=>o.setAttribute("aria-pressed",o.dataset.v===v));
+  }
+  document.querySelectorAll("#segWater button").forEach(b=>b.onclick=()=>set(b.dataset.v));
+  set("ok");
+})();
+
+/* kloroplast */
+(function(){
+  const host=$("#grana");
+  const gr=el("g",{class:"org","data-id":"granum"},host);
+  const lam=el("g",{class:"org","data-id":"lamell"},host);
+  const stacks=[[130,150],[200,110],[210,200],[290,140],[300,225],[370,120],[440,160]];
+  stacks.forEach(([x,y],i)=>{if(i<stacks.length-1){const [x2,y2]=stacks[i+1];el("path",{d:`M${x} ${y} L${x2} ${y2}`,"stroke-width":"7","stroke-linecap":"round",style:"stroke:var(--leaf);opacity:.55"},lam)}});
+  stacks.forEach(([x,y])=>{for(let k=0;k<6;k++)el("rect",{x:x-24,y:y-30+k*11,width:48,height:9,rx:4.5,"stroke-width":"1.2",style:"fill:#7DBA4C;stroke:var(--leaf)"},gr)});
+  const ty=el("g",{class:"org","data-id":"tyl"},host);
+  el("rect",{x:266,y:132,width:48,height:9,rx:4.5,"stroke-width":"2",style:"fill:var(--membrane);stroke:var(--leaf)"},ty);
+  explorer("#kloSvg","#kloPanel","#kloChips",{
+    ytter:["Yttermembran","Kloroplasten har <b>dubbla membran</b>, precis som mitokondrien. Ett tecken på att den uppkom genom <b>endosymbios</b>: en cell som slukade en fotosyntetiserande bakterie."],
+    inner:["Innermembran","Det inre av de två membranen. Innanför det finns tylakoiderna och stroma."],
+    tyl:["Tylakoid","En <b>platt membranblåsa</b>. Inuti tylakoiderna sitter <b>klorofyllmolekylerna</b> som fångar in solljuset. Här fångas ljusenergin in."],
+    granum:["Granum (plural grana)","En <b>packe av tylakoider</b> staplade på varandra, som myntrullar."],
+    lamell:["Förbindelser mellan grana","Tylakoidmembran som kopplar ihop packarna med varandra. (Boken namnger dem inte, men de syns i figuren.)"],
+    stroma:["Stroma","Vattenlösningen som omger tylakoiderna. Kan jämföras med <b>mitokondriens matrix</b>."],
+    dna:["Ring-DNA, ribosomer, enzymer","I stroma finns, precis som i mitokondrien, en <b>ringformad DNA-molekyl</b>, <b>ribosomer</b> och <b>enzymer</b>. DNA:t kan replikeras och kloroplasten kan dela sig."]
+  },"tyl","Del av kloroplasten");
+})();
+
+/* ljus */
+(function(){
+  const C={v:["#7B4FD0","Violett"],b:["#2F6BD8","Blått"],g:["#2E9A3E","Grönt"],r:["#D23B30","Rött"]};
+  function set(v){const [c,n]=C[v],refl=v==="g";
+    $("#rayIn").style.stroke=c;$("#rayOut").style.stroke=c;$("#rayOut").style.opacity=refl?1:0;$("#rayEye").style.opacity=refl?1:.25;
+    $("#rayHit").style.fill=c;$("#rayHit").style.opacity=refl?0:.55;
+    $("#lightOut").textContent=n+" ljus "+(refl?"reflekteras":"absorberas");$("#lightOut").className="verdict "+(refl?"g":"b");
+    $("#lightWhy").textContent=refl?"Klorofyllet tar inte upp grönt ljus. Det studsar tillbaka och når ditt öga, och därför ser bladet grönt ut.":"Klorofyllet fångar in "+n.toLowerCase()+" ljus. Energin används i fotosyntesen och ljuset når aldrig ditt öga.";
+    document.querySelectorAll("#segLight button").forEach(o=>o.setAttribute("aria-pressed",o.dataset.v===v));
+  }
+  document.querySelectorAll("#segLight button").forEach(b=>b.onclick=()=>set(b.dataset.v));
+  set("g");
+})();
+
+sorter("vem",["Växtcell","Djurcell","Båda"],[
+  ["Har cellvägg av cellulosa.",0,"Bara växtcellen har cellvägg (bakterier har också, men av peptidoglykan)."],
+  ["Har kloroplaster.",0,"Kloroplaster finns bara hos växter och alger."],
+  ["Har lysosomer.",1,"Växtcellen saknar lysosomer. Vakuolen gör ett liknande jobb."],
+  ["Har centrioler.",1,"Boken säger att växtcellen saknar centrioler."],
+  ["Har mitokondrier.",2,"Även växter gör cellandning, så båda har mitokondrier."],
+  ["Har en cellkärna med kärnmembran.",2,"Båda är eukaryota celler."],
+  ["Har ribosomer.",2,"Alla celler har ribosomer."],
+  ["Har golgiapparat och ER.",2,"Finns i båda."],
+  ["Har en vakuol som tar upp till 90 % av volymen.",0,"Djurceller kan ha vakuoler, men de är inte lika stora."],
+  ["Spricker i destillerat vatten.",1,"Djurcellen saknar cellvägg som håller emot."],
+  ["Har plasmodesmata.",0,"Kanalerna går genom cellväggen."],
+  ["Har ett cellmembran.",2,"Växtcellen har cellmembran innanför cellväggen."],
+  ["Har leukoplaster som lagrar stärkelse.",0,"Leukoplaster är plastider, och plastider finns bara hos växter och alger."],
+  ["Hålls upp av turgor.",0,"Turgor är vakuolens tryck mot cellväggen."],
+  ["Har kromoplaster med orange pigment.",0,"Kromoplaster är plastider."]
+]);
+
+const GLOSS=[
+  ["Cellulosa","244","Polysackarid som bygger upp växtcellens cellvägg."],
+  ["Cellvägg","244–245","Extracellulär matrix av cellulosa. Ger form, skydd och stadga och hindrar cellen från att spricka."],
+  ["Endosymbios","247","Teorin att kloroplaster och mitokondrier en gång var fritt levande celler som tagits upp av en annan cell."],
+  ["Extracellulär matrix","244","Material som cellerna bildar utanför sig själva. Hos växter är det cellväggen."],
+  ["Fotoautotrof","244","Kan bilda organiska ämnen själv med hjälp av solljus och koldioxid."],
+  ["Fröväxter","244","Kärlväxter som förökar sig med frön: gömfröiga och nakenfröiga."],
+  ["Granum","247","En packe av tylakoider. Plural: grana."],
+  ["Gömfröiga","244","Blommande fröväxter."],
+  ["Hypoton lösning","245","Lösning med lägre koncentration lösta ämnen än cellen, t.ex. destillerat vatten. Cellen tar upp vatten."],
+  ["Klorofyll","246–247","Grönt pigment i tylakoiderna som fångar ljus. Absorberar violett, blått och rött, reflekterar grönt."],
+  ["Kloroplast","246–247","Plastid med klorofyll där fotosyntesen sker. Dubbla membran, eget DNA."],
+  ["Kromoplaster","247","Plastider med pigment som ger blommor och frukter orange eller röd färg."],
+  ["Kärlväxter","244","Växter med rötter och ledningsvävnad, t.ex. ormbunkar, lummer och fröväxter."],
+  ["Leukoplaster","247","Färglösa plastider som lagrar stärkelse, t.ex. i potatisens stamknölar."],
+  ["Ledningsvävnad","244","Vävnad som transporterar vatten och näring inne i växten."],
+  ["Mikrotubuli","247","Proteinrör i cellskelettet. Transporterar bl.a. kloroplaster mot ljuset."],
+  ["Mossor","244","De enklast uppbyggda växterna. Saknar rötter och ledningsvävnad."],
+  ["Nakenfröiga","244","Fröväxter utan blommor, t.ex. barrträd."],
+  ["Närsalter","244","Kväve, fosfor och andra mineraler som växten tar upp från omgivningen."],
+  ["Plasmodesmata","245","Membranklädda kanaler fyllda med cytoplasma genom cellväggen. Ämnen förs från cell till cell."],
+  ["Plastider","246–247","Grupp organeller som bara finns hos växter och alger: kloroplaster, leukoplaster, kromoplaster."],
+  ["Rhizoider","244","Rotliknande trådar hos mossor. Bara förankring, kan inte suga upp vatten."],
+  ["Sporer","244","Förökningskroppar hos mossor, ormbunkar och lummer."],
+  ["Stroma","247","Vattenlösningen runt tylakoiderna i kloroplasten. Motsvarar mitokondriens matrix."],
+  ["Turgor","246","Vakuolens tryck mot cellväggen som gör att växten kan stå upprätt."],
+  ["Tylakoider","247","Platta membranblåsor i kloroplasten med klorofyll. Här fångas ljusenergin in."],
+  ["Vakuol","245–246","Stor blåsa i växtcellen, upp till 90 % av volymen. Vatten, joner och nedbrytande enzymer."]
+];
+
+const KEY="vaxtcell_known";
+const CARDS=[
+  ["Växten","Begrepp","Vad betyder att en växt är fotoautotrof?","Den kan skapa organiska föreningar själv med hjälp av solljus och koldioxid."],
+  ["Växten","Begrepp","Vad är närsalter?","Kväve, fosfor och andra mineraler som växten tar upp från omgivningen."],
+  ["Växten","Siffror och exempel","Nämn uppgifter som en växt måste klara, precis som ett djur.","Skaffa energirika organiska molekyler, ta upp vatten, koldioxid, ljus och närsalter, lagra energi, transportera ämnen och fortplanta sig."],
+  ["Grupper","Begrepp","Vilka organismer härstammar alla växter från?","Vattenlevande grönalger."],
+  ["Grupper","Förklara varför","Varför måste mossor ta vatten via bladen?","De saknar rötter och ledningsvävnad, så de kan inte ta upp vatten och närsalter ur marken."],
+  ["Grupper","Begrepp","Vad är rhizoider?","Rotliknande trådar hos mossor som bara förankrar. De kan inte suga upp vatten och närsalter."],
+  ["Grupper","Förklara varför","Varför klarar kärlväxter torka bättre än mossor?","De har rötter och ledningsvävnad, så de kan ta vatten ur marken och transportera det i växten."],
+  ["Grupper","Siffror och exempel","Hur förökar sig ormbunkar och lummer, och vilka två grupper av fröväxter finns?","Med sporer. Fröväxter: gömfröiga (blommande) och nakenfröiga (t.ex. barrträd)."],
+  ["Växtcellen","Siffror och exempel","Vilka tre saker har växtcellen som djurcellen saknar?","Cellvägg, en stor vakuol och kloroplaster."],
+  ["Växtcellen","Siffror och exempel","Vilka två saker saknar växtcellen som djurcellen har?","Lysosomer och centrioler."],
+  ["Cellvägg","Begrepp","Vad består cellväggen av?","Cellulosafibriller som bildar tjockare fibrer, inbäddade i en matrix av andra polysackarider och proteiner."],
+  ["Cellvägg","Siffror och exempel","Vilka funktioner har cellväggen?","Ger cellen form, skyddar den, ger växten stadga och hindrar cellen från att spricka när den tar upp vatten."],
+  ["Cellvägg","Förklara varför","Varför spricker inte en växtcell i destillerat vatten?","Cellväggen håller emot när cellen tar upp vatten. En djurcell saknar vägg och spricker."],
+  ["Cellvägg","Begrepp","Vad är plasmodesmata?","Kanaler genom cellväggen, klädda med cellmembran och fyllda med cytoplasma. Ämnen förs från cell till cell."],
+  ["Vakuol","Siffror och exempel","Hur stor del av växtcellen kan vakuolen ta upp och hur bildas den?","Upp till 90 %. Hos äldre celler smälter många små vakuoler samman."],
+  ["Vakuol","Förklara varför","Vilken fördel har en stor vakuol?","Cellen kan bli stor utan att behöva mycket mer cytoplasma."],
+  ["Vakuol","Begrepp","Vad finns i vakuolen?","En vattenlösning med många lösta joner, och enzymer som kan spjälka makromolekyler."],
+  ["Vakuol","Förklara varför","Varför saknar växtcellen lysosomer?","Vakuolen innehåller nedbrytande enzymer och fyller ungefär samma funktion."],
+  ["Vakuol","Begrepp","Vad är turgor?","Trycket mot cellväggarna som vakuolen hjälper cellen att hålla. Det gör att växten kan stå upprätt utan skelett och muskler."],
+  ["Vakuol","Förklara varför","Varför slokar en växt vid vattenbrist?","Vakuolerna innehåller för lite vatten, så turgortrycket försvinner."],
+  ["Kloroplast","Begrepp","Vad är plastider?","En grupp organeller som bara finns hos växter och alger, t.ex. kloroplaster, leukoplaster och kromoplaster."],
+  ["Kloroplast","Siffror och exempel","Vad har kloroplasten gemensamt med mitokondrien?","Dubbla membran, uppkom troligen genom endosymbios, ringformat DNA, ribosomer och enzymer i en vattenlösning (stroma/matrix)."],
+  ["Kloroplast","Begrepp","Vad är tylakoider och granum?","Tylakoider är platta membranblåsor med klorofyll. En packe tylakoider kallas ett granum."],
+  ["Kloroplast","Begrepp","Vad är stroma?","Vattenlösningen runt tylakoiderna. Kan jämföras med mitokondriens matrix."],
+  ["Kloroplast","Förklara varför","Hur kan kloroplasterna sköta sin egen reproduktion?","De har eget DNA som kan replikeras och de kan dela sig."],
+  ["Kloroplast","Begrepp","Hur rör sig kloroplasterna i cellen och varför?","De transporteras med mikrotubuli till den del av cellen som träffas av mest ljus."],
+  ["Ljus","Förklara varför","Varför ser växter gröna ut?","Klorofyll absorberar violett, blått och rött ljus men reflekterar grönt."],
+  ["Plastider","Begrepp","Vad är leukoplaster?","Färglösa plastider som lagrar stärkelse, t.ex. i potatisens stamknölar."],
+  ["Plastider","Begrepp","Vad är kromoplaster?","Plastider med pigment som ger blommor och frukter (även rötter och blad) orange eller röd färg."]
+];
+
+const QUIZ=[
+  ["Vad betyder fotoautotrof?",["Äter andra organismer","Bildar organiska ämnen med solljus och koldioxid","Lever i mörker","Saknar celler"],1,"Växten bildar egna energirika molekyler genom fotosyntes."],
+  ["Vad kallas kväve, fosfor och andra mineraler som växten tar upp?",["Kolhydrater","Närsalter","Enzymer","Plastider"],1,"De kallas gemensamt närsalter."],
+  ["Från vad härstammar alla växter?",["Svampar","Vattenlevande grönalger","Cyanobakterier","Mossor"],1,"Alla växter härstammar från vattenlevande grönalger."],
+  ["Vad gör mossornas rhizoider?",["Suger upp vatten","Förankrar mossan","Gör fotosyntes","Bildar sporer"],1,"Rhizoider liknar rötter men har bara en förankrande funktion."],
+  ["Vad har kärlväxter som mossor saknar?",["Klorofyll","Rötter och ledningsvävnad","Celler","Sporer"],1,"Därför kan de ta vatten ur marken och klara torka."],
+  ["Hur förökar sig de tidigaste kärlväxterna (ormbunkar och lummer)?",["Med frön","Med sporer","Med blommor","Genom delning"],1,"Fröväxterna utvecklades senare."],
+  ["Vilket av följande saknar växtcellen?",["Mitokondrier","Ribosomer","Lysosomer","Cellmembran"],2,"Växtcellen saknar lysosomer och centrioler."],
+  ["Vad består cellväggen huvudsakligen av?",["Peptidoglykan","Cellulosa","Kolesterol","Stärkelse"],1,"Cellulosafibriller i en matrix av polysackarider och proteiner. Peptidoglykan finns hos bakterier."],
+  ["Vad händer med en växtcell i destillerat vatten?",["Den spricker","Den skrumpnar","Den tar upp vatten men spricker inte","Ingenting alls"],2,"Cellväggen hindrar cellen från att spricka."],
+  ["Vad är plasmodesmata?",["Gröna pigment","Kanaler genom cellväggen mellan celler","En typ av vakuol","Kloroplastens DNA"],1,"Membranklädda kanaler med cytoplasma för transport cell till cell."],
+  ["Hur stor del av cellens volym kan vakuolen uppta?",["10 %","50 %","Upp till 90 %","100 %"],2,"Upp till 90 %."],
+  ["Vilken organell i djurcellen motsvarar vakuolens nedbrytande funktion?",["Mitokondrien","Lysosomen","Golgiapparaten","Kärnan"],1,"Vakuolen innehåller enzymer som spjälkar makromolekyler, som lysosomer."],
+  ["Vad är turgor?",["Ett grönt pigment","Trycket mot cellväggen som håller växten upprätt","En typ av rot","Vattentransport i ledningsvävnad"],1,"Vakuolen hjälper cellen att hålla trycket."],
+  ["Varför slokar en växt som inte får vatten?",["Kloroplasterna dör","Vakuolerna innehåller för lite vatten och turgorn försvinner","Cellväggen löses upp","Rötterna växer"],1,"Utan vatten i vakuolen inget tryck mot cellväggen."],
+  ["Var sitter klorofyllet i kloroplasten?",["I stroma","I tylakoiderna","I yttermembranet","I DNA:t"],1,"Inuti tylakoiderna fångar klorofyllet in solljuset."],
+  ["Vad kallas en packe tylakoider?",["Stroma","Granum","Plastid","Matrix"],1,"Varje packe tylakoider kallas ett granum."],
+  ["Vad motsvarar stroma i mitokondrien?",["Cristae","Matrix","Yttermembranet","Ribosomerna"],1,"Stroma kan jämföras med mitokondriens matrix."],
+  ["Vilket ljus reflekteras av klorofyll?",["Violett","Blått","Grönt","Rött"],2,"Grönt reflekteras, därför ser växter gröna ut."],
+  ["Vad tror man om kloroplastens ursprung?",["Den bildades av cellkärnan","Den uppkom genom endosymbios","Den är ett virus","Den är en del av cellväggen"],1,"Precis som mitokondrien."],
+  ["Vilken plastid lagrar stärkelse i potatisen?",["Kloroplast","Kromoplast","Leukoplast","Vakuol"],2,"Leukoplaster är färglösa och lagrar stärkelse."]
+];
+
+/* glossary */
+(function(){
+  const list=$("#glList");
+  function render(){
+    const q=$("#glSearch").value.trim().toLowerCase();list.innerHTML="";let n=0;
+    GLOSS.forEach(([t,p,d])=>{if(q&&!(t.toLowerCase().includes(q)||d.toLowerCase().includes(q)))return;n++;const div=document.createElement("div");div.innerHTML=`<dt>${esc(t)}<span>s. ${esc(p)}</span></dt><dd>${esc(d)}</dd>`;list.appendChild(div)});
+    $("#glCount").textContent=q?`${n} av ${GLOSS.length} ord`:`${GLOSS.length} ord`;
+  }
+  $("#glSearch").addEventListener("input",render);render();
+})();
+
+/* flashcards: [ämne, typ, fråga, svar] */
+(function(){
+  let known=new Set(store.get(KEY,[]));
+  let star=new Set(store.get(KEY+"_star",[])),round=1;
+  const saveStar=()=>store.set(KEY+"_star",[...star]);
+  let order=CARDS.map((_,i)=>i), pos=0, mode="all", type="";
+  const PF=(typeof PPT_FROM==="number")?PPT_FROM:CARDS.length;
+  let src="all";try{src=localStorage.getItem(KEY+"_src")||"all"}catch(e){}
+  if(PF>=CARDS.length)src="all";
+  const srcOk=i=>src==="all"||(src==="ppt")===(i>=PF);
+  {const sb=document.getElementById("deckSrc");if(sb){sb.hidden=PF>=CARDS.length;sb.querySelectorAll("button").forEach(o=>o.setAttribute("aria-pressed",o.dataset.v===src))}}
+  const flash=$("#flash");
+  function deck(){return order.filter(i=>srcOk(i)&&(!type||CARDS[i][1]===type)&&(mode==="all"||(mode==="star"?star.has(i):!known.has(i))))}
+  function setSeg(id,v){document.querySelectorAll(id+" button").forEach(o=>o.setAttribute("aria-pressed",o.dataset.v===v))}
+  function render(){
+    const d=deck();
+    $("#fcStat").textContent=`Kan: ${known.size} av ${CARDS.length} · ★ ${star.size}`;
+    flash.classList.remove("flip");starUI(-1);
+    $("#fcDoneLeft").hidden=mode!=="all"||known.size===CARDS.length;
+    if(!d.length&&mode==="star"){$("#fcTag").textContent="";$("#fcQ").textContent="Inga markerade kort än.";$("#fcA").textContent="Tryck på ☆ Markera (eller M) på ett kort du vill plugga senare.";FX.prog(0);FX.finish(false);return}
+    if(!d.length){$("#fcTag").textContent="";$("#fcQ").textContent="Du kan alla kort här!";$("#fcA").textContent="Tryck på Börja om för att köra igen, eller gör quizet.";FX.prog(1);FX.finish(true,"Du kan alla kort här!");return}
+    if(pos<0)pos=d.length-1;
+    if(pos>=d.length&&mode==="until"){round++;pos=0;mix();return render()}
+    if(pos>=d.length){pos=d.length;$("#fcTag").textContent="Klart";$("#fcQ").textContent="Varvet är klart!";$("#fcA").textContent=`Du har gått igenom alla ${d.length} kort. Kan: ${known.size} av ${CARDS.length}.`;FX.prog(1);FX.finish(true,`Varvet klart! Kan: ${known.size} av ${CARDS.length}`);return}
+    FX.finish(false);
+    const c=CARDS[d[pos]];
+    $("#fcTag").textContent=`${c[0]}${d[pos]>=PF&&c[0]!=="PPT"?" · PPT":""} · ${c[1]} · ${pos+1}/${d.length}${known.has(d[pos])?" · ✓":""}`;
+    $("#fcQ").textContent=c[2]; $("#fcA").textContent=c[3];
+    FX.prog((pos+1)/d.length);
+    if(mode==="until")$("#fcTag").textContent+=` · Varv ${round} · ${d.length} kvar`;
+    starUI(d[pos]);
+  }
+  const atEnd=()=>pos>=deck().length;
+  function mix(){for(let i=order.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[order[i],order[j]]=[order[j],order[i]]}}
+  function starUI(i){const b=document.getElementById("fcStar");if(!b)return;b.disabled=i<0;const on=star.has(i);b.textContent=on?"★ Markerad":"☆ Markera";b.setAttribute("aria-pressed",String(on))}
+  function toggleStar(){const d=deck();if(!d.length||pos<0||pos>=d.length)return;const i=d[pos];if(star.has(i))star.delete(i);else star.add(i);saveStar();
+    if(mode==="star"&&!star.has(i))FX.swap(flash,"next",()=>render());else{starUI(i);const st=document.getElementById("fcStat");if(st)st.textContent=st.textContent.replace(/★ \d+/,"★ "+star.size)}}
+  {const sb=document.getElementById("fcStar");if(sb)sb.onclick=toggleStar}
+
+  function restart(hard){FX.swap(flash,"restart",()=>{order=CARDS.map((_,i)=>i);pos=0;round=1;if(hard){known.clear();store.set(KEY,[]);mode="all";type="";setSeg("#deckMode","all");setSeg("#deckType","")}render()})}
+  function next(){if(atEnd())return restart(false);FX.swap(flash,"next",()=>{pos++;render()})}
+  function prev(){FX.swap(flash,"prev",()=>{pos--;render()})}
+  const flip=()=>{if(!atEnd())flash.classList.toggle("flip")};
+  flash.addEventListener("click",flip);
+  flash.addEventListener("keydown",e=>{if(e.key===" "||e.key==="Enter"){e.preventDefault();flip()}else if(e.key==="ArrowRight"){e.preventDefault();next()}else if(e.key==="ArrowLeft"){e.preventDefault();prev()}else if(e.key==="m"||e.key==="M"){e.preventDefault();toggleStar()}else if(e.key==="r"||e.key==="R"){e.preventDefault();restart(false)}});
+  $("#fcNext").onclick=next;
+  $("#fcPrev").onclick=prev;
+  $("#fcKnow").onclick=()=>{if(atEnd())return;FX.swap(flash,"know",()=>{const d=deck();known.add(d[pos]);store.set(KEY,[...known]);if(mode==="all"||mode==="star")pos++;render()})};
+  $("#fcAgain").onclick=()=>{if(atEnd())return;FX.swap(flash,"again",()=>{const d=deck();known.delete(d[pos]);store.set(KEY,[...known]);pos++;render()})};
+  $("#fcShuffle").onclick=()=>FX.swap(flash,"shuffle",()=>{for(let i=order.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[order[i],order[j]]=[order[j],order[i]]}pos=0;render()});
+  function seg(id,set){document.querySelectorAll(id+" button").forEach(b=>b.onclick=()=>FX.swap(flash,"mode",()=>{setSeg(id,b.dataset.v);set(b.dataset.v);pos=0;render()}))}
+  seg("#deckMode",v=>{mode=v;round=1;if(v==="until")mix()}); seg("#deckType",v=>type=v);
+  seg("#deckSrc",v=>{src=v;try{localStorage.setItem(KEY+"_src",v)}catch(e){}});
+  FX.menu($("#fcRestart"),$("#fcRestartMenu"),r=>restart(r==="hard"));
+  $("#fcDoneRestart").onclick=()=>restart(false);
+  $("#fcDoneLeft").onclick=()=>FX.swap(flash,"mode",()=>{mode="until";round=1;mix();setSeg("#deckMode","until");pos=0;render()});
+  render();
+})();
+
+/* quiz */
+(function(){
+  const list=$("#qList");let right=0,done=0;
+  function build(){
+    list.innerHTML="";right=0;done=0;upd();
+    QUIZ.forEach((q,qi)=>{
+      const box=document.createElement("div");box.className="qq";
+      box.innerHTML=`<p class="t">${qi+1}. ${esc(q[0])}</p><div class="opts"></div><div class="why" hidden></div>`;
+      const opts=box.querySelector(".opts");
+      q[1].forEach((o,oi)=>{const b=document.createElement("button");b.type="button";b.textContent=o;b.onclick=()=>{
+        opts.querySelectorAll("button").forEach((x,xi)=>{x.disabled=true;if(xi===q[2])x.classList.add("right")});
+        if(oi!==q[2])b.classList.add("wrong");else right++;
+        done++;const w=box.querySelector(".why");w.hidden=false;w.textContent=(oi===q[2]?"Rätt! ":"Inte riktigt. ")+q[3];upd();
+      };opts.appendChild(b)});
+      list.appendChild(box);
+    });
+  }
+  function upd(){$("#qScore").textContent=`${right} rätt av ${done}${done===QUIZ.length?" · klart!":` · ${QUIZ.length-done} kvar`}`}
+  $("#qReset").onclick=build;build();
+})();
+
+/* active rail link */
+(function(){
+  const links=[...document.querySelectorAll("#rail a")];
+  const secs=links.map(a=>document.querySelector(a.getAttribute("href")));
+  function on(){let cur=0;secs.forEach((s,i)=>{if(s&&s.getBoundingClientRect().top<140)cur=i});links.forEach((a,i)=>a.classList.toggle("on",i===cur))}
+  addEventListener("scroll",on,{passive:true});on();
+})();
+})();
+</script>
+<script>document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a)return;var t=document.getElementById(a.getAttribute("href").slice(1));if(!t)return;e.preventDefault();t.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"})},true);</script></body></html>
